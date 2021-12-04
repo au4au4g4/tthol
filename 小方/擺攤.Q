@@ -9,8 +9,8 @@ StopHotkeyMod=0
 RunOnce=1
 EnableWindow=
 MacroID=b4c4da39-8b39-4ea2-992f-c0ce1f8d8a09
-Description=คpค่ย\ลu
-Enable=0
+Description=ย\ลu
+Enable=1
 AutoRun=0
 [Repeat]
 Type=0
@@ -25,12 +25,13 @@ SetupOCXFile=
 [Script]
 Set dm = createobject("dm.dmsoft")
 Import "Tthbn.vbs" : Set t = New Tthbn
-hwnd = dm.GetForegroundWindow()
-t.init (hwnd)
+hwnd = t.getHwnd()
+t.init hwnd
 
 While true
+	t.closeShop 	
 	count = 0
-	bag = t.getBag("")
+	bag = t.getBag(array(""))
 	For i = 0 To UBound(bag) - 1
   		Set item = bag(i)
   		name = item.Item("name")
@@ -47,9 +48,6 @@ While true
 		End If
 	Next
 	Call dm.WriteInt(hwnd, "<tthbn.bin>+111674", 0, count)
-
-	Call t.closeShop()
-	Call t.openShop()
-
+	t.openShop
 	Delay 10*60000
 Wend

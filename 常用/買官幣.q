@@ -1,7 +1,7 @@
 [General]
 SyntaxVersion=2
-BeginHotkey=121
-BeginHotkeyMod=0
+BeginHotkey=105
+BeginHotkeyMod=2
 PauseHotkey=0
 PauseHotkeyMod=0
 StopHotkey=123
@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=ac989b52-6698-448e-99ac-58cb5e104251
 Description=¶R©x¹ô
-Enable=0
+Enable=1
 AutoRun=0
 [Repeat]
 Type=0
@@ -29,8 +29,7 @@ Import "Tthbn.vbs" : Set t = New Tthbn
 hwnds = t.getAllHwnds()
 For Each hwnd In hwnds
 	call dm.WriteData(hwnd,"<tthbn.bin>+24EA8","EB0C")
-	t.init (hwnd)
-	TracePrint t.id
+	t.init(hwnd)
 	While (t.deposit + t.cash) > 1000000
 		t.withdrawal (99999999 - t.cash)
 		t.withdrawal (t.deposit)

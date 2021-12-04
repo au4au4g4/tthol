@@ -4,13 +4,13 @@ BeginHotkey=121
 BeginHotkeyMod=0
 PauseHotkey=0
 PauseHotkeyMod=0
-StopHotkey=105
-StopHotkeyMod=4
+StopHotkey=123
+StopHotkeyMod=0
 RunOnce=1
 EnableWindow=
 MacroID=39c5f415-fecf-4813-b6c3-5b92fb1e7c66
-Description=小方排序
-Enable=0
+Description=排序
+Enable=1
 AutoRun=0
 [Repeat]
 Type=0

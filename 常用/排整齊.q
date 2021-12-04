@@ -24,19 +24,16 @@ SetupOCXFile=
 
 [Script]
 Set dm = createobject("dm.dmsoft")
+w = dm.getscreenwidth() / 5
+h = (dm.getscreenheight() - 40) / 2
 
-w = dm.getscreenwidth()
-h = dm.getscreenheight() - 40
-c = 5
-r = 2
-ew = w / c
-eh = h / r
-
-hwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1), ",")
+hwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1+4), ",")
 For each hwnd in hwnds
-	dm_ret = dm.SetWindowSize(hwnd, ew+14, eh+7)
-	dm_ret = dm_ret = dm.GetWindowRect(hwnd, x1, y1, x2, y2)
-	x = ((x1 + 7) \ ew) * ew - 7
-	y = (y1 \ eh) * eh
-	dm.MoveWindow hwnd, x, y
+    dm_ret = dm.SetWindowSize(hwnd, w + 14, h + 7)
+    dm_ret = dm.GetWindowRect(hwnd, x1, y1, x2, y2)
+    cx = (x1 + x2) / 2
+    cy = (y1 + y2) / 2
+    x = ((cx + 7) \ w) * w - 7
+    y = (cy \ h) * h
+    dm.MoveWindow hwnd, x, y
 Next

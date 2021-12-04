@@ -2,7 +2,7 @@ Class Tthbn
 
 	Private dm,hwnd,ttha,tthbn
 	
-	Public Sub Class_Initialize
+	Public Sub Class_Initialize()
 		Set dm = createobject("dm.dmsoft")
     End Sub
 	
@@ -69,35 +69,32 @@ Class Tthbn
 	private Function getRecords(offset)
 		Dim keys
 		keys = array(array("name", 8), array("id", 0), array("cnt", 4))
-		getRecords = getObjs(tthbn + offset, 28, "", keys)
+		getRecords = getObjs(tthbn + offset, 28, array(""), keys)
 	End Function
 	
-	Public Function findNPC(name)
-		Dim addr,length,keys
-		length = 32
+	Public Function findNPC(names)
+		Dim keys
 		keys = array(array("name", 12),array("id", 4), array("sn", 0))
-		set findNPC = getObjs(tthbn+&H105570, length, name, keys)(0)
+		set findNPC = getObjs(tthbn + &H105570, 32, names, keys)(0)
 	End Function
 	
-	Public Function getBag(name)
-		getBag = getItems(&H101E98, name)
+	Public Function getBag(names)
+		getBag = getItems(&H101E98, names)
 	End Function
 	
-	Public Function getBank(name)
-		getBank = getItems(&HAFCC0, name)
+	Public Function getBank(names)
+		getBank = getItems(&HAFCC0, names)
 	End Function
 	
-	private Function getItems(offset, name)
-		Dim length,keys
-		length = 280
+	private Function getItems(offset, names)
+		Dim keys
 		keys = array(array("name", 32),array("sn", 0), array("id", 4), array("cnt", 8))
-		getItems = getObjs(tthbn + offset, length, name, keys)
+		getItems = getObjs(tthbn + offset, 280, names, keys)
 	End Function
 	
 	'function
 	Public Function talkNPC()
 		call dm.WriteInt(hwnd,"[[<ttha.bin>+004EF82C]+98]+150",0,&HE7) 'resetTalk
-		TracePrint 1
 		simpleCall hwnd, ttha + &H44D90, array()
 	End Function
 	 
@@ -126,20 +123,27 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H2BA10, array(code(1),code(0))
 	End Function
 	
-	Public Function trade(buyer, item)	
+	Public Function trades(buyer, keywords)
+		dim bag : bag = t.getBag(keywords)
+		For i = 0 To UBound(bag)
+			Set item = bag(i)
+			t.trade buyer, item
+		Next
+	End Function	
+	
+	Private Function trade(buyer, item)	
 		if hwnd - buyer = 0 then
 			exit Function
 		end if
-	
+
 		bTthbn = dm.GetModuleBaseAddr(buyer, "tthbn.bin")
-		
 		sAddr = clng("&H" & dm.FindString(buyer, HEX(bTthbn + &HE94D8) & "-" & HEX(bTthbn + &HF0D28), id, 0)) - 16
 		sID = dm.ReadInt(buyer, HEX(sAddr), 0)
 
 		bName = dm.ReadString(buyer, "<tthbn.bin>+109720", 0, 16)
 		bAddr = clng("&H" & dm.FindString(hwnd, HEX(tthbn + &HE94D8) & "-" & HEX(tthbn + &HF0D28), bName, 0)) - 16
 		bID = dm.ReadInt(hwnd, HEX(bAddr), 0)
-
+		
 		sn = item.item("sn")
 		iID = item.item("id")
 		cnt = item.item("cnt")
@@ -171,19 +175,19 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H26000, array(1,amount)
 	End Function
 	
-	Public Function popItem(name)
+	Public Function pop(names)
 		dim items, item
 		openBank()
-		items = getBank(name)
+		items = getBank(names)
 		for each item in items
 			simpleCall hwnd, tthbn + &H259B0, array(0,item.item("cnt"),item.item("sn"),item.item("id"))
 		Next
 	End Function
 	
-	Public Function pushItem(name)
+	Public Function push(names)
 		dim items, item
 		openBank()
-		items = getBag(name)
+		items = getBag(names)
 		for each item in items
 			simpleCall hwnd, tthbn + &H259B0, array(1,item.item("cnt"),item.item("sn"),item.item("id"))
 		Next
@@ -239,6 +243,10 @@ Class Tthbn
 		Next
 		getArrHwnds = split(trim(hwndstr), " ")
 	End Function
+
+	Public Function getHwnd()
+		getHwnd = dm.FindWindow("", "絕代方程式")
+	End Function
 	
 	'util
 	private Function simpleCall(hwnd,addr,parameters)
@@ -251,7 +259,7 @@ Class Tthbn
 		Delay 100
 	End Function
 	
-	private Function getObjs(addr, length, cond, keys)
+	private Function getObjs(addr, length, conds, keys)
 		Dim i,flag,obj,key,objs,j,target
 		i = 0 : j = 0 : objs = array()
 		flag = dm.ReadInt(hwnd, HEX(addr + length * i), 0)
@@ -265,9 +273,12 @@ Class Tthbn
 				End If
 			Next
 			target = obj(keys(0)(0))
-			If typename(cond) = "Integer" and (target = cond) or typename(cond) = "String" and instr(target,cond)>0 Then 
-				Redim Preserve objs(j) : Set objs(j) = obj : j = j + 1
-			End If
+			for each cond in conds
+				If typename(cond) = "Integer" and (target = cond) or typename(cond) = "String" and instr(target,cond)>0 Then 
+					Redim Preserve objs(j) : Set objs(j) = obj : j = j + 1
+					exit for
+				End If				
+			next
 			i = i + 1
 			flag = dm.ReadInt(hwnd, HEX(addr + length * i), 0)
 		Loop
