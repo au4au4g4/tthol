@@ -23,12 +23,9 @@ SetupOCXFile=
 [Comment]
 
 [Script]
-
 Set dm = createobject("dm.dmsoft")
-Import "Tthbn.vbs"
-VBSBegin
-Set t = (New Tthbn)()
-VBSEnd
+Import "Tthbn.vbs" : Set t = New Tthbn
+
 hwnds = t.getAllHwnds()
 While True
 	For Each hwnd In hwnds
