@@ -31,5 +31,5 @@ buyer = t.getHwnd()
 sellers = t.getAllHwnds()
 For Each seller In sellers
 	t.init seller
-	t.trade buyer, keywords
+	t.trades buyer, keywords
 Next

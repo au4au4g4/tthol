@@ -4,8 +4,8 @@ BeginHotkey=105
 BeginHotkeyMod=2
 PauseHotkey=0
 PauseHotkeyMod=0
-StopHotkey=123
-StopHotkeyMod=0
+StopHotkey=105
+StopHotkeyMod=4
 RunOnce=1
 EnableWindow=
 MacroID=ac989b52-6698-448e-99ac-58cb5e104251
@@ -26,9 +26,9 @@ SetupOCXFile=
 Set dm = createobject("dm.dmsoft")
 Import "Tthbn.vbs" : Set t = New Tthbn
 
-hwnds = t.getAllHwnds()
+hwnds = t.getPartHwnds()
 For Each hwnd In hwnds
-	call dm.WriteData(hwnd,"<tthbn.bin>+24EA8","EB0C")
+	Call dm.WriteData(hwnd, "<tthbn.bin>+24EA8", "EB0C")
 	t.init(hwnd)
 	While (t.deposit + t.cash) > 1000000
 		t.withdrawal (99999999 - t.cash)
