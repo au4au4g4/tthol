@@ -26,7 +26,9 @@ SetupOCXFile=
 Set dm = createobject("dm.dmsoft")
 Import "Tthbn.vbs" : Set t = New Tthbn
 
-keywords = array("百萬官幣")
+UserVar keywords ""
+
+keywords = split(keywords," ")
 buyer = dm.GetForegroundWindow()
 sellers = split(dm.EnumWindow(0, "絕代方程式", "", 1 + 4), ",")
 For Each seller In sellers
