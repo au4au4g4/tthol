@@ -8,7 +8,7 @@ StopHotkey=123
 StopHotkeyMod=0
 RunOnce=1
 EnableWindow=
-MacroID=ac989b52-6698-448e-99ac-58cb5e104251
+MacroID=5df87375-116b-45ba-bf1c-444cecff1dfa
 Description=¶R©x¹ô
 Enable=0
 AutoRun=0
@@ -28,10 +28,8 @@ Import "Tthbn.vbs" : Set t = New Tthbn
 
 hwnds = t.getAllHwnds()
 For Each hwnd In hwnds
-	call dm.WriteData(hwnd,"<tthbn.bin>+24EA8","EB0C")
 	t.init (hwnd)
-	TracePrint t.id
-	While (t.deposit + t.cash) > 1000000
+	While t.deposit > 0
 		t.withdrawal (99999999 - t.cash)
 		t.withdrawal (t.deposit)
 		Set coin = CreateObject("Scripting.Dictionary")
@@ -40,6 +38,5 @@ For Each hwnd In hwnds
 		Set npc = t.findNPC("Åw³ß")
 		t.talkOption npc.item("id"), array(1,5)
 		t.buy npc, coin	
-	Wend
-	call dm.WriteData(hwnd,"<tthbn.bin+24EA8","8B45")
+	Wend	
 Next

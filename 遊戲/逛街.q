@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=769374b5-29e2-4f2b-bf1c-cf2269af8062
 Description=逛街
-Enable=0
+Enable=1
 AutoRun=0
 [Repeat]
 Type=0
@@ -24,25 +24,28 @@ SetupOCXFile=
 
 [Script]
 Set dm = createobject("dm.dmsoft")
-Import "Tthol.vbs"
-Set t = New Tthol
+Import "Tthol.vbs" : Set t = New Tthol
+Import "Util.vbs" : Set u = New Util
 
 hwnd = dm.FindWindow("", "Tthol")
 t.init (hwnd)
 bossList = ""
 xyList = array(array(29, 29), array(29, 16), array(41, 16), array(41, 31))
+Dim datas : datas = array()
+Dim j : j = 0
 
 For Each xy In xyList
 	t.go (xy)
 	Delay 4000
 	bossList = readShop(bossList)	
 Next
+u.post "市集", 0, datas
 
 Function readShop(list)
 	btnAddr = dm.FindData(hwnd, "12000000-30000000", "BC 44 5E 00")
 	For Each addr In split(btnAddr, "|")
 		If dm.readint(hwnd, HEX(CLNG("&H" & addr) + 8), 0) = &H778 Then 	// 是商店按鈕
-			t.openShop(addr)
+			t.shopping(addr)
 			Delay 500
 			
 			// 將商品存入文檔
@@ -55,10 +58,13 @@ Function readShop(list)
 					id = dm.ReadInt(hwnd, base & "+4", 0) / &H100
 					product = dm.ReadString(hwnd, base & "+14", 0, 16)
 					price = dm.ReadInt(hwnd, base & "+114", 0)
-					dm.WriteFile "C:\Users\god\Desktop\123.txt", join(array(id,product,price,boss), chr(9)) & chr(10)
+					amount = dm.ReadInt(hwnd, base & "+10", 0)
+					ReDim Preserve datas(j) : datas(j) = array(id,product,price,amount,boss)
+					j = j+ 1
 				Next
 			End If
 		End If	
 	Next
 	readShop = list
 End Function
+

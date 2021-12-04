@@ -1,14 +1,14 @@
 [General]
 SyntaxVersion=2
-BeginHotkey=103
+BeginHotkey=105
 BeginHotkeyMod=2
 PauseHotkey=0
 PauseHotkeyMod=0
-StopHotkey=103
+StopHotkey=105
 StopHotkeyMod=4
 RunOnce=1
 EnableWindow=
-MacroID=5a56dbd7-5e10-4c80-a4cc-78a3ca3ec4fe
+MacroID=7c2f4e18-8e42-4baa-b568-9f44c3d8568d
 Description=¤p¤è¥È¤Ñ
 Enable=1
 AutoRun=0
@@ -26,7 +26,7 @@ SetupOCXFile=
 Set dm = createobject("dm.dmsoft")
 Import "Tthbn.vbs" : Set t = New Tthbn
 
-hwnds = t.getAllHwnds()
+hwnds = t.getPartHwnds()
 While True
 	For Each hwnd In hwnds
 		t.init (hwnd)
