@@ -72,10 +72,10 @@ Class Tthbn
 		getRecords = getObjs(tthbn + offset, 28, array(""), keys)
 	End Function
 	
-	Public Function findNPC(names)
+	Public Function findNPC(name)
 		Dim keys
 		keys = array(array("name", 12),array("id", 4), array("sn", 0))
-		set findNPC = getObjs(tthbn + &H105570, 32, names, keys)(0)
+		set findNPC = getObjs(tthbn + &H105570, 32, array(name), keys)(0)
 	End Function
 	
 	Public Function getBag(names)
@@ -127,11 +127,11 @@ Class Tthbn
 		dim bag : bag = t.getBag(keywords)
 		For i = 0 To UBound(bag)
 			Set item = bag(i)
-			t.trade buyer, item
+			t.trade buyer,item 
 		Next
 	End Function	
 	
-	Private Function trade(buyer, item)	
+	Public Function trade(buyer, item)	
 		if hwnd - buyer = 0 then
 			exit Function
 		end if
@@ -165,7 +165,7 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H2AFE0, array()
 	End Function
 	
-	Public Function withdrawal(amount)
+	Public Function withdrawal(amount)	
 		openBank()
 		simpleCall hwnd, tthbn + &H26000, array(0,amount)		
 	End Function
