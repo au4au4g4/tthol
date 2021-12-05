@@ -35,7 +35,8 @@ sky = array("tongxia", "xingzhi", "cangcui", "fenxue", "qiuyun", "yaolan", "yuan
 fox  = array("ef7a82","eaff56","ca6924","a4e2c6","b0a4e3","e4c6d0","e3f9fd","afdd22","a2cc8c","f1c143")
 kylin  = array("tzuyeh","rihdan","posiao","jihhsi","riiyuu","jhongrih","yangrih","chenrih","puurih","renjing")
 bad = array("Hydrogenn", "Nitrogenn", "Oxygenn", "Fluorine", "Helium", "Neonnn", "Argonn", "Krypton", "Xenonn", "Radonn")
-account = array(bad,sky,fox)
+'account = array(bad, sky, fox)
+account = array(kylin,three)
 
 hwnd = 0
 windowCnt = UBound(split(dm.EnumWindow(0, "絕代方程式", "", 1 + 4), ","))

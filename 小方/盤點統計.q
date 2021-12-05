@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=bc4a6b0b-1aa2-4b01-9a01-fd8fe69e615a
 Description=盤點統計
-Enable=0
+Enable=1
 AutoRun=0
 [Repeat]
 Type=0
@@ -26,6 +26,7 @@ SetupOCXFile=
 Set dm = createobject("dm.dmsoft")
 Import "Util.vbs" : Set u = New Util
 Import "Tthbn.vbs" : Set t = New Tthbn
+UserVar clear=DropList{"是":1|"否":0}=1 "清空"
 
 VBSBegin
 itemTable = array() : statisticsTable = array()
@@ -42,8 +43,8 @@ For Each hwnd In hwnds
 	arrayToTable reward, statisticsTable, array("id","name", "cnt"), array(t.id, "物品")
 Next
 
-task1 = array("盤點", 1, itemTable)
-task2 = array("統計", 1, statisticsTable)
+task1 = array("盤點", clear, itemTable)
+task2 = array("統計", clear, statisticsTable)
 u.postTasks(array(task1,task2))
 
 Function arrayToTable(arr, table, keys, tails)
