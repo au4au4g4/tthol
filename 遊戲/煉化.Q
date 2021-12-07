@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=846b6079-ddeb-4e1c-ac66-3f38b1a7651f
 Description=ทาคฦ
-Enable=0
+Enable=1
 AutoRun=0
 [Repeat]
 Type=0
@@ -32,7 +32,8 @@ Set bag = t.getItems("bag")
 For i = 0 To bag.Count - 1
   	Set item = bag.GetByIndex(i)
   	iID = item.Item("id")
-	cID = dm.ReadIni("compound", iID, ".\shop.ini")
+	cID = dm.ReadIni("compound", HEX(iID), ".\shop.ini")
+	TracePrint cID
 	If cID <> "" Then 
 		t.compound cID, item.Item("addr")
 	End If
