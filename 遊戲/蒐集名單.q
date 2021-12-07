@@ -28,7 +28,7 @@ Import "Tthol.vbs"
 Set t = New Tthol
 
 hwnd = dm.FindWindow("_UJONLINE_", "Tthol")
-t.init(hwnd)
+t.init hwnd
 While true
 	addr = t.getMainAddr()
 	While addr <> 0
@@ -41,6 +41,6 @@ While true
 			End If
 		End If
 		addr = dm.ReadInt(hwnd, HEX(addr + 292), 0)
+		Delay 200
 	Wend
-	Delay 2000
 Wend

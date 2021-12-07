@@ -53,6 +53,9 @@ Class Tthbn
 	Public Function deposit ()
 		deposit = dm.ReadInt(hwnd, "<tthbn.bin>+AFCB8", 0)
 	End Function
+	Public Function location()
+		location = dm.ReadInt(hwnd, "[[<ttha.bin>+004EF82C]+98]+164", 0)
+	End Function
 	
 	Public Function getMsg()
 		getMsg = dm.ReadString(hwnd, "<tthbn.bin>+10A4A8", 0, 115)
