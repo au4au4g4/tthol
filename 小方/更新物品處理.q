@@ -32,7 +32,7 @@ For Each hwnd In hwnds
 	range = HEX(base + &HC1010) & "-" & HEX(base + &HE4120)
 	For Each itemAction In itemActions
 		If itemAction <> "" Then 
-    		itemAction = split(itemAction, "=")
+    		itemAction = split(itemAction, ",")
     		id = "&H" & itemAction(0)
     		result = dm.FindInt(hwnd, range, id, id, 0)
     		If (len(result) = 0) + (InStr(result, "|") <> 0) Then 

@@ -26,11 +26,13 @@ SetupOCXFile=
 Set dm = createobject("dm.dmsoft")
 Import "Tthbn.vbs" : Set t = New Tthbn
 
-hwnds = t.getPartHwnds()
+hwnds = t.getAllHwnds()
 While True
 	For Each hwnd In hwnds
 		t.init (hwnd)
-		t.talkNPC
+		If t.location > 1703 and t.location < 1710 Then 
+			t.talkNPC
+		End If
 	Next
 	Delay 1000
 Wend
