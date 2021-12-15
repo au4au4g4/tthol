@@ -211,7 +211,7 @@ Class Tthbn
 	
 	'hwnd
 	Public Function getAllHwnds()
-		getAllHwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1+4), ",")
+		getAllHwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1+4+8), ",")
 	End Function
 	
 	Public Function getPartHwnds()
@@ -237,7 +237,7 @@ Class Tthbn
 	Public Function getArrHwnds(names)
 		Dim hwndstr,hwnds
 		hwndstr = ""
-		hwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1+4), ",")
+		hwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1+4+8), ",")
 		For Each hwnd In hwnds
 			id = dm.ReadString(hwnd, "<tthbn.bin>+109720", 0, 16)
 			If Instr(names, id) > 0 Then 
