@@ -205,6 +205,17 @@ Class Tthol
 		dm.AsmCall hwnd,1
 	End Function
 	
+	' 登入
+	Public Function login(id,pwd)
+		dm_ret = dm.WriteString(hwnd,"<tthola.dat+3E97E4>",0,id)
+		dm_ret = dm.WriteString(hwnd,"<tthola.dat+36C2C0>",0,pwd)
+		dm.AsmClear 
+		dm.AsmAdd "push 007E97E4"
+		dm.AsmAdd "mov esi,0076C2C0"
+		dm.AsmAdd "call 00441390"
+		dm.AsmCall hwnd,1
+	End Function
+	
 	' ------------------------------記憶體------------------------------
 
 	Private Function read(addrs)

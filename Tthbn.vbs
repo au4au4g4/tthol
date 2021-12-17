@@ -209,6 +209,10 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H251A0, array(item.item("cnt"),item.item("sn"),item.item("id"),npc.item("sn"),npc.item("id"))
 	End Function
 	
+	Public Function kill(x,y,sn,id,skill)
+		simpleCall hwnd, tthbn + &H23900, array(x,y,sn,id,skill)
+	End Function
+	
 	'hwnd
 	Public Function getAllHwnds()
 		getAllHwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1+4), ",")
