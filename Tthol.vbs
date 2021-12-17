@@ -184,7 +184,7 @@ Class Tthol
 		dm.AsmCall hwnd, 1
 	end Function
 	
-	' 逛攤販
+	' 逛攤販0
 	Public function shopping(addr)
 		dm.AsmClear
 		dm.AsmAdd "mov eax," & addr

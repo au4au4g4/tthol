@@ -21,6 +21,7 @@ Class Tthbn
 	Public Function id()
 		id = dm.ReadString(hwnd, "<tthbn.bin>+109720", 0, 16)
 	End Function
+
 	Public Function level()
 		level = dm.ReadInt(hwnd, "<tthbn.bin>+10A410", 1)
 	End Function
@@ -209,9 +210,19 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H251A0, array(item.item("cnt"),item.item("sn"),item.item("id"),npc.item("sn"),npc.item("id"))
 	End Function
 	
+	Public Function login()
+		dm.AsmClear 
+		dm.AsmAdd "mov ecx,0" + HEX(ttha + &H4EF82C)
+		dm.AsmAdd "mov ecx,[ecx]"
+		dm.AsmAdd "push 0"
+		dm.AsmAdd "push 03EC"
+		dm.AsmAdd "call 0" + HEX(ttha + &H8B010)
+		dm.AsmCall hwnd, 1	
+	End Function
+	
 	'hwnd
 	Public Function getAllHwnds()
-		getAllHwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1+4+8), ",")
+		getAllHwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1+4), ",")
 	End Function
 	
 	Public Function getPartHwnds()
