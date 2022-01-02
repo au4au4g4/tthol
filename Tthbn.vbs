@@ -1,10 +1,11 @@
 Class Tthbn
 
-	Private dm,dw,hwnd,ttha,tthbn
+	Private dm,dw,re,hwnd,ttha,tthbn
 	
 	Public Sub Class_Initialize()
 		Set dm = createobject("dm.dmsoft")
 		Set dw = CreateObject("DynamicWrapper")
+		Set re = New RegExp
 		dw.Register "kernel32.dll", "OpenProcess", "i=uuu", "r=h" 
 		dw.Register "kernel32.dll", "VirtualAllocEx", "i=lllll", "r=l"
     End Sub
@@ -264,7 +265,7 @@ Class Tthbn
 	End Function
 	
 	Public Function reLoginMin(min)
-		call dm.WriteInt(hwnd, "<ttha.bin>+3C334", 0, sec * 60000)
+		call dm.WriteInt(hwnd, "<ttha.bin>+3C334", 0, min * 60000)
 	End Function
 	
 	'hwnd
