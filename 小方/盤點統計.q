@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=bc4a6b0b-1aa2-4b01-9a01-fd8fe69e615a
 Description=盤點統計
-Enable=1
+Enable=0
 AutoRun=0
 [Repeat]
 Type=0
@@ -29,8 +29,9 @@ Import "Tthbn.vbs" : Set t = New Tthbn
 UserVar clear=DropList{"是":1|"否":0}=1 "清空"
 
 VBSBegin
-itemTable = array() : statisticsTable = array()
-hwnds = t.getPartHwnds()
+itemTable = array()
+statisticsTable = array()
+hwnds = t.getAllHwnds()
 For Each hwnd In hwnds
 	t.init (hwnd)
 	bag = t.getBag(array(""))

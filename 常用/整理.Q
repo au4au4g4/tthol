@@ -41,23 +41,30 @@ For Each task In tasks
     	Case "t"
 			For Each seller In sellers
 				t.init seller
-				t.trades hwnd, keywords
+				t.trades hwnd, keywords, -1
+			Next
+		Case "g"
+			For Each seller In sellers
+				t.init hwnd
+				cnt = keywords(2)
+				t.trades seller, array(keywords(1)), cnt
 			Next
     	Case "b"
+    		sellers = t.getPartHwnds()
 			For Each hwnd In sellers
 				Call dm.WriteData(hwnd, "<tthbn.bin>+24EA8", "EB0C")
 				t.init hwnd
-				While (t.deposit + t.cash) > 1000000
-					t.withdrawal (99999999 - t.cash)
-					t.withdrawal (t.deposit)
+//				While (t.deposit + t.cash) > 1000000
+//					t.withdrawal (99999999 - t.cash)
+//					t.withdrawal (t.deposit)
 					Set coin = CreateObject("Scripting.Dictionary")
 					coin.add "id", &H5e16
 					coin.add "cnt", int(t.cash / 10 ^ 6)
 					Set npc = t.findNPC("Åw³ß")
 					t.talkOption npc.item("id"), array(1,5)
 					t.buy npc, coin	
-				Wend
-				call dm.WriteData(hwnd,"<tthbn.bin>+24EA8","8B45")
+//				Wend
+				Call dm.WriteData(hwnd, "<tthbn.bin>+24EA8", "8B45")
 			Next
 	End Select
 Next

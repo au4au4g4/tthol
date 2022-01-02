@@ -8,7 +8,7 @@ StopHotkey=123
 StopHotkeyMod=0
 RunOnce=1
 EnableWindow=
-MacroID=e764e50b-765c-4f3b-99b1-b7f5975313cc
+MacroID=21bf90ac-ccf2-4fb6-90c9-23cb0b5d4566
 Description=¯}¸Ñ
 Enable=0
 AutoRun=0
@@ -16,42 +16,33 @@ AutoRun=0
 Type=0
 Number=1
 [SetupUI]
-Type=1
-QUI=Form1
+Type=2
+QUI=
 [Relative]
 SetupOCXFile=
 [Comment]
 
 [Script]
 Private Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Long, ByVal bInheritHandle As Long, ByVal dwProcessId As Long) As Long
+Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Long) As Long
 Private Declare Function VirtualAllocEx Lib "kernel32" (ByVal hProcess As Long, lpAddress As Any, ByVal dwSize As Long, ByVal flAllocationType As Long, ByVal flProtect As Long) As Long
+Private Declare Function GetDesktopWindow Lib "user32" () As Long
+Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal Hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 Import "Tthbn.vbs" : Set t = New Tthbn
 Set re = New RegExp
 Set dm = createobject("dm.dmsoft")
 
-dim settings(5)
-settings(0) = array(250, 10, 0, "¸¨¥Í ªÛ¹À ·Ò¨Å ¼K¿} ¸Á±K ¬õÕÆ ©Ù·g ªÛ¤h ®ü¥x ®ã³½")	// ´x
-settings(1) = array(110, 2, 1, "»´²B ´á´á ®ñ¥Í ¿Ã¬t §N®ó ¦»¿O «O´ã °{Õß ºÎËI ÂåÏl")	// ¤M
-settings(2) = array(110, 4, 1, "¤l©] ¤é¥¹ ¤é©l ¤é¤i ¤é¬ë ¤é¤¤ ¤é¥¡ ¤é¨I ¤i­¹ ¤HÀR")	// ÄQÅï
-settings(3) = array(110, 3, 1, "¹äªá Äå¯ó µ[¾z ¦ã«C ³·«C ÃÂ²ü ¼ü¥Õ »A¬h ­YªÞ æç¦â")	// ¤õª°
-settings(4) = array(110, 3, 1, "ªâ³· §ÍÁø ­b­» ¤ª´ù »»´P §öªK »a»A ¬î¶³ Âk¶­ ÁJªá")	// ¤P­º
-settings(5) = array(110, 3, 1, "´H¶p ¦Bªw ³·¨÷")	// ¤P­º
-
-hwnds = t.getAllHwnds()
-For Each hwnd In hwnds
+hwnds = t.getPartHwnds()
+For each hwnd in hwnds
+	// ¯}¸Ñ
 	t.init hwnd
-	For Each setting In settings
-		If instr(setting(3), t.id) > 0 Then  
-			Call crack()
-			Call moveSpeed(setting(0))
-			Call atkRange(setting(1))
-			Call atkSpeed()
-			Call addHP()
-			Call addMP()
-			Call defBuff(setting(2))
-			Exit For
-		End If
-	Next
+//	Call crack()
+//	Call moveSpeed(110)
+	Call atkRange(7)
+//	Call atkSpeed(100)
+//	Call addHP()
+//	Call addMP()
+//	Call defBuff(1)
 Next
 
 Function crack()
@@ -76,12 +67,8 @@ Function atkRange(range)
 	Call asm("ttha.bin+5358C", codes)
 End Function
 
-Function atkSpeed()
-	reDim codes(2)
-	codes(0) = "jmp ttha.bin+53C94"
-	codes(1) = "nop"
-	codes(2) = "nop"
-	Call asm("ttha.bin+53C8E", codes)	
+Function atkSpeed(speed)
+	Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+12100", 0,speed)	
 End Function
 
 Function addHP()
@@ -183,7 +170,8 @@ Function inAsm(addr, codes)
 	Dim pid,hProcess,newmem,inCodes(1),i
 	pid = dm.GetWindowProcessId(hwnd)
 	hProcess = OpenProcess(2035711, False, pid)
-	newmem = HEX(VirtualAllocEx(hProcess, 0, 100, &H3000, &H40))
+	newmem = HEX(VirtualAllocEx(hProcess, null, 100, &H3000, &H40))
+	CloseHandle(hProcess)
 		
 	inCodes(0) = "jmp 0" & newmem
 	inCodes(1) = "nop"
@@ -205,3 +193,11 @@ Function inToNum(str,newmem)
 	end if 
 	inToNum = re.Replace(str, "0"& HEX(num))
 End Function
+
+Sub zmRunApp(path)
+    Dim p, DirPath, FileName
+    p = InStrRev(path, "\")
+    DirPath = Left(path, p)
+    FileName = Right(path, Len(path) - p)
+    ShellExecute GetDesktopWindow, "open", FileName, vbNullString, DirPath, 5
+End Sub
