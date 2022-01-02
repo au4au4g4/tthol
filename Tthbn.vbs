@@ -1,9 +1,12 @@
 Class Tthbn
 
-	Private dm,hwnd,ttha,tthbn
+	Private dm,dw,hwnd,ttha,tthbn
 	
 	Public Sub Class_Initialize()
 		Set dm = createobject("dm.dmsoft")
+		Set dw = CreateObject("DynamicWrapper")
+		dw.Register "kernel32.dll", "OpenProcess", "i=uuu", "r=h" 
+		dw.Register "kernel32.dll", "VirtualAllocEx", "i=lllll", "r=l"
     End Sub
 	
     Public default function Init(p_hwnd)
@@ -56,6 +59,15 @@ Class Tthbn
 	End Function
 	Public Function location()
 		location = dm.ReadInt(hwnd, "[[<ttha.bin>+004EF82C]+98]+164", 0)
+	End Function
+	Public Function team()
+		team = dm.ReadIni("team", id, ".\tthbn.ini")
+	End Function
+	Public Function nRange()
+		nRange = dm.ReadIni(team, "nRange", ".\tthbn.ini")	
+	End Function
+	Public Function gRange()
+		gRange = dm.ReadIni(team, "gRange", ".\tthbn.ini")	
 	End Function
 	
 	Public Function getMsg()
@@ -127,15 +139,24 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H2BA10, array(code(1),code(0))
 	End Function
 	
-	Public Function trades(buyer, keywords)
+	Public Function trades(buyer, keywords, cnt)
 		dim bag : bag = t.getBag(keywords)
 		For i = 0 To UBound(bag)
 			Set item = bag(i)
-			t.trade buyer,item 
+			itemCnt = item.item("cnt") 
+			if cnt = -1 Then
+				t.trade buyer, item, itemCnt
+			elseif itemCnt >=  cnt then
+				t.trade buyer, item, cnt
+				exit for
+			else
+				t.trade buyer, item, itemCnt
+				cnt = cnt - itemCnt
+			end if
 		Next
 	End Function	
 	
-	Public Function trade(buyer, item)	
+	Public Function trade(buyer, item, cnt)	
 		if hwnd - buyer = 0 then
 			exit Function
 		end if
@@ -150,7 +171,7 @@ Class Tthbn
 		
 		sn = item.item("sn")
 		iID = item.item("id")
-		cnt = item.item("cnt")
+						
 		
 		simpleCall hwnd, tthbn + &H27030, array(bID, &HEA64)	' 邀請	
 		simpleCall buyer, bTthbn + &H27200, array(sID, &HEA64)	' 接受	
@@ -223,6 +244,29 @@ Class Tthbn
 		dm.AsmAdd "call 0" + HEX(ttha + &H8B010)
 		dm.AsmCall hwnd, 1	
 	End Function	
+	
+	Public Function groupAtk(flag)
+		call dm.WriteInt(hwnd, "<ttha.bin>+53ADB", 2, flag)
+	End Function
+	
+	Public Function setRange(range)
+		call dm.WriteInt(hwnd, "<ttha.bin>+5358E", 0, range ^ 2)
+	End Function
+	
+	Public Function skill(code)
+		dim base,x,y,sn,id
+		base = dm.ReadInt(hwnd, "[[<ttha.bin>+43B90]+20]+98", 0)
+		y = dm.ReadInt(hwnd, HEX(base+&H1B6), 0)
+		x = dm.ReadInt(hwnd, HEX(base+&H1B4), 0)
+		sn = dm.ReadInt(hwnd, HEX(base+&H184), 0)
+		id = dm.ReadInt(hwnd, HEX(base+&H180), 0)
+		simpleCall hwnd, tthbn + &H23900, array(y,x,sn,id,code)
+	End Function
+	
+	Public Function reLoginMin(min)
+		call = dm.WriteInt(hwnd, "<ttha.bin>+3C334", 0, sec * 60000)
+	End Function
+	
 	'hwnd
 	Public Function getAllHwnds()
 		getAllHwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1+4), ",")
@@ -265,6 +309,166 @@ Class Tthbn
 		getHwnd = dm.FindWindow("", "絕代方程式")
 	End Function
 	
+	'破解
+	Public Function crackAll(speed,range,def)
+		crack()
+		moveSpeed(speed)
+		atkRange(range)
+		atkSpeed(100)
+		addHP()
+		addMP()
+		defBuff(def)
+		reLoginMin(2)
+	End Function
+	
+	Public Function crack()
+		Call dm.WriteData(hwnd, "<tthbn.bin>+ACD08", "E1 E7 F6 B7 84 AC ED B4 E1 E0 A0 9C A9 FB ED E6 B6 8B B1")
+		reDim codes(0) : codes(0) = "jmp ttha.bin+3B1E0"
+		Call asm("ttha.bin+3B162", codes)	
+	End Function
+
+	'280
+	Public Function moveSpeed(speed)
+		Call dm.WriteInt(hwnd,"<ttha.bin>+3FD53",0,speed)
+	End Function
+
+	Public Function atkRange(range)
+		reDim codes(5)
+		codes(0) = "mov eax,0" & HEX(range ^ 2)
+		codes(1) = "cmp edx,eax"
+		codes(2) = "jg ttha.bin+535AA"
+		codes(3) = "cmp ecx,eax"
+		codes(4) = "jg ttha.bin+535AA"
+		codes(5) = "jmp ttha.bin+535AF"
+		Call asm("ttha.bin+5358C", codes)
+	End Function
+
+	Public Function atkSpeed(speed)
+		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+12100", 0,speed)	
+	End Function
+
+	Public Function addHP()
+		Call dm.WriteInt(hwnd, "<ttha.bin>+22F5F", 0, &H20A)
+		Call dm.WriteData(hwnd, "<ttha.bin>+22E5F", "90 90 90 90 90 90")
+	End Function
+
+	Public Function addMP()
+		' 安裝變身
+		Call dm.WriteData(hwnd, "<tthbn.bin>+A1580", "0C 02 00 00 00 00 00 00 A8 AD 00 00 00 00 00 00 00 00 00 00 00 00 00 00")
+		Call dm.WriteData(hwnd, "<ttha.bin>+2293C", "D6 15 42 00")
+		Call dm.WriteData(hwnd, "<ttha.bin>+1EF20", "90 90")
+		Call dm.WriteData(hwnd, "<ttha.bin>+1EF3D", "90 90 90 90")
+		Call dm.WriteData(hwnd, "<ttha.bin>+21614", "90 90 90")
+		
+		' 導入原本流程
+		reDim codes(2)
+		codes(0) = "and eax, 0F"
+		codes(1) = "jmp ttha.bin+213BF"
+		codes(2) = "nop"
+		Call asm("ttha.bin+213B6", codes)
+		
+		' 50%變身
+		reDim codes(0)
+		codes(0) = "jmp ttha.bin+215ED"
+		Call asm("ttha.bin+215DC", codes)
+		
+		reDim codes(4)
+		codes(0) = "lea ecx,[eax+000001AC]"
+		codes(1) = "mov eax,[ecx]"
+		codes(2) = "imul eax,eax,02"
+		codes(3) = "cmp eax,[ecx+04]"
+		codes(4) = "ja ttha.bin+21671"
+		Call asm("ttha.bin+21608", codes)
+	End Function
+
+	Public Function defBuff(have8)
+		' 安裝替身
+		Call dm.WriteData(hwnd, "<tthbn.bin>+A1568", "0B 02 00 00 00 00 00 00 B4 C0 A8 AD 00 00 00 00 00 00 00 00 00 00 00 00")
+		Call dm.WriteData(hwnd, "<ttha.bin>+1E9B1", "90 90")
+		Call dm.WriteData(hwnd, "<ttha.bin>+1E9CE", "90 90 90 90")
+		
+		' 導入原本流程
+		reDim codes(2)
+		codes(0) = "and eax, 0F"
+		codes(1) = "jmp ttha.bin+213BF"
+		codes(2) = "nop"
+		Call asm("ttha.bin+213B6", codes)
+		
+		If have8 Then 
+			' 有八卦才放替身
+			reDim codes(5)
+			codes(0) = "mov eax,[tthbn.bin+A171C]" ' 有八卦1
+			codes(1) = "add eax,eax"
+			codes(2) = "add eax,[ebx+04]"		' 沒替身0
+			codes(3) = "cmp eax,02" 			' 1+1+0
+			codes(4) = "jne ttha.bin+21461"
+			codes(5) = "jmp ttha.bin+213DD"
+			Call inAsm("ttha.bin+213C6", codes)
+			
+			' 替身消失時 清空八卦
+			reDim codes(4)
+			codes(0) = "cmp ecx,00000858"' 是清空替身流程
+			codes(1) = "jne newmem+12"
+			codes(2) = "mov dword ptr [tthbn.bin+A171C],0"' 清空八卦
+			codes(3) = "mov dword ptr [ecx+tthbn.bin+A0D14],0"
+			codes(4) = "jmp tthbn.bin+421B6"
+			Call inAsm("tthbn.bin+421AC", codes)		
+		End If
+	End Function
+
+	Public Function asm(addr, codes)
+		Dim code
+		Call dm.AsmClear
+		For Each code In codes	
+			dm.AsmAdd toNum(code)
+		Next
+		code = dm.AsmCode(clng("&H" & toNum(addr)))
+		Call dm.WriteData(hwnd, addBracket(addr), code)
+	End Function
+
+	Public Function toNum(str)
+		Dim addr,num,match
+		re.Pattern = "\w+\.\w+\+\w+"
+		set match = re.Execute(str)
+		If (match.count > 0) Then 
+			addr = split(match(0), "+")
+			num = dm.GetModuleBaseAddr(hwnd, addr(0)) + clng("&H" & addr(1))
+		end if 
+		toNum = re.Replace(str, HEX(num))
+	End Function
+
+	Public Function addBracket(str)
+		re.Pattern = "(\w+\.\w+)"
+		addBracket = re.Replace(str, "<$1>")
+	End Function
+
+	Public Function inAsm(addr, codes)
+		Dim pid,hProcess,newmem,inCodes(1),i
+		pid = dm.GetWindowProcessId(hwnd)
+		hProcess = dw.OpenProcess(2035711, False, pid)
+		newmem = HEX(dw.VirtualAllocEx(hProcess, 0, 50, &H3000, &H40))
+			
+		inCodes(0) = "jmp 0" & newmem
+		inCodes(1) = "nop"
+		Call asm(addr, inCodes)
+		
+		For i = 0 To UBound(codes)
+			codes(i) = inToNum(codes(i),newmem)
+		Next
+		Call asm(newmem, codes)
+	End Function
+
+	Public Function inToNum(str,newmem)
+		Dim addr,num,match
+		re.Pattern = "newmem\+\w+"
+		set match = re.Execute(str)
+		If (match.count > 0) Then 
+			addr = split(match(0), "+")
+			num = clng("&H" & newmem) + clng("&H" & addr(1))
+		end if 
+		inToNum = re.Replace(str, "0"& HEX(num))
+	End Function
+	
 	'util
 	private Function simpleCall(hwnd,addr,parameters)
 		dm.AsmClear 
@@ -301,5 +505,4 @@ Class Tthbn
 		Loop
 		getObjs = objs
 	End Function
-	
 End Class
