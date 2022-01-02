@@ -8,7 +8,7 @@ StopHotkey=123
 StopHotkeyMod=0
 RunOnce=1
 EnableWindow=
-MacroID=59f289d0-0ce9-47a4-9914-0d1525d37be7
+MacroID=11f10087-a4ce-43dd-a8ec-6151cbd3a0d7
 Description=TEST
 Enable=0
 AutoRun=0
@@ -23,20 +23,47 @@ SetupOCXFile=
 [Comment]
 
 [UIPackage]
-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
+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
 
 
 [Script]
 Set dm = createobject("dm.dmsoft")
-
+//Import "Tthol.vbs" : Set t = New Tthol
 //hwnd = dm.FindWindow("_UJONLINE_", "Tthol")
-//Import "Tthol.vbs"
-//Set t = New Tthol
-//t.init (hwnd)
-'783890 1111532 652856 914934 783898 915088 589498 652808 327518 718388 524134 524142 6160244 261862 456386 652882
+//dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
+hwnd = dm.FindWindow("", "絕代方程式")
+Import "Tthbn.vbs" : Set t = New Tthbn
+t.init hwnd
 
-Call dm.setwindowstate(652882,3)
-// ------------------------------TEST------------------------------
+hwnds = t.getPartHwnds()
+For Each hwnd In hwnds
+	t.init hwnd
+	t.skill 550
+Next
+
+// 入門派
+//While true
+//	key = WaitKey()
+//	Select case key
+//	Case 97
+//		t.learnSkills(array(array(1,1),array(4,1),array(4,2),array(4,3),array(5,2),array(5,3),array(9,1),array(7,1)))
+//		t.talkNPC &H17B9, &H1, array(1, 2, 2, 2, 4, array(2, 10))
+//	Case 98
+//		t.talkNPC &H17B9, &H1, array(1, 2, 2, 2)
+//		t.talkNPC &H197A, &H1, array(1, 4, 6, 4)
+//	Case 99
+//		t.talkNPC &H19DF, &H1, array(1, 2, 5, 4, 4, 2, 2)
+//	Case 100
+//		t.talkNPC &H1789, &H1, array(1, 2, 8, 2, 4, 4, 2, 2)
+//	Case 101
+//		t.talkNPC &H1DD4, &H1, array(1, array(2, 12))
+//		Delay 500
+//		t.talkNPC &H1DD5, &H27, array(1, array(2, 6))
+//	Case 102
+//		t.talkNPC &H1DD4, &H1, array(1, array(2, 5))
+//	End Select
+//Wend
+
 // 取得小方家族名單
 //hwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1 + 4 + 8 + 16), ",")
 //For Each hwnd In hwnds
@@ -54,108 +81,3 @@ Call dm.setwindowstate(652882,3)
 //		dm.WriteFile "C:\Users\god\Desktop\123.txt", str + chr(10)
 //	Next
 //Next
-
-// send msg
-//hwnd = dm.FindWindow("", "Tthol")
-//
-//dm.AsmClear
-//dm.AsmAdd "mov eax,00000005"
-//dm.AsmAdd "mov ebx,0019F784"
-//dm.AsmAdd "mov ecx,0000001C"
-//dm.AsmAdd "mov edx,042D69A8"
-//dm.AsmAdd "mov esi,17024A50"
-//dm.AsmAdd "mov edi,1DB28568"
-//dm.AsmAdd "mov ebp,17024780"
-//dm.AsmAdd "push 00000000"
-//dm.AsmAdd "push 00000000"
-//dm.AsmAdd "push 00000000"
-//dm.AsmAdd "push 00000000"
-//dm.AsmAdd "push 00000000"
-//dm.AsmAdd "push 00000000"
-//dm.AsmAdd "push 77A677A6"
-//dm.AsmAdd "push 042D69A8"
-//dm.AsmAdd "push 00453253"
-//dm.AsmAdd "push -1"
-//dm.AsmAdd "push 00000005"
-//dm.AsmAdd "call 004309D0"
-//dm.AsmCall hwnd,1
-
-//While true
-//	go (array(50, 37))
-//	Delay 2000
-//	go (array(42, 40))
-//	Delay 2000
-//Wend
-
-
-Function go(xy)
-	ProcessId = 11016
- 	lpBaseAddress = Lib.AsmCode.申請指定進程空間(ProcessId, 120)
-	call Lib.AsmCode.寫入四字節內存整數(ProcessId, lpBaseAddress + 100, 0)
-	call Lib.AsmCode.AsmClear()
-	call Lib.AsmCode.Mov_EAX_Value(t.getMainAddr())
-	call Lib.AsmCode.Mov_EBX_Value(xy(0) * 40)
-	call Lib.AsmCode.Mov_EDI_Value(xy(1) * 40)
-	call Lib.AsmCode.Push(1)
-	call Lib.AsmCode.Mov_ECX_Value(&H00492F40)
-	call Lib.AsmCode.Call_ECX()
-	call Lib.AsmCode.Mov_EAX_Value(1)
-	call Lib.AsmCode.Mov_DWORD_Ptr_Addr_EAX(lpBaseAddress+100)
-	call Lib.AsmCode.Mov_ESP_EBP()
-	call Lib.AsmCode.pop_ebp()
-	call Lib.AsmCode.Ret()
-	call Lib.AsmCode.RunAsmCodetoMainThread(ProcessId,lpBaseAddress)
-End Function
-
-
-// ------------------------------其他------------------------------
-Function secToDate(numSeconds)
-  Dim dEpoch
-  dEpoch = DateSerial(1970,1,1)  
-  secToDate = DateAdd("s",numSeconds,dEpoch) 
-End Function
-
-	' ------------------------------記憶體------------------------------
-
-	Private Function read(addrs)
-		read = dm.ReadInt(hwnd, getScript(addrs), 0)
-	End Function
-
-	Private Function readString(addrs,len)
-		readString = dm.ReadString(hwnd,getScript(addrs),0,len)
-	End Function
-
-	Private Function getScript(addrs)
-		Dim script,addr
-		If isArray(addrs) Then 
-			For Each addr In addrs
-				addr = toHEX(addr)
-				If isEmpty(script) Then 
-					script = addr
-				Else 
-					script = "["&script&"]+"&addr
-				End If
-			Next
-		Else 
-			script = toHEX(addrs)
-		End If
-		getScript = script
-	End Function
-
-	Private Function toHEX(data)
-		If TypeName(data) <> "String" Then 
-			data = HEX(data)
-		End If
-		toHEX = data
-	End Function
-
-	Private Function getAddrs(headAddr,lenAddr)
-		Dim i,len
-		Redim result(0)
-		len = read(lenAddr)
-		For i = 0 To len - 1
-			Redim Preserve result(i)
-			 result(i) = read(headAddr+4*i)
-		Next
-		getAddrs = result
-	End Function

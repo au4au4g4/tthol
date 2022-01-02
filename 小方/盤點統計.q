@@ -29,8 +29,9 @@ Import "Tthbn.vbs" : Set t = New Tthbn
 UserVar clear=DropList{"¬O":1|"§_":0}=1 "²MªÅ"
 
 VBSBegin
-itemTable = array() : statisticsTable = array()
-hwnds = t.getPartHwnds()
+itemTable = array()
+statisticsTable = array()
+hwnds = t.getAllHwnds()
 For Each hwnd In hwnds
 	t.init (hwnd)
 	bag = t.getBag(array(""))

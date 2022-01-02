@@ -5,6 +5,7 @@ Class Tthol
     Public default function Init(p_hwnd)
 		hwnd = p_hwnd
 		Set dm = createobject("dm.dmsoft")
+		Call dm.WriteInt(hwnd, "<tthola.dat>+36B3FC", 0, 150)
     End function
 
 	' ------------------------------ram flag------------------------------
@@ -46,6 +47,10 @@ Class Tthol
 	Public Function name()
 		name = readString("[[<tthola.dat>+3EED84]+12C]+8",16)
 	End Function
+	
+	Public Function mySN()
+		mySN = read("[[[[<tthola.dat>+03EE04C]+168]+124]+158]+132")
+	End Function
 
 	Public Function task()
 		task = (read("[[<tthola.dat>+3EABBC]+10]+1768") <> 0)
@@ -72,6 +77,21 @@ Class Tthol
 		attackType = read(getMainAddr() + &H10C8)
 	End Function
 	
+	Public Function getBag(keywords)
+		dim item
+		set bag = getItems("bag")
+		For i = bag.Count - 1 To 0 step -1
+			set item = bag.GetByIndex(i)
+			for each keyword in keywords
+				if instr(item.item("name"),keyword) < 1 then
+					bag.RemoveAt(i)
+				end if
+			next
+		Next
+		
+		set getBag = bag
+	End Function
+	
 	Function getItems(place)
 		Dim bagAddr, lenAddr, headAddr, itemAddr, item, id,bag
 		Set bag = CreateObject("System.Collections.SortedList")
@@ -86,6 +106,7 @@ Class Tthol
 			id = read(itemAddr + 4 * 1)
 			item.Add "id", HEX(id / &H100)
 			item.Add "addr", itemAddr
+			item.Add "sn", read(itemAddr + 4 * 2 + 1)
 			item.Add "amount", read(itemAddr + 4 * 4)
 			item.Add "name", readString(itemAddr + 4 * 5, 12)
 			While bag.ContainsKey(id)
@@ -121,6 +142,11 @@ Class Tthol
 		dm.AsmAdd "call 00407480"
 		dm.AsmCall hwnd,1
 	End Function
+		
+	' 移動
+	Public Function go1(xy)
+		send "1E","8",array(typ,3,id,0,sn,0),array(1,2,2,2,2,2)
+	End Function
 
 	' 去找NPC
 	Public Function goNpc(id)
@@ -141,12 +167,42 @@ Class Tthol
 		dm.AsmCall hwnd, 1
 	End Function
 	
-	Public Function talkNpc()
+	Public Function talkNpc1()
 		dm.AsmClear 
-		dm.AsmAdd "mov eax,[007EED84]"
+		dm.AsmAdd "mov eax,[07E97D0]"
 		dm.AsmAdd "mov eax,[eax+0000012C]"
-		dm.AsmAdd "call 004318F0"
+		dm.AsmAdd "call 0043F8C0"
 		dm.AsmCall hwnd, 1
+	End Function
+	Public Function talkNpc(id,sn,arr)
+		dim i,t,typ
+		for each a in arr
+			t = 0
+			if IsArray(a) Then
+				t = a(1)-1
+				typ = a(0)
+			Else
+				typ = a
+			end if
+			for i = 0 to t
+				send "28","B",array(typ,3,id,0,sn,0),array(1,2,2,2,2,2)
+			next
+		next
+	End Function
+	
+	'傳送
+	Public Function trans(sn)
+		send "28","B",array(3,3,&H65,0,sn,0),array(1,2,2,2,2,2)
+	End Function
+	
+	Public Function edd()
+		send "E","0",array(),array()
+		send "D","2",array(&H321),array(2)
+		send "D","2",array(&H321),array(2)
+	End Function
+	
+	Public Function wear(id,sn)
+		send "2A","B",array(3,id,0,sn,0,3),array(2,2,2,2,2,1)
 	End Function
 	
 	Public Function selNpc(no)
@@ -168,6 +224,13 @@ Class Tthol
 			Call dm.WriteData(hwnd, "<tthola.dat>+4312E", "C20C0090909090909090")
 		End If
 	End Function
+	
+	Public function learnSkills(codes)
+		For Each code In codes
+			t.learnSkill (HEX(code(0)*100 + code(1)))
+			Delay 200
+		Next
+	end Function
 	
 	Public function learnSkill(code)
 		dm.AsmClear 
@@ -205,14 +268,66 @@ Class Tthol
 		dm.AsmCall hwnd,1
 	End Function
 	
+	' 煉化
+	Public Function compound0(cid,iid,sn)
+		send "44","F",array(cid,0,0,0,1),array(4,4,4,2,1)
+		send "45","32",array(3,iid,0,sn,0,0,0,0,0,0,0,0,0,0),array(2,2,2,2,4,4,4,4,4,4,4,4,4,4)
+		send "AD","1E",array(0,0,0,0,0,0,0,0),array(4,4,4,4,4,4,4,4)
+		send "49","0",array(),array()
+	End Function
+		
+	' 登入
+	Public Function login1(id,pwd)
+		dm.AsmClear 
+		dm.AsmAdd "sub esp,30"
+		dm.AsmAdd "mov ecx, 65677774"
+		dm.AsmAdd "mov [esp], ecx"
+		dm.AsmAdd "mov ecx, 7361706E"
+		dm.AsmAdd "mov [esp+4], ecx"
+		dm.AsmAdd "mov ecx, 00190073"
+		dm.AsmAdd "mov [esp+8], ecx"
+		dm.AsmAdd "mov ecx, 386A6780"
+		dm.AsmAdd "mov [esp+14], ecx"	
+		dm.AsmAdd "mov ecx, 346A6433"
+		dm.AsmAdd "mov [esp+18], ecx"
+		dm.AsmAdd "mov ecx, 05570034"
+		dm.AsmAdd "mov [esp+1C], ecx"
+		
+		dm.AsmAdd "push 0"
+		dm.AsmAdd "push 2A"
+		dm.AsmAdd "push 0"
+
+		dm.AsmAdd "lea ebx,[esp+0C]"
+		dm.AsmAdd "mov ecx,00000003"		
+		dm.AsmAdd "call 0043EBD0"
+		dm.AsmAdd "add esp,30"
+		dm.AsmAdd "ret"
+		dm.AsmCall hwnd,1
+	End Function
+	
 	' 登入
 	Public Function login(id,pwd)
-		dm_ret = dm.WriteString(hwnd,"<tthola.dat+3E97E4>",0,id)
-		dm_ret = dm.WriteString(hwnd,"<tthola.dat+36C2C0>",0,pwd)
+		dm.AsmClear
+		dm_ret = dm.WriteString(hwnd,"0076C2C0",0,"gj83dj44")
+		dm.AsmAdd "mov ecx, 1704FBA0"
+		dm.AsmAdd "call 0439C40"
+		dm.AsmCall hwnd,1
+	End Function
+
+	Public Function socket()
 		dm.AsmClear 
-		dm.AsmAdd "push 007E97E4"
-		dm.AsmAdd "mov esi,0076C2C0"
-		dm.AsmAdd "call 00441390"
+		dm.AsmAdd "mov ecx,[07EE054]"
+		dm.AsmAdd "mov edx,[07E97D0]"
+		dm.AsmAdd "mov eax,01"
+		dm.AsmAdd "imul eax,eax,3C"
+		dm.AsmAdd "add eax,ecx"
+		dm.AsmAdd "mov ecx,[edx+04]"
+		dm.AsmAdd "mov edx,[eax+30]"
+		dm.AsmAdd "push edx"
+		dm.AsmAdd "add eax,20"
+		dm.AsmAdd "push eax"
+		dm.AsmAdd "push ecx"
+		dm.AsmAdd "call 0596880"
 		dm.AsmCall hwnd,1
 	End Function
 	
@@ -305,6 +420,25 @@ Class Tthol
 		edx = read("[[[<tthola.dat>+3EABBC]+10]+C]+8")
 		eax = read("[[<tthola.dat>+3EABBC]+10]+214C") and "&HFFFF"
 		skilling = (read(array(edx + eax * 4, "10")) = 2)
+	End Function
+	
+	Private Function send(cid,pid,datas,lens)
+		dim j : j = 0
+		dm.AsmClear 
+		dm.AsmAdd "sub esp,0"& HEX(UBound(lens)*4+4)
+		dm.AsmAdd "lea ebx,[esp]"
+		for i = 0 to UBound(datas)
+			dm.AsmAdd "mov ecx,0"& hex(datas(i))
+			dm.AsmAdd "mov [esp+0"& HEX(j)&"],ecx"
+			j =  j+ lens(i)
+		next		
+		dm.AsmAdd "push 0"& pid
+		dm.AsmAdd "push 0"
+		dm.AsmAdd "mov ecx,0"& cid
+		dm.AsmAdd "call 0043EAB0"
+		dm.AsmAdd "add esp,0"& HEX(UBound(lens)*4+4)
+		dm.AsmCall hwnd, 1
+		Delay 200
 	End Function
 	
 End Class

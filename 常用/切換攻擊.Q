@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=369742b4-a928-4ace-bf82-b2b70f42bdf6
 Description=¤Á´«§ðÀ»
-Enable=1
+Enable=0
 AutoRun=0
 [Repeat]
 Type=0
@@ -28,11 +28,11 @@ Import "Tthbn.vbs" : Set t = New Tthbn
 
 hwnds = t.getPartHwnds()
 While true
-	flag = (Hour(now) > 18) * - 1 
+	flag = (Hour(now) < 18) * - 1 
 	For Each hwnd In hwnds
-		t.init hwnd
 		t.groupAtk flag
-		range = iif(flag, t.nRange, t.gRange)
+		t.init hwnd
+		range = iif(flag,t.gRange,t.nRange)
 		t.setRange(range)
 	Next
 	Delay 60 * 60 * 1000

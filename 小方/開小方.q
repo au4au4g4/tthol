@@ -24,7 +24,6 @@ SetupOCXFile=
 
 [Script]
 Import "Tthbn.vbs" : Set t = New Tthbn
-Set re = New RegExp
 Set dm = createobject("dm.dmsoft")
 
 w = dm.getscreenwidth()
@@ -39,9 +38,9 @@ kylin  = array(110, 4, 1, array("tzuyeh","rihdan","posiao","jihhsi","riiyuu","jh
 bad =  array(110, 2, 1, array("Hydrogenn", "Nitrogenn", "Oxygenn", "Fluorine", "Helium", "Neonnn", "Argonn", "Krypton", "Xenonn", "Radonn"))
 flower =  array(250, 10, 1, array("hwasheng","jhihma","lianru","heitang","fongni","hungtou","mochaa","cisihh","haitai","chaiyu"))
 
-'teams = array(bad, flower, kylin)
+teams = array(bad, flower, kylin)
 'teams = array(sky,fox)
-teams = array(fox)
+'teams = array(three)
 
 windowCnt = UBound(t.getAllHwnds())
 For j = 0 To UBound(teams)
@@ -78,7 +77,7 @@ For j = 0 To UBound(teams)
 		// ¯}¸Ñ
 		t.init hwnd
 		t.crackAll team(0),team(1),team(2)
-		't.login
+		t.login
 	Next
 	
 	// ´«­¶
