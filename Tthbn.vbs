@@ -264,7 +264,7 @@ Class Tthbn
 	End Function
 	
 	Public Function reLoginMin(min)
-		call = dm.WriteInt(hwnd, "<ttha.bin>+3C334", 0, sec * 60000)
+		call dm.WriteInt(hwnd, "<ttha.bin>+3C334", 0, sec * 60000)
 	End Function
 	
 	'hwnd
