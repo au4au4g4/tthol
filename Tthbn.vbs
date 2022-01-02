@@ -139,15 +139,24 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H2BA10, array(code(1),code(0))
 	End Function
 	
-	Public Function trades(buyer, keywords)
+	Public Function trades(buyer, keywords, cnt)
 		dim bag : bag = t.getBag(keywords)
 		For i = 0 To UBound(bag)
 			Set item = bag(i)
-			t.trade buyer,item 
+			itemCnt = item.item("cnt") 
+			if cnt = -1 Then
+				t.trade buyer, item, itemCnt
+			elseif itemCnt >=  cnt then
+				t.trade buyer, item, cnt
+				exit for
+			else
+				t.trade buyer, item, itemCnt
+				cnt = cnt - itemCnt
+			end if
 		Next
 	End Function	
 	
-	Public Function trade(buyer, item)	
+	Public Function trade(buyer, item, cnt)	
 		if hwnd - buyer = 0 then
 			exit Function
 		end if
@@ -162,7 +171,7 @@ Class Tthbn
 		
 		sn = item.item("sn")
 		iID = item.item("id")
-		cnt = item.item("cnt")
+						
 		
 		simpleCall hwnd, tthbn + &H27030, array(bID, &HEA64)	' 邀請	
 		simpleCall buyer, bTthbn + &H27200, array(sID, &HEA64)	' 接受	
@@ -254,6 +263,10 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H23900, array(y,x,sn,id,code)
 	End Function
 	
+	Public Function reLoginMin(min)
+		call = dm.WriteInt(hwnd, "<ttha.bin>+3C334", 0, sec * 60000)
+	End Function
+	
 	'hwnd
 	Public Function getAllHwnds()
 		getAllHwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1+4), ",")
@@ -305,6 +318,7 @@ Class Tthbn
 		addHP()
 		addMP()
 		defBuff(def)
+		reLoginMin(2)
 	End Function
 	
 	Public Function crack()
@@ -491,5 +505,4 @@ Class Tthbn
 		Loop
 		getObjs = objs
 	End Function
-
 End Class
