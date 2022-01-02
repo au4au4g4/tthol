@@ -26,8 +26,7 @@ SetupOCXFile=
 Set dm = createobject("dm.dmsoft")
 Import "Tthbn.vbs" : Set t = New Tthbn
  
-'hwnds = t.getArrHwnds("子夜 日旦 日始 日夕 日禺 日中 日央 日沉 夕食 人靜")
-hwnds = t.getAllHwnds()
+hwnds = t.getPartHwnds()
 skills = split(Replace(dm.GetClipboard(), """", ""), chr(10))
 For Each hwnd In hwnds
 	t.init (hwnd)
