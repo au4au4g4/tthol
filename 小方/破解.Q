@@ -23,11 +23,6 @@ SetupOCXFile=
 [Comment]
 
 [Script]
-Private Declare Function OpenProcess Lib "kernel32" (ByVal dwDesiredAccess As Long, ByVal bInheritHandle As Long, ByVal dwProcessId As Long) As Long
-Private Declare Function CloseHandle Lib "kernel32" (ByVal hObject As Long) As Long
-Private Declare Function VirtualAllocEx Lib "kernel32" (ByVal hProcess As Long, lpAddress As Any, ByVal dwSize As Long, ByVal flAllocationType As Long, ByVal flProtect As Long) As Long
-Private Declare Function GetDesktopWindow Lib "user32" () As Long
-Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal Hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 Import "Tthbn.vbs" : Set t = New Tthbn
 Set re = New RegExp
 Set dm = createobject("dm.dmsoft")
@@ -36,13 +31,14 @@ hwnds = t.getPartHwnds()
 For each hwnd in hwnds
 	// ¯}¸Ñ
 	t.init hwnd
-//	Call crack()
-//	Call moveSpeed(110)
-	Call atkRange(7)
-//	Call atkSpeed(100)
-//	Call addHP()
-//	Call addMP()
-//	Call defBuff(1)
+	t.crack()
+	t.moveSpeed(100)
+	t.atkRange(7)
+	t.atkSpeed(100)
+	t.addHP()
+	t.addMP()
+	t.defBuff(1)
+	t.reLoginMin(2)
 Next
 
 Function crack()
