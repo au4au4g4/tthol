@@ -46,8 +46,7 @@ For Each task In tasks
 		Case "g"
 			For Each seller In sellers
 				t.init hwnd
-				cnt = keywords(2)
-				t.trades seller, array(keywords(1)), cnt
+				t.trades seller, array(keywords(1)), keywords(2)
 			Next
     	Case "b"
     		sellers = t.getPartHwnds()

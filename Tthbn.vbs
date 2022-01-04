@@ -140,14 +140,14 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H2BA10, array(code(1),code(0))
 	End Function
 	
-	Public Function trades(buyer, keywords, cnt)
+	Public Function trades(buyer, keywords, ByVal cnt)
 		dim bag : bag = t.getBag(keywords)
 		For i = 0 To UBound(bag)
 			Set item = bag(i)
 			itemCnt = item.item("cnt") 
 			if cnt = -1 Then
 				t.trade buyer, item, itemCnt
-			elseif itemCnt >=  cnt then
+			elseif itemCnt - cnt >= 0 then
 				t.trade buyer, item, cnt
 				exit for
 			else
@@ -172,8 +172,7 @@ Class Tthbn
 		
 		sn = item.item("sn")
 		iID = item.item("id")
-						
-		
+		'TracePrint sn & "-" & cnt					
 		simpleCall hwnd, tthbn + &H27030, array(bID, &HEA64)	' 邀請	
 		simpleCall buyer, bTthbn + &H27200, array(sID, &HEA64)	' 接受	
 		simpleCall hwnd, tthbn + &H273D0, array(cnt, sn, iID)	' 交付	
