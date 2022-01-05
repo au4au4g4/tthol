@@ -96,17 +96,17 @@ Class Tthbn
 	End Function
 	
 	Public Function getBag(names)
-		getBag = getItems(&H101E98, names)
+		getBag = getItems(tthbn + &H101E98, tthbn + &H111604, names)
 	End Function
 	
 	Public Function getBank(names)
-		getBank = getItems(&HAFCC0, names)
+		getBank = getItems(tthbn + &HAFCC0, tthbn + &HAFCBC, names)
 	End Function
 	
-	private Function getItems(offset, names)
+	private Function getItems(addr, cntAddr, names)
 		Dim keys
 		keys = array(array("name", 32),array("sn", 0), array("id", 4), array("cnt", 8))
-		getItems = getObjs(tthbn + offset, 280, names, keys)
+		getItems = getObjs(addr, cntAddr, 280, names, keys)
 	End Function
 	
 	'function
@@ -481,11 +481,11 @@ Class Tthbn
 		Delay 100
 	End Function
 	
-	private Function getObjs(addr, length, conds, keys)
-		Dim i,flag,obj,key,objs,j,target
-		i = 0 : j = 0 : objs = array()
-		flag = dm.ReadInt(hwnd, HEX(addr + length * i), 0)
-		Do While flag <> 0
+	private Function getObjs(addr, cntAddr, length, conds, keys)
+		Dim i,cnt,obj,key,objs,j,target
+		j = 0 : objs = array()
+		cnt = dm.ReadInt(hwnd, HEX(cntAddr), 0) - 1
+		For i = 0 to cnt
 			Set obj = CreateObject("Scripting.Dictionary")
 			For Each key In keys
 				If key(0) = "name" Then 
@@ -500,10 +500,8 @@ Class Tthbn
 					Redim Preserve objs(j) : Set objs(j) = obj : j = j + 1
 					exit for
 				End If				
-			next
-			i = i + 1
-			flag = dm.ReadInt(hwnd, HEX(addr + length * i), 0)
-		Loop
+			Next
+		Next
 		getObjs = objs
 	End Function
 End Class
