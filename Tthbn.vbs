@@ -187,6 +187,7 @@ Class Tthbn
 	End Function
 
 	Public Function closeShop()
+		Call dm.WriteData(hwnd, "<tthbn.bin>+4484B", "9090")
 		simpleCall hwnd, tthbn + &H2AFE0, array()
 	End Function
 	
