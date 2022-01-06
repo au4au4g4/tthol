@@ -8,13 +8,13 @@ Class Tthbn
 		Set re = New RegExp
 		dw.Register "kernel32.dll", "OpenProcess", "i=uuu", "r=h" 
 		dw.Register "kernel32.dll", "VirtualAllocEx", "i=lllll", "r=l"
-    End Sub
+    	End Sub
 	
-    Public default function Init(p_hwnd)
+   	Public default function Init(p_hwnd)
 		hwnd = p_hwnd
 		ttha = dm.GetModuleBaseAddr(hwnd, "ttha.bin")
 		tthbn = dm.GetModuleBaseAddr(hwnd, "tthbn.bin")
-    End function
+   	End function
 
 	'flag
 	Public Function isOffLine()
@@ -266,6 +266,21 @@ Class Tthbn
 	
 	Public Function reLoginMin(min)
 		call dm.WriteInt(hwnd, "<ttha.bin>+3C334", 0, min * 60000)
+	End Function
+
+	Public function fixBank()
+		Call dm.WriteData(hwnd, "<ttha.bin>+69CDA", "10")
+		reDim codes(8)
+		codes(0) = "mov ecx,[esp+20]"
+		codes(1) = "push 0"
+		codes(2) = "push ecx"
+		codes(3) = "lea ecx,[esp+20]"
+		codes(4) = "call 0" + HEX(ttha + &H8871A)
+		codes(5) = "call 0" + HEX(ttha + &H8DBD1)
+		codes(6) = "test eax,eax"
+		codes(7) = "je ttha.bin+69C8E"
+		codes(8) = "jmp ttha.bin+69C85"
+		Call inAsm("ttha.bin+69C7C ", codes)
 	End Function
 	
 	'hwnd
