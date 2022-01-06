@@ -8,13 +8,13 @@ Class Tthbn
 		Set re = New RegExp
 		dw.Register "kernel32.dll", "OpenProcess", "i=uuu", "r=h" 
 		dw.Register "kernel32.dll", "VirtualAllocEx", "i=lllll", "r=l"
-    	End Sub
+    End Sub
 	
-   	Public default function Init(p_hwnd)
+    Public default function Init(p_hwnd)
 		hwnd = p_hwnd
 		ttha = dm.GetModuleBaseAddr(hwnd, "ttha.bin")
 		tthbn = dm.GetModuleBaseAddr(hwnd, "tthbn.bin")
-   	End function
+    End function
 
 	'flag
 	Public Function isOffLine()
@@ -96,17 +96,17 @@ Class Tthbn
 	End Function
 	
 	Public Function getBag(names)
-		getBag = getItems(tthbn + &H101E98, tthbn + &H111604, names)
+		getBag = getItems(&H101E98, names)
 	End Function
 	
 	Public Function getBank(names)
-		getBank = getItems(tthbn + &HAFCC0, tthbn + &HAFCBC, names)
+		getBank = getItems(&HAFCC0, names)
 	End Function
 	
-	private Function getItems(addr, cntAddr, names)
+	private Function getItems(offset, names)
 		Dim keys
 		keys = array(array("name", 32),array("sn", 0), array("id", 4), array("cnt", 8))
-		getItems = getObjs(addr, cntAddr, 280, names, keys)
+		getItems = getObjs(tthbn + offset, 280, names, keys)
 	End Function
 	
 	'function
@@ -266,21 +266,6 @@ Class Tthbn
 	
 	Public Function reLoginMin(min)
 		call dm.WriteInt(hwnd, "<ttha.bin>+3C334", 0, min * 60000)
-	End Function
-
-	Public function fixBank()
-		Call dm.WriteData(hwnd, "<ttha.bin>+69CDA", "10")
-		reDim codes(8)
-		codes(0) = "mov ecx,[esp+20]"
-		codes(1) = "push 0"
-		codes(2) = "push ecx"
-		codes(3) = "lea ecx,[esp+20]"
-		codes(4) = "call 0" + HEX(ttha + &H8871A)
-		codes(5) = "call 0" + HEX(ttha + &H8DBD1)
-		codes(6) = "test eax,eax"
-		codes(7) = "je ttha.bin+69C8E"
-		codes(8) = "jmp ttha.bin+69C85"
-		Call inAsm("ttha.bin+69C7C ", codes)
 	End Function
 	
 	'hwnd
@@ -496,11 +481,11 @@ Class Tthbn
 		Delay 100
 	End Function
 	
-	private Function getObjs(addr, cntAddr, length, conds, keys)
-		Dim i,cnt,obj,key,objs,j,target
-		j = 0 : objs = array()
-		cnt = dm.ReadInt(hwnd, HEX(cntAddr), 0) - 1
-		For i = 0 to cnt
+	private Function getObjs(addr, length, conds, keys)
+		Dim i,flag,obj,key,objs,j,target
+		i = 0 : j = 0 : objs = array()
+		flag = dm.ReadInt(hwnd, HEX(addr + length * i), 0)
+		Do While flag <> 0
 			Set obj = CreateObject("Scripting.Dictionary")
 			For Each key In keys
 				If key(0) = "name" Then 
@@ -515,8 +500,10 @@ Class Tthbn
 					Redim Preserve objs(j) : Set objs(j) = obj : j = j + 1
 					exit for
 				End If				
-			Next
-		Next
+			next
+			i = i + 1
+			flag = dm.ReadInt(hwnd, HEX(addr + length * i), 0)
+		Loop
 		getObjs = objs
 	End Function
 End Class
