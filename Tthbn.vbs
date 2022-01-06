@@ -345,6 +345,7 @@ Class Tthbn
 
 	'280
 	Public Function moveSpeed(speed)
+		Call dm.WriteInt(hwnd,"<ttha.bin>+3FD3D",0,speed)
 		Call dm.WriteInt(hwnd,"<ttha.bin>+3FD53",0,speed)
 	End Function
 
