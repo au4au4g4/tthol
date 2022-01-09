@@ -283,6 +283,17 @@ Class Tthbn
 		Call inAsm("ttha.bin+69C7C ", codes)
 	End Function
 	
+	Public function removePlayer()
+		Call dm.WriteData(hwnd, "<ttha.bin>+66EAD", "909090909090")
+		reDim codes(4)
+		codes(0) = "push edx"
+		codes(1) = "push 0000013C"
+		codes(2) = "call 0" + HEX(ttha + &H7E764)
+		codes(3) = "call 0" + HEX(tthbn + &H26180)
+		codes(4) = "jmp ttha.bin+67396"
+		Call inAsm("ttha.bin+6738B", codes)
+	End Function
+	
 	'hwnd
 	Public Function getAllHwnds()
 		getAllHwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1+4), ",")
