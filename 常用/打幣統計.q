@@ -37,6 +37,6 @@ For Each hwnd In hwnds
 	datas(ubound(datas)) = array(t.id, t.level, t.place, period, t.monster, t.expp, t.money)
 Next
 
-u.post "±¾¾÷", clear, datas
+u.post "±¾¾÷", datas
 
 

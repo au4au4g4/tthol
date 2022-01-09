@@ -3,6 +3,8 @@ Class Util
 	Private dm,hwnd,http,json
 	
 	Public Sub Class_Initialize
+		include "VbsJson.vbs"
+		Set json = New VbsJson
 		Set dm = createobject("dm.dmsoft")
 		Set http = createObject("winhttp.winhttprequest.5.1")
     End Sub
@@ -11,16 +13,10 @@ Class Util
 		
     End function
 
-	Public Function post(sheet,clear,data)
-		postTasks array(array(sheet, clear,data))
-	End Function
-	
-	Public Function postTasks(data)
-		include "VbsJson.vbs"
-		Set json = New VbsJson
+	Public Function post(sheet,data)
 		http.open "POST", "https://script.google.com/macros/s/AKfycbwXYvPlGW7wt5GIfkD-a7xPWDjpzdOhNHNEDFqTznO4aQpr4oRUz_bmaBKxe3D0VuOcPQ/exec", False
 		http.setrequestheader "Content-Type","application/json"
-		http.send json.encode(data)
+		http.send json.encode(array(sheet,data))
 	End Function
 	
 	' line notify

@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=769374b5-29e2-4f2b-bf1c-cf2269af8062
 Description=逛街
-Enable=0
+Enable=1
 AutoRun=0
 [Repeat]
 Type=0
@@ -34,12 +34,12 @@ xyList = array(array(29, 29), array(29, 16), array(41, 16), array(41, 31))
 Dim datas : datas = array()
 Dim j : j = 0
 
-For Each xy In xyList
-	t.go (xy)
-	Delay 4000
+//For Each xy In xyList
+//	t.go (xy)
+//	Delay 4000
 	bossList = readShop(bossList)	
-Next
-u.post "市集", 0, datas
+//Next
+u.post "市集", datas
 
 Function readShop(list)
 	btnAddr = dm.FindData(hwnd, "12000000-30000000", "BC 44 5E 00")
