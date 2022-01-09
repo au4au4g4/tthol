@@ -186,6 +186,10 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H29C40, array()
 	End Function
 
+	Public Function addItem(price, cnt, no)
+		simpleCall hwnd, tthbn + &H2ABA0, array(1, price, cnt, no)
+	End Function
+
 	Public Function closeShop()
 		Call dm.WriteData(hwnd, "<tthbn.bin>+4484B", "9090")
 		simpleCall hwnd, tthbn + &H2AFE0, array()
@@ -514,6 +518,7 @@ Class Tthbn
 		cnt = dm.ReadInt(hwnd, HEX(cntAddr), 0) - 1
 		For i = 0 to cnt
 			Set obj = CreateObject("Scripting.Dictionary")
+			obj.add "no", i
 			For Each key In keys
 				If key(0) = "name" Then 
 					obj.add key(0), dm.ReadString(hwnd, HEX(addr + length * i + key(1)), 0, 16)
@@ -521,9 +526,10 @@ Class Tthbn
 					obj.add key(0), dm.ReadInt(hwnd, HEX(addr + length * i + key(1)), 0)
 				End If
 			Next
+			'¿z¿ï
 			target = obj(keys(0)(0))
 			for each cond in conds
-				If typename(cond) = "Integer" and (target = cond) or typename(cond) = "String" and instr(target,cond)>0 Then 
+				If typename(cond) = "Integer" and (target = cond) or typename(cond) = "String" and instr(target,cond) > 0 Then 
 					Redim Preserve objs(j) : Set objs(j) = obj : j = j + 1
 					exit for
 				End If				

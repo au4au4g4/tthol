@@ -39,15 +39,10 @@ While true
   		If price = "" Then
   			dm.WriteIni "not_for_sale", name, "99", ".\shop.ini"
   		ElseIf count < 15 Then
-			Call dm.WriteInt(hwnd, "<tthbn.bin>+" & HEX(&HA8AE8 + count * 20), 0, 0)
-			Call dm.WriteInt(hwnd, "<tthbn.bin>+" & HEX(&HA8AE8 + count * 20 + 4), 0, item.Item("id"))
-			Call dm.WriteInt(hwnd, "<tthbn.bin>+" & HEX(&HA8AE8 + count * 20 + 8), 0, item.Item("sn"))	
-			Call dm.WriteInt(hwnd, "<tthbn.bin>+" & HEX(&HA8AE8 + count * 20 + 12), 0, item.Item("cnt"))
-			Call dm.WriteInt(hwnd, "<tthbn.bin>+" & HEX(&HA8AE8 + count * 20 + 16), 0, price * 1000000)
+			t.addItem price * 1000000, item.Item("cnt"), item.Item("no")
 			count = count + 1
 		End If
 	Next
-	Call dm.WriteInt(hwnd, "<tthbn.bin>+111674", 0, count)
 	t.openShop
 	Delay 10*60000
 Wend
