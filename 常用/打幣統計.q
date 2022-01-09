@@ -26,9 +26,7 @@ SetupOCXFile=
 Import "Tthbn.vbs" : Set t = New Tthbn
 Import "Util.vbs" : Set u = New Util
 Public Declare Function timeGetTime Lib "winmm.dll" () As Long
-UserVar clear=DropList{"是":1|"否":0}=1 "清空"
 
-Redim datas(0) : datas(0) = array("ID", "等級", "地點", "時間", "怪物", "經驗", "官幣")
 hwnds = t.getAllHwnds()
 For Each hwnd In hwnds
 	t.init(hwnd)
@@ -36,7 +34,6 @@ For Each hwnd In hwnds
 	Redim Preserve datas(ubound(datas) + 1)
 	datas(ubound(datas)) = array(t.id, t.level, t.place, period, t.monster, t.expp, t.money)
 Next
-
 u.post "掛機", datas
 
 
