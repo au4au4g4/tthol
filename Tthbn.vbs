@@ -92,7 +92,7 @@ Class Tthbn
 	Public Function findNPC(name)
 		Dim keys
 		keys = array(array("name", 12),array("id", 4), array("sn", 0))
-		set findNPC = getObjs(tthbn + &H105570, 32, array(name), keys)(0)
+		set findNPC = getObjs(tthbn + &H105570, tthbn + &H111600, 32, array(name), keys)(0)
 	End Function
 	
 	Public Function getBag(names)
