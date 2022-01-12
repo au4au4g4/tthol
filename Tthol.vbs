@@ -47,18 +47,9 @@ Class Tthol
 	Public Function name()
 		name = readString("[[<tthola.dat>+3EED84]+12C]+8",16)
 	End Function
-	
-	Public Function mySN()
-		mySN = read("[[[[<tthola.dat>+03EE04C]+168]+124]+158]+132")
-	End Function
 
 	Public Function task()
 		task = (read("[[<tthola.dat>+3EABBC]+10]+1768") <> 0)
-	End Function
-	
-	' 取得玄天NPC ID
-	Public Function getNpc()
-		getNpc = read("[[[[[<tthola.dat>+3EABBC]+10]+37D8]+60]+2244]+8")
 	End Function
 	
 	Public Function walking()
@@ -88,7 +79,6 @@ Class Tthol
 				end if
 			next
 		Next
-		
 		set getBag = bag
 	End Function
 	
@@ -103,12 +93,13 @@ Class Tthol
 		
 		For Each itemAddr In itemAddrs
 			Set item = CreateObject("Scripting.Dictionary")
-			id = read(itemAddr + 4 * 1)
-			item.Add "id", HEX(id / &H100)
+			id = read(itemAddr + 4)
 			item.Add "addr", itemAddr
-			item.Add "sn", read(itemAddr + 4 * 2 + 1)
-			item.Add "amount", read(itemAddr + 4 * 4)
-			item.Add "name", readString(itemAddr + 4 * 5, 12)
+			item.Add "no", dm.ReadInt(hwnd,HEX(itemAddr + 3), 1)
+			item.Add "id", read(itemAddr + 5)
+			item.Add "sn", read(itemAddr + 9)
+			item.Add "amount", read(itemAddr + 16)
+			item.Add "name", readString(itemAddr + 20, 12)
 			While bag.ContainsKey(id)
 				id = id + 1
 			Wend
@@ -129,15 +120,59 @@ Class Tthol
 			End If
 		End If
 	End Function
+	
+	Public Function getMonster()
+		Set getMonster = getNpc(array(array(20, &H20000001),array(&H10C1,0)))
+	End Function
+	
+	Public Function getNpc(conds)
+		Set npc = CreateObject("Scripting.Dictionary")
+		dim pass, addr : addr = getMainAddr()
+		do While addr <> 0
+			pass = true
+			for each cond in conds
+				pass = pass and (read(addr + cond(0)) = cond(1))
+			next
+			if pass Then
+				npc.Add "addr", HEX(addr)
+				npc.Add "no", dm.ReadInt(hwnd, HEX(addr + 300), 1)
+				npc.Add "id", read(addr + 302)
+				npc.Add "sn", read(addr + 306)
+				npc.Add "key", read(addr + 28)
+				npc.Add "x", read(addr + 38)
+				npc.Add "y", read(addr + 42)
+				npc.Add "tp", read(addr + 220)
+				npc.Add "dead", dm.ReadInt(hwnd, HEX(addr + &H10C3), 2)
+				npc.Add "name", readString(addr + 484,10)
+				exit do
+			End If
+			addr =  read(addr + &H124)
+		Loop
+		set getNpc = npc
+	End Function
+	
+	Public Function printNpc(conds)
+		dim pass, addr : addr = getMainAddr()
+		do While addr <> 0
+			pass = true
+			for each cond in conds
+				pass = pass and (read(addr + cond(0)) = cond(1))
+			next
+			if pass Then
+				TracePrint join(array(HEX(addr),HEX(dm.ReadInt(hwnd, HEX(addr + 300), 1)),HEX(read(addr + 302)),HEX(read(addr + 306)),HEX(read(addr + 28)),readString(addr + 484,10),read(addr + 38)/40,read(addr + 42)/40,read(addr + 220)))
+			End If
+			addr =  read(addr + &H124)
+		Loop
+	End Function
 
 	' ------------------------------ram 動作------------------------------
 
 	' 移動
-	Public Function go(xy)
+	Public Function go(x,y)
 		dm.AsmClear 
 		dm.AsmAdd "mov eax,"+HEX(getMainAddr())
-		dm.AsmAdd "mov ebx,0"+Hex(xy(0) * 40)
-		dm.AsmAdd "mov edi,0"+Hex(xy(1) * 40)
+		dm.AsmAdd "mov ebx,0"+Hex(x * 40)
+		dm.AsmAdd "mov edi,0"+Hex(y * 40)
 		dm.AsmAdd "push 00000001"
 		dm.AsmAdd "call 00407480"
 		dm.AsmCall hwnd,1
@@ -174,35 +209,43 @@ Class Tthol
 		dm.AsmAdd "call 0043F8C0"
 		dm.AsmCall hwnd, 1
 	End Function
-	Public Function talkNpc(id,sn,arr)
-		dim i,t,typ
-		for each a in arr
-			t = 0
-			if IsArray(a) Then
-				t = a(1)-1
-				typ = a(0)
-			Else
-				typ = a
-			end if
-			for i = 0 to t
-				send "28","B",array(typ,3,id,0,sn,0),array(1,2,2,2,2,2)
+	
+	Public Function talkNpc(id,arr)
+		dim i,t,typ, npc
+		set npc = getNpc(array(array(302,id)))
+		if npc.count > 0 Then
+			for each a in arr
+				t = 0
+				if IsArray(a) Then
+					t = a(1)-1
+					typ = a(0)
+				Else
+					typ = a
+				end if
+				for i = 0 to t
+					send "28","B",array(typ,3,id,0,npc.item("sn"),0),array(1,2,2,2,2,2)
+				next
 			next
-		next
+		end if
 	End Function
 	
 	'傳送
-	Public Function trans(sn)
-		send "28","B",array(3,3,&H65,0,sn,0),array(1,2,2,2,2,2)
+	Public Function trans()
+		dim portal, sn
+		set portal = getNpc(array(array(302, &H65)))
+		no = portal.item("no")
+		sn = portal.item("sn")
+		if portal.count > 0 Then
+			send "28","B",array(3,no,&H65,sn),array(1,2,4,4)
+		end if
 	End Function
 	
-	Public Function edd()
-		send "E","0",array(),array()
-		send "D","2",array(&H321),array(2)
-		send "D","2",array(&H321),array(2)
-	End Function
-	
-	Public Function wear(id,sn)
-		send "2A","B",array(3,id,0,sn,0,3),array(2,2,2,2,2,1)
+	Public Function wear(eqpt)
+		dim no,id,sn
+		no = eqpt.item("no")
+		id = eqpt.item("id")
+		sn = eqpt.item("sn")
+		send "2A","B",array(no,id,sn,3),array(2,4,4,1)
 	End Function
 	
 	Public Function selNpc(no)
@@ -227,7 +270,7 @@ Class Tthol
 	
 	Public function learnSkills(codes)
 		For Each code In codes
-			t.learnSkill (HEX(code(0)*100 + code(1)))
+			learnSkill (HEX(code(0)*100 + code(1)))
 			Delay 200
 		Next
 	end Function
@@ -269,11 +312,24 @@ Class Tthol
 	End Function
 	
 	' 煉化
-	Public Function compound0(cid,iid,sn)
+	Public Function compound0(cid,item)
+		dim no,id,sn
+		no = item.item("no")
+		id = item.item("id")
+		sn = item.item("sn")
 		send "44","F",array(cid,0,0,0,1),array(4,4,4,2,1)
-		send "45","32",array(3,iid,0,sn,0,0,0,0,0,0,0,0,0,0),array(2,2,2,2,4,4,4,4,4,4,4,4,4,4)
+		send "45","32",array(no,id,0,sn,0,0,0,0,0,0,0,0,0,0),array(2,2,2,2,4,4,4,4,4,4,4,4,4,4)
 		send "AD","1E",array(0,0,0,0,0,0,0,0),array(4,4,4,4,4,4,4,4)
 		send "49","0",array(),array()
+	End Function
+	
+	' 普攻
+	Public Function atk(monster)
+		dm.AsmClear 
+		dm.AsmAdd "push " & HEX(monster.item("key"))
+		dm.AsmAdd "push " & HEX(dm.ReadInt(hwnd, "[<tthola.dat>+3ED97C]+10", 0))
+		dm.AsmAdd "call 00489C60"
+		dm.AsmCall hwnd, 1	
 	End Function
 		
 	' 登入
@@ -399,11 +455,6 @@ Class Tthol
 	
 	Public Function talking()
 		talking = read("[[<tthola.dat>+003E77D4]+10]+1534")<>0
-	End Function
-
-	' ??
-	Public Function hasMonster()
-		hasMonster = read("<tthola.dat>+3EB930")<>0
 	End Function
 	
 	' 開啟 左鍵無法點擊NPC
