@@ -86,7 +86,7 @@ Class Tthbn
 	private Function getRecords(offset)
 		Dim keys
 		keys = array(array("name", 8), array("id", 0), array("cnt", 4))
-		getRecords = getObjs(tthbn + offset, 28, array(""), keys)
+		getRecords = getObjs(tthbn + offset, null, 28, array(""), keys)
 	End Function
 	
 	Public Function findNPC(name)
@@ -511,8 +511,13 @@ Class Tthbn
 	private Function getObjs(addr, cntAddr, length, conds, keys)
 		Dim i,cnt,obj,key,objs,j,target
 		j = 0 : objs = array()
-		cnt = dm.ReadInt(hwnd, HEX(cntAddr), 0) - 1
+		if cntAddr = null Then
+			cnt = 199
+		else
+			cnt = dm.ReadInt(hwnd, HEX(cntAddr), 0) - 1
+		end if
 		For i = 0 to cnt
+			' 製作物件
 			Set obj = CreateObject("Scripting.Dictionary")
 			For Each key In keys
 				If key(0) = "name" Then 
@@ -521,6 +526,11 @@ Class Tthbn
 					obj.add key(0), dm.ReadInt(hwnd, HEX(addr + length * i + key(1)), 0)
 				End If
 			Next
+			' id為零時結束
+			if obj.item("id") = 0 Then
+				exit For
+			end if
+			' 決定要不要放入
 			target = obj(keys(0)(0))
 			for each cond in conds
 				If typename(cond) = "Integer" and (target = cond) or typename(cond) = "String" and instr(target,cond)>0 Then 
