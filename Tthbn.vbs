@@ -187,8 +187,11 @@ Class Tthbn
 	End Function
 
 	Public Function closeShop()
-		Call dm.WriteData(hwnd, "<tthbn.bin>+4484B", "9090")
 		simpleCall hwnd, tthbn + &H2AFE0, array()
+	End Function
+	
+	Public Function addItem(price, cnt, no)
+		simpleCall hwnd, tthbn + &H2ABA0, array(1, price, cnt, no)
 	End Function
 	
 	Public Function withdrawal(amount)	
@@ -519,6 +522,7 @@ Class Tthbn
 		For i = 0 to cnt
 			' 製作物件
 			Set obj = CreateObject("Scripting.Dictionary")
+			obj.add "no", i+1
 			For Each key In keys
 				If key(0) = "name" Then 
 					obj.add key(0), dm.ReadString(hwnd, HEX(addr + length * i + key(1)), 0, 16)
