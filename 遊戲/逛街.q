@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=71ec21f7-a2a9-47e4-b537-275ceefe2d34
 Description=³}µó
-Enable=0
+Enable=1
 AutoRun=0
 [Repeat]
 Type=0
@@ -35,7 +35,7 @@ Dim datas : datas = array()
 Dim j : j = 0
 
 For Each xy In xyList
-	t.go (xy)
+	t.go xy(0), xy(1)
 	Delay 4000
 	bossList = readShop(bossList)	
 Next

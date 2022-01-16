@@ -52,10 +52,10 @@ Class Tthbn
 		Wend
 		monster = sum
 	End Function
-	Public Function cash ()
-		cash = dm.ReadInt(hwnd, "<tthbn.bin>+1097AC", 0)
+	Public Function cash()
+		cash = dm.ReadInt(hwnd, "<tthbn.bin>+1097AC", 0) / 10 ^ 6
 	End Function
-	Public Function deposit ()
+	Public Function deposit()
 		deposit = dm.ReadInt(hwnd, "<tthbn.bin>+AFCB8", 0)
 	End Function
 	Public Function location()
@@ -187,8 +187,11 @@ Class Tthbn
 	End Function
 
 	Public Function closeShop()
-		Call dm.WriteData(hwnd, "<tthbn.bin>+4484B", "9090")
 		simpleCall hwnd, tthbn + &H2AFE0, array()
+	End Function
+	
+	Public Function addItem(price, cnt, no)
+		simpleCall hwnd, tthbn + &H2ABA0, array(1, price, cnt, no)
 	End Function
 	
 	Public Function withdrawal(amount)	
@@ -248,10 +251,6 @@ Class Tthbn
 	
 	Public Function groupAtk(flag)
 		call dm.WriteInt(hwnd, "<ttha.bin>+53ADB", 2, flag)
-	End Function
-	
-	Public Function setRange(range)
-		call dm.WriteInt(hwnd, "<ttha.bin>+5358E", 0, range ^ 2)
 	End Function
 	
 	Public Function skill(code)
@@ -369,6 +368,10 @@ Class Tthbn
 		codes(4) = "jg ttha.bin+535AA"
 		codes(5) = "jmp ttha.bin+535AF"
 		Call asm("ttha.bin+5358C", codes)
+	End Function
+	
+	Public Function setRange(range)
+		call dm.WriteInt(hwnd, "<ttha.bin>+5358E", 0, range ^ 2)
 	End Function
 
 	Public Function atkSpeed(speed)
@@ -519,6 +522,7 @@ Class Tthbn
 		For i = 0 to cnt
 			' 製作物件
 			Set obj = CreateObject("Scripting.Dictionary")
+			obj.add "no", i+1
 			For Each key In keys
 				If key(0) = "name" Then 
 					obj.add key(0), dm.ReadString(hwnd, HEX(addr + length * i + key(1)), 0, 16)
