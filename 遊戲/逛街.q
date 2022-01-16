@@ -8,7 +8,7 @@ StopHotkey=123
 StopHotkeyMod=0
 RunOnce=1
 EnableWindow=
-MacroID=769374b5-29e2-4f2b-bf1c-cf2269af8062
+MacroID=71ec21f7-a2a9-47e4-b537-275ceefe2d34
 Description=³}µó
 Enable=1
 AutoRun=0
@@ -34,11 +34,11 @@ xyList = array(array(29, 29), array(29, 16), array(41, 16), array(41, 31))
 Dim datas : datas = array()
 Dim j : j = 0
 
-//For Each xy In xyList
-//	t.go (xy)
-//	Delay 4000
+For Each xy In xyList
+	t.go xy(0), xy(1)
+	Delay 4000
 	bossList = readShop(bossList)	
-//Next
+Next
 u.post "¥«¶°", datas
 
 Function readShop(list)
