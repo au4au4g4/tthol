@@ -52,10 +52,10 @@ Class Tthbn
 		Wend
 		monster = sum
 	End Function
-	Public Function cash ()
-		cash = dm.ReadInt(hwnd, "<tthbn.bin>+1097AC", 0)
+	Public Function cash()
+		cash = dm.ReadInt(hwnd, "<tthbn.bin>+1097AC", 0) / 10 ^ 6
 	End Function
-	Public Function deposit ()
+	Public Function deposit()
 		deposit = dm.ReadInt(hwnd, "<tthbn.bin>+AFCB8", 0)
 	End Function
 	Public Function location()
@@ -253,10 +253,6 @@ Class Tthbn
 		call dm.WriteInt(hwnd, "<ttha.bin>+53ADB", 2, flag)
 	End Function
 	
-	Public Function setRange(range)
-		call dm.WriteInt(hwnd, "<ttha.bin>+5358E", 0, range ^ 2)
-	End Function
-	
 	Public Function skill(code)
 		dim base,x,y,sn,id
 		base = dm.ReadInt(hwnd, "[[<ttha.bin>+43B90]+20]+98", 0)
@@ -372,6 +368,10 @@ Class Tthbn
 		codes(4) = "jg ttha.bin+535AA"
 		codes(5) = "jmp ttha.bin+535AF"
 		Call asm("ttha.bin+5358C", codes)
+	End Function
+	
+	Public Function setRange(range)
+		call dm.WriteInt(hwnd, "<ttha.bin>+5358E", 0, range ^ 2)
 	End Function
 
 	Public Function atkSpeed(speed)
