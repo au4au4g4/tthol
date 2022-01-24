@@ -29,7 +29,7 @@ itemActions = split(dm.GetClipboard(), chr(10))
 hwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1 + 4 + 8 + 16), ",")
 For Each hwnd In hwnds
 	base = dm.GetModuleBaseAddr(hwnd, "tthbn.bin")
-	range = HEX(base + &HC1010) & "-" & HEX(base + &HE4120)
+	range = HEX(base + &HC13D0) & "-" & HEX(base + &HE4FE0)
 	For Each itemAction In itemActions
 		If itemAction <> "" Then 
     		itemAction = split(itemAction, ",")
