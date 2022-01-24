@@ -30,7 +30,7 @@ hwnds = t.getAllHwnds()
 While True
 	For Each hwnd In hwnds
 		t.init (hwnd)
-		If t.location > 1703 and t.location < 1710 Then 
+		If t.place = "¥È¤Ñ¤§¹Ò" Then 
 			t.talkNPC
 		End If
 	Next
