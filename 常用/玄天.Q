@@ -30,8 +30,10 @@ hwnds = t.getAllHwnds()
 While True
 	For Each hwnd In hwnds
 		t.init (hwnd)
-		If t.place = "玄天之境" Then 
-			t.talkNPC
+		If t.place = "神武玄天塔" Then 
+			t.talkNPC 
+		else if t.place = "玄天之境"then
+			t.stops
 		End If
 	Next
 	Delay 1000
