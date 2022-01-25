@@ -58,7 +58,7 @@ For Each task In tasks
 //					t.withdrawal (t.deposit)
 					Set coin = CreateObject("Scripting.Dictionary")
 					coin.add "id", &H5e16
-					coin.add "cnt", int(t.cash / 10 ^ 6)
+					coin.add "cnt", int(t.cash)
 					Set npc = t.findNPC("Åw³ß")
 					t.talkOption npc.item("id"), array(1,5)
 					t.buy npc, coin	
