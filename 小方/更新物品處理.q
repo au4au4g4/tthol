@@ -32,7 +32,7 @@ For Each hwnd In hwnds
 	t.init hwnd
 	For Each itemAction In itemActions
 		If itemAction <> "" Then 		
-    		itemAction = split(itemAction, " ")
+    		itemAction = split(itemAction, chr(9))
     		t.updateItem itemAction(0), itemAction(1)
 		End If
 	Next
