@@ -18,16 +18,16 @@ Class Tthbn
 
 	'flag
 	Public Function isOffLine()
-		isOffLine = (dm.ReadInt(hwnd, "<tthbn.bin>+111964", 0) = 0)
+		isOffLine = (dm.ReadInt(hwnd, "<tthbn.bin>+1116B6", 0) = 0)
 	End Function
 	
 	'read
 	Public Function id()
-		id = dm.ReadString(hwnd, "<tthbn.bin>+1099D0", 0, 16)
+		id = dm.ReadString(hwnd, "<tthbn.bin>+109720", 0, 16)
 	End Function
 
 	Public Function level()
-		level = dm.ReadInt(hwnd, "<tthbn.bin>+10A6C0", 1)
+		level = dm.ReadInt(hwnd, "<tthbn.bin>+10A410", 1)
 	End Function
 	Public Function money()
 		money = dm.ReadInt(hwnd, "<tthbn.bin>+ACD24", 0) / 10 ^ 6
@@ -36,7 +36,7 @@ Class Tthbn
 		expp = dm.ReadInt(hwnd, "<tthbn.bin>+ACD28", 0) / 10 ^ 6
 	End Function
 	Public Function place()
-		place = dm.ReadString(hwnd, "<tthbn.bin>+1099E4", 0, 16)
+		place = dm.ReadString(hwnd, "<tthbn.bin>+109734", 0, 16)
 	End Function
 	Public Function start()
 		start = dm.ReadInt(hwnd, "<tthbn.bin>+ACD20", 0)
@@ -52,8 +52,8 @@ Class Tthbn
 		Wend
 		monster = sum
 	End Function
-	Public Function cash ()
-		cash = dm.ReadInt(hwnd, "<tthbn.bin>+109A5C", 0) / 10 ^ 6
+	Public Function cash()
+		cash = dm.ReadInt(hwnd, "<tthbn.bin>+1097AC", 0) / 10 ^ 6
 	End Function
 	Public Function deposit()
 		deposit = dm.ReadInt(hwnd, "<tthbn.bin>+AFCB8", 0)
@@ -72,7 +72,7 @@ Class Tthbn
 	End Function
 	
 	Public Function getMsg()
-		getMsg = dm.ReadString(hwnd, "<tthbn.bin>+10A758", 0, 115)
+		getMsg = dm.ReadString(hwnd, "<tthbn.bin>+10A4A8", 0, 115)
 	End Function
 	
 	Public Function getMonster()
@@ -92,11 +92,11 @@ Class Tthbn
 	Public Function findNPC(name)
 		Dim keys
 		keys = array(array("name", 12),array("id", 4), array("sn", 0))
-		set findNPC = getObjs(tthbn + &H105820, tthbn + &H1118B0, 32, array(name), keys)(0)
+		set findNPC = getObjs(tthbn + &H105570, tthbn + &H111600, 32, array(name), keys)(0)
 	End Function
 	
 	Public Function getBag(names)
-		getBag = getItems(tthbn + &H102148, tthbn + &H1118B4, names)
+		getBag = getItems(tthbn + &H101E98, tthbn + &H111604, names)
 	End Function
 	
 	Public Function getBank(names)
@@ -116,7 +116,7 @@ Class Tthbn
 	End Function
 	 
 	'1開始 2對話 45678選項
-	Function talkOption(npc, arr)
+	Public Function talkOption(npc, arr)
 		For Each a In arr
 			If a = 0 Then 
 				Delay 500
@@ -127,7 +127,7 @@ Class Tthbn
 		Next
 	End Function
 	
-	Function stops()
+	Public Function stops()
 		dm.AsmClear 
 		dm.AsmAdd "mov ecx,[" + HEX(ttha + &H4EF82C) + "]"
 		dm.AsmAdd "mov ecx,[ecx+98]"
@@ -137,23 +137,21 @@ Class Tthbn
 	
 	Public Function learn(code)
 		code = split(code, chr(9))
-		for i = 1 to code(1)
-			simpleCall hwnd, tthbn + &H2BA10, array(i,code(0))
-		Next
+		simpleCall hwnd, tthbn + &H2BA10, array(code(1),code(0))
 	End Function
 	
 	Public Function trades(buyer, keywords, ByVal cnt)
-		dim bag : bag = getBag(keywords)
+		dim bag : bag = t.getBag(keywords)
 		For i = 0 To UBound(bag)
 			Set item = bag(i)
 			itemCnt = item.item("cnt") 
 			if cnt = -1 Then
-				trade buyer, item, itemCnt
+				t.trade buyer, item, itemCnt
 			elseif itemCnt - cnt >= 0 then
-				trade buyer, item, cnt
+				t.trade buyer, item, cnt
 				exit for
 			else
-				trade buyer, item, itemCnt
+				t.trade buyer, item, itemCnt
 				cnt = cnt - itemCnt
 			end if
 		Next
@@ -165,15 +163,16 @@ Class Tthbn
 		end if
 
 		bTthbn = dm.GetModuleBaseAddr(buyer, "tthbn.bin")
-		sAddr = clng("&H" & dm.FindString(buyer, HEX(bTthbn + &HE9788) & "-" & HEX(bTthbn + &HE9788 + &H7850), id, 0)) - 16
+		sAddr = clng("&H" & dm.FindString(buyer, HEX(bTthbn + &HE94D8) & "-" & HEX(bTthbn + &HF0D28), id, 0)) - 16
 		sID = dm.ReadInt(buyer, HEX(sAddr), 0)
 
-		bName = dm.ReadString(buyer, "<tthbn.bin>+1099D0", 0, 16)
-		bAddr = clng("&H" & dm.FindString(hwnd, HEX(tthbn + &HE9788) & "-" & HEX(tthbn + &HE9788 + &H7850), bName, 0)) - 16
+		bName = dm.ReadString(buyer, "<tthbn.bin>+109720", 0, 16)
+		bAddr = clng("&H" & dm.FindString(hwnd, HEX(tthbn + &HE94D8) & "-" & HEX(tthbn + &HF0D28), bName, 0)) - 16
 		bID = dm.ReadInt(hwnd, HEX(bAddr), 0)
 		
 		sn = item.item("sn")
-		iID = item.item("id")				
+		iID = item.item("id")
+		'TracePrint sn & "-" & cnt					
 		simpleCall hwnd, tthbn + &H27030, array(bID, &HEA64)	' 邀請	
 		simpleCall buyer, bTthbn + &H27200, array(sID, &HEA64)	' 接受	
 		simpleCall hwnd, tthbn + &H273D0, array(cnt, sn, iID)	' 交付	
@@ -224,7 +223,7 @@ Class Tthbn
 	End Function
 	
 	Public Function openBank()
-		Set npc = findNPC("伙計")
+		Set npc = t.findNPC("伙計")
 		simpleCall hwnd, tthbn + &H24470, array(npc.item("sn"),npc.item("id"))
 	End Function
 	
@@ -292,6 +291,13 @@ Class Tthbn
 		codes(3) = "call 0" + HEX(tthbn + &H26180)
 		codes(4) = "jmp ttha.bin+67396"
 		Call inAsm("ttha.bin+6738B", codes)
+	End Function
+	
+	Public function updateItem(name, action)
+		dim id
+		id = dm.ReadIni("id", name, ".\item.ini")
+		action = split(dm.ReadIni("action", action, ".\item.ini"),",")
+		simpleCall hwnd, tthbn + 57568, array(action(1), action(0), id)
 	End Function
 	
 	'hwnd
@@ -523,7 +529,7 @@ Class Tthbn
 		For i = 0 to cnt
 			' 製作物件
 			Set obj = CreateObject("Scripting.Dictionary")
-			obj.add "no", i
+			obj.add "no", i+1
 			For Each key In keys
 				If key(0) = "name" Then 
 					obj.add key(0), dm.ReadString(hwnd, HEX(addr + length * i + key(1)), 0, 16)
