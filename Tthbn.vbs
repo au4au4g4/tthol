@@ -116,7 +116,7 @@ Class Tthbn
 	End Function
 	 
 	'1開始 2對話 45678選項
-	Function talkOption(npc, arr)
+	Public Function talkOption(npc, arr)
 		For Each a In arr
 			If a = 0 Then 
 				Delay 500
@@ -127,7 +127,7 @@ Class Tthbn
 		Next
 	End Function
 	
-	Function stops()
+	Public Function stops()
 		dm.AsmClear 
 		dm.AsmAdd "mov ecx,[" + HEX(ttha + &H4EF82C) + "]"
 		dm.AsmAdd "mov ecx,[ecx+98]"
@@ -291,6 +291,13 @@ Class Tthbn
 		codes(3) = "call 0" + HEX(tthbn + &H26180)
 		codes(4) = "jmp ttha.bin+67396"
 		Call inAsm("ttha.bin+6738B", codes)
+	End Function
+	
+	Public function updateItem(name, action)
+		dim id
+		id = dm.ReadIni("id", name, ".\item.ini")
+		action = split(dm.ReadIni("action", action, ".\item.ini"),",")
+		simpleCall hwnd, tthbn + 57568, array(action(1), action(0), id)
 	End Function
 	
 	'hwnd
