@@ -23,26 +23,17 @@ SetupOCXFile=
 [Comment]
 
 [Script]
+Import "Tthbn.vbs" : Set t = New Tthbn
 Set dm = createobject("dm.dmsoft")
 
-itemActions = split(dm.GetClipboard(), chr(10))
+itemActions = split(dm.GetClipboard(), chr(13) & chr(10))
 hwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1 + 4 + 8 + 16), ",")
 For Each hwnd In hwnds
-	base = dm.GetModuleBaseAddr(hwnd, "tthbn.bin")
-	range = HEX(base + &HC13D0) & "-" & HEX(base + &HE4FE0)
+	t.init hwnd
 	For Each itemAction In itemActions
-		If itemAction <> "" Then 
-    		itemAction = split(itemAction, ",")
-    		id = "&H" & itemAction(0)
-    		result = dm.FindInt(hwnd, range, id, id, 0)
-    		If (len(result) = 0) + (InStr(result, "|") <> 0) Then 
-    			TracePrint len(result)
-				TracePrint "錯誤|" & itemAction(0)
-			Else 
-				dm_ret = dm.WriteInt(hwnd, HEX(clng("&H"&result) + 4), 0, itemAction(1))
-				dm_ret = dm.WriteInt(hwnd, HEX(clng("&H"&result) + 8), 0, itemAction(2))
-			End If	
+		If itemAction <> "" Then 		
+    		itemAction = split(itemAction, " ")
+    		t.updateItem itemAction(0), itemAction(1)
 		End If
 	Next
 Next
-Beep
