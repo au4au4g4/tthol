@@ -23,8 +23,8 @@ SetupOCXFile=
 [Comment]
 
 [Script]
-Import "Tthbn.vbs" : Set t = New Tthbn
-Import "Util.vbs" : Set u = New Util
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
+Import "QMScript/Util.vbs" : Set u = New Util
 Public Declare Function timeGetTime Lib "winmm.dll" () As Long
 
 Dim datas : datas = array()

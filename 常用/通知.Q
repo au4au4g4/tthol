@@ -25,14 +25,15 @@ SetupOCXFile=
 [Script]
 Set dm = createobject("dm.dmsoft")
 Set http = createObject("winhttp.winhttprequest.5.1")
-Import "Tthbn.vbs" : Set t = New Tthbn
-Import "Util.vbs" : Set u = New Util
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
+Import "QMScript/Util.vbs" : Set u = New Util
 
 hwnd = t.getHwnd()
 t.init(hwnd)
 While true
 	str = t.getMsg()
 	If (last <> str) * instr(str, " ±K§A¡G") Then 
+		TracePrint str
 		u.pushMsg str
 		last = str
 	End If

@@ -24,7 +24,7 @@ SetupOCXFile=
 
 [Script]
 Set dm = createobject("dm.dmsoft")
-Import "Tthbn.vbs" : Set t = New Tthbn
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 hwnd = t.getHwnd()
 t.init hwnd
 

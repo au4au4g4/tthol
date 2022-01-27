@@ -28,11 +28,11 @@ UEsDBBQAAgAIANgDnlPb5pEtrgMAAAgmAAAJABEAVUlQYWNrYWdlVVQNAAe0/cxhtP3MYbT9zGHtWUtP
 
 [Script]
 Set dm = createobject("dm.dmsoft")
-//Import "Tthol.vbs" : Set t = New Tthol
+//Import "QMScript/Tthol.vbs" : Set t = New Tthol
 //hwnd = dm.FindWindow("_UJONLINE_", "Tthol")
 //dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
 hwnd = dm.FindWindow("", "絕代方程式")
-Import "Tthbn.vbs" : Set t = New Tthbn
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 t.init hwnd
 
 hwnds = t.getPartHwnds()

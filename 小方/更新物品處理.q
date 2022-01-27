@@ -23,7 +23,7 @@ SetupOCXFile=
 [Comment]
 
 [Script]
-Import "Tthbn.vbs" : Set t = New Tthbn
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 Set dm = createobject("dm.dmsoft")
 
 itemActions = split(dm.GetClipboard(), chr(13) & chr(10))

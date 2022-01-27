@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=feadbf3e-88a7-4d9f-9194-1b44adb98e71
 Description=¾Ç§Þ¯à
-Enable=1
+Enable=0
 AutoRun=0
 [Repeat]
 Type=0
@@ -24,7 +24,7 @@ SetupOCXFile=
 
 [Script]
 Set dm = createobject("dm.dmsoft")
-Import "Tthbn.vbs" : Set t = New Tthbn
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
  
 hwnds = t.getPartHwnds()
 'hwnds = array(t.getHwnd)

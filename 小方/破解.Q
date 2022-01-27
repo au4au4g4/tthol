@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=21bf90ac-ccf2-4fb6-90c9-23cb0b5d4566
 Description=¯}¸Ñ
-Enable=1
+Enable=0
 AutoRun=0
 [Repeat]
 Type=0
@@ -25,7 +25,7 @@ SetupOCXFile=
 [Script]
 Private Declare Function GetDesktopWindow Lib "user32" () As Long
 Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal Hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
-Import "Tthbn.vbs" : Set t = New Tthbn
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 Set re = New RegExp
 Set dm = createobject("dm.dmsoft")
 
@@ -34,11 +34,12 @@ hwnds = array(t.getHwnd())
 For each hwnd in hwnds
 	t.init hwnd
 	t.crack
-	t.moveSpeed(110)
-	t.atkRange(4)
-	t.atkSpeed(100)
-	t.addHP
-	t.addMP
-	t.defBuff(1)
-	t.reLoginMin(2)
+//	t.moveSpeed(110)
+//	t.atkRange(6)
+//	t.atkSpeed(100)
+//	t.addHP
+//	t.addMP
+//	t.defBuff(1)
+//	t.reLoginMin(2)
+	t.fixbank
 Next

@@ -23,7 +23,7 @@ SetupOCXFile=
 [Comment]
 
 [Script]
-Import "Tthbn.vbs" : Set t = New Tthbn
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 
 hwnds = t.getArrHwnds("子夜 日旦 日始 日夕 日禺 日中 日央 日沉 夕食 人靜 幼姬")
 While True
