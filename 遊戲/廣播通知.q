@@ -24,8 +24,7 @@ SetupOCXFile=
 
 [Script]
 Set dm = createobject("dm.dmsoft")
-Import "VbsJson.vbs"
-Set json = New vbsJson
+Import "QMScript/VbsJson.vbs" : Set json = New vbsJson
 Set http = createObject("winhttp.winhttprequest.5.1")
 
 hwnd = dm.GetForegroundWindow()

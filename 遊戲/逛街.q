@@ -24,8 +24,8 @@ SetupOCXFile=
 
 [Script]
 Set dm = createobject("dm.dmsoft")
-Import "Tthol.vbs" : Set t = New Tthol
-Import "Util.vbs" : Set u = New Util
+Import "QMScript/Tthol.vbs" : Set t = New Tthol
+Import "QMScript/Util.vbs" : Set u = New Util
 
 hwnd = dm.FindWindow("", "Tthol")
 t.init (hwnd)
