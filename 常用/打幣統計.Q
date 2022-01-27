@@ -27,6 +27,7 @@ Import "Tthbn.vbs" : Set t = New Tthbn
 Import "Util.vbs" : Set u = New Util
 Public Declare Function timeGetTime Lib "winmm.dll" () As Long
 
+Dim datas : datas = array()
 hwnds = t.getAllHwnds()
 For Each hwnd In hwnds
 	t.init(hwnd)
