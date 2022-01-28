@@ -35,7 +35,7 @@ While true
 	For i = 0 To UBound(bag)		
   		Set item = bag(i)
   		name = item.Item("name")
-  		price = dm.ReadIni("sale", name, ".\shop.ini")
+  		price = dm.ReadIni("sale", name, ".\QMScript\shop.ini")
   		If price = "" Then
   			dm.WriteIni "not_for_sale", name, "99", ".\shop.ini"
   		ElseIf count < 15 Then
