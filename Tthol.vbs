@@ -240,6 +240,7 @@ Class Tthol
 		end if
 	End Function
 	
+	'穿裝
 	Public Function wear(eqpt)
 		dim no,id,sn
 		no = eqpt.item("no")
@@ -268,6 +269,7 @@ Class Tthol
 		End If
 	End Function
 	
+	'學技能
 	Public function learnSkills(codes)
 		For Each code In codes
 			learnSkill (HEX(code(0)*100 + code(1)))
@@ -275,6 +277,7 @@ Class Tthol
 		Next
 	end Function
 	
+	'學技能
 	Public function learnSkill(code)
 		dm.AsmClear 
 		dm.AsmAdd "mov eax,0" & code
@@ -282,6 +285,7 @@ Class Tthol
 		dm.AsmCall hwnd, 1
 	end Function
 	
+	'移除技能
 	Public function reomveSkill(code)
 		dm.AsmClear 
 		dm.AsmAdd "mov eax,0" & code
@@ -330,6 +334,26 @@ Class Tthol
 		dm.AsmAdd "push " & HEX(dm.ReadInt(hwnd, "[<tthola.dat>+3ED97C]+10", 0))
 		dm.AsmAdd "call 00489C60"
 		dm.AsmCall hwnd, 1	
+	End Function
+	
+	'領取
+	Public Function pop(item)
+		Dim id, no, sn, amount
+		id = item.item("id")
+		no = item.item("no")
+		sn = item.item("sn")
+		amount = item.item("amount")
+		send "34","B",array(no,id,0,sn,0,amount),array(2,2,2,2,8,2)
+	End Function
+
+	'存入
+	Public Function push(item)
+		Dim id, no, sn, amount
+		id = item.item("id")
+		no = item.item("no")
+		sn = item.item("sn")
+		amount = item.item("amount")
+		send "32","B",array(no,id,0,sn,0,amount),array(2,2,2,2,8,2)
 	End Function
 		
 	' 登入
@@ -474,7 +498,7 @@ Class Tthol
 	End Function
 	
 	Private Function send(cid,pid,datas,lens)
-		dim j : j = 0
+		dim i, j : j = 0
 		dm.AsmClear 
 		dm.AsmAdd "sub esp,0"& HEX(UBound(lens)*4+4)
 		dm.AsmAdd "lea ebx,[esp]"
