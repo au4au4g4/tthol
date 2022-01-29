@@ -116,7 +116,7 @@ Class Tthbn
 	End Function
 	 
 	'1開始 2對話 45678選項
-	Function talkOption(npc, arr)
+	Public Function talkOption(npc, arr)
 		For Each a In arr
 			If a = 0 Then 
 				Delay 500
@@ -127,7 +127,7 @@ Class Tthbn
 		Next
 	End Function
 	
-	Function stops()
+	Public Function stops()
 		dm.AsmClear 
 		dm.AsmAdd "mov ecx,[" + HEX(ttha + &H4EF82C) + "]"
 		dm.AsmAdd "mov ecx,[ecx+98]"
