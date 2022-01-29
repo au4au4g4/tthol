@@ -32,7 +32,7 @@ While true
 	addr = t.getMainAddr()
 	While addr <> 0
 		level = dm.ReadInt(hwnd, "[" & HEX(addr + 924) & "]+EA", 0)
-		If (level > 140) * (level < 201) Then 
+		If level > 1 Then 
 			name = dm.ReadString(hwnd, HEX(addr + 484), 0, 16)
 			If dm.ReadIni("list", name, ".\list.ini") = "" Then 
 				family = dm.ReadString(hwnd, HEX(addr + 545), 0, 16)

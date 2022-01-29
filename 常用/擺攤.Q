@@ -28,7 +28,7 @@ Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 hwnd = t.getHwnd()
 t.init hwnd
 
-While true
+//While true
 	t.closeShop 	
 	count = 0
 	bag = t.getBag(array(""))
@@ -45,8 +45,8 @@ While true
 		End If
 	Next
 	t.openShop
-	Delay 60*60000
-Wend
+//	Delay 60*60000
+//Wend
 
 
 
