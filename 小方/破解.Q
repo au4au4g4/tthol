@@ -33,12 +33,13 @@ hwnds = array(t.getHwnd())
 //hwnds = t.getAllHwnds()
 For each hwnd in hwnds
 	t.init hwnd
-	t.crack
-	t.moveSpeed(110)
-	t.atkRange(4)
-	t.atkSpeed(100)
-	t.addHP
-	t.addMP
-	t.defBuff(1)
-	t.reLoginMin(2)
+//	t.crack
+//	t.moveSpeed(110)
+	t.atkRange(6)
+//	t.atkSpeed(100)
+//	t.addHP
+//	t.addMP
+//	t.defBuff(1)
+//	t.reLoginMin(2)
+//	t.fixbank
 Next

@@ -29,11 +29,11 @@ hwnd = dm.FindWindow("", "Tthol")
 t.init(hwnd)
 
 Set bag = t.getItems("bag")
+
 For i = 0 To bag.Count - 1
   	Set item = bag.GetByIndex(i)
   	iID = item.Item("id")
 	cID = dm.ReadIni("compound", HEX(iID), ".\shop.ini")
-	TracePrint cID
 	If cID <> "" Then 
 		t.compound cID, item.Item("addr")
 	End If

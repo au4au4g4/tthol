@@ -26,7 +26,6 @@ SetupOCXFile=
 Set dm = createobject("dm.dmsoft")
 Import "Util.vbs" : Set u = New Util
 Import "Tthbn.vbs" : Set t = New Tthbn
-UserVar clear=DropList{"是":1|"否":0}=1 "清空"
 
 VBSBegin
 itemTable = array()
@@ -44,9 +43,8 @@ For Each hwnd In hwnds
 	arrayToTable reward, statisticsTable, array("id","name", "cnt"), array(t.id, "物品")
 Next
 
-task1 = array("盤點", clear, itemTable)
-task2 = array("統計", clear, statisticsTable)
-u.postTasks(array(task1,task2))
+u.post "盤點", itemTable
+'u.post "統計", statisticsTable
 
 Function arrayToTable(arr, table, keys, tails)
 	Dim row
@@ -54,7 +52,8 @@ Function arrayToTable(arr, table, keys, tails)
 		row = array()
 		Set item = arr(i)
 		For Each key In keys
-			Redim Preserve row(UBound(row) + 1) : row(UBound(row)) = item.item(key)
+			Redim Preserve row(UBound(row) + 1)
+			row(UBound(row)) = item.item(key)
 		Next
 		For Each tail In tails
 			Redim Preserve row(UBound(row) + 1) : row(UBound(row)) = tail
