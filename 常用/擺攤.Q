@@ -24,7 +24,7 @@ SetupOCXFile=
 
 [Script]
 Set dm = createobject("dm.dmsoft")
-Import "Tthbn.vbs" : Set t = New Tthbn
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 hwnd = t.getHwnd()
 t.init hwnd
 
@@ -32,19 +32,20 @@ While true
 	t.closeShop 	
 	count = 0
 	bag = t.getBag(array(""))
-	For i = 0 To UBound(bag)
+	For i = 0 To UBound(bag)		
   		Set item = bag(i)
   		name = item.Item("name")
   		price = dm.ReadIni("sale", name, ".\shop.ini")
   		If price = "" Then
   			dm.WriteIni "not_for_sale", name, "99", ".\shop.ini"
   		ElseIf count < 15 Then
+  			
 			t.addItem price * 1000000, item.Item("cnt"), item.Item("no")
 			count = count + 1
 		End If
 	Next
 	t.openShop
-	Delay 10*60000
+	Delay 60*60000
 Wend
 
 

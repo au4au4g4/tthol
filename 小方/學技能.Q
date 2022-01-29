@@ -24,14 +24,15 @@ SetupOCXFile=
 
 [Script]
 Set dm = createobject("dm.dmsoft")
-Import "Tthbn.vbs" : Set t = New Tthbn
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
  
 hwnds = t.getPartHwnds()
+'hwnds = array(t.getHwnd)
 skills = split(Replace(dm.GetClipboard(), """", ""), chr(10))
 For Each hwnd In hwnds
 	t.init (hwnd)
 	For Each skill In skills
 		t.learn(skill)
-		Delay 300
+		Delay 100
 	Next
 Next

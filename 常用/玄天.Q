@@ -24,14 +24,16 @@ SetupOCXFile=
 
 [Script]
 Set dm = createobject("dm.dmsoft")
-Import "Tthbn.vbs" : Set t = New Tthbn
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 
 hwnds = t.getAllHwnds()
 While True
 	For Each hwnd In hwnds
 		t.init (hwnd)
-		If t.location > 1703 and t.location < 1710 Then 
-			t.talkNPC
+		If t.place = "神武玄天塔" Then 
+			t.talkNPC 
+		elseif t.place = "玄天之境"then
+			t.stops
 		End If
 	Next
 	Delay 1000

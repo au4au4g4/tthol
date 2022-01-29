@@ -24,8 +24,8 @@ SetupOCXFile=
 
 [Script]
 Set dm = createobject("dm.dmsoft")
-Import "Util.vbs" : Set u = New Util
-Import "Tthbn.vbs" : Set t = New Tthbn
+Import "QMScript/Util.vbs" : Set u = New Util
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 
 VBSBegin
 itemTable = array()
