@@ -163,7 +163,6 @@ Class Tthbn
 		if hwnd - buyer = 0 then
 			exit Function
 		end if
-
 		bTthbn = dm.GetModuleBaseAddr(buyer, "tthbn.bin")
 		sAddr = clng("&H" & dm.FindString(buyer, HEX(bTthbn + &HE9788) & "-" & HEX(bTthbn + &HE9788 + &H7850), id, 0)) - 16
 		sID = dm.ReadInt(buyer, HEX(sAddr), 0)
@@ -173,7 +172,7 @@ Class Tthbn
 		bID = dm.ReadInt(hwnd, HEX(bAddr), 0)
 		
 		sn = item.item("sn")
-		iID = item.item("id")				
+		iID = item.item("id")	
 		simpleCall hwnd, tthbn + &H27030, array(bID, &HEA64)	' 邀請	
 		simpleCall buyer, bTthbn + &H27200, array(sID, &HEA64)	' 接受	
 		simpleCall hwnd, tthbn + &H273D0, array(cnt, sn, iID)	' 交付	
@@ -514,7 +513,7 @@ Class Tthbn
 		For Each p In parameters
 			dm.AsmAdd "push 0" & HEX(p)
 		Next
-		dm.AsmAdd "call " + HEX(addr)
+		dm.AsmAdd "call 0" + HEX(addr)
 		dm.AsmCall hwnd, 1
 		Delay 100
 	End Function
