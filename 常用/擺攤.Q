@@ -28,14 +28,14 @@ Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 hwnd = t.getHwnd()
 t.init hwnd
 
-While true
+//While true
 	t.closeShop 	
 	count = 0
 	bag = t.getBag(array(""))
 	For i = 0 To UBound(bag)		
   		Set item = bag(i)
   		name = item.Item("name")
-  		price = dm.ReadIni("sale", name, ".\shop.ini")
+  		price = dm.ReadIni("sale", name, ".\QMScript\shop.ini")
   		If price = "" Then
   			dm.WriteIni "not_for_sale", name, "99", ".\shop.ini"
   		ElseIf count < 15 Then
@@ -45,8 +45,8 @@ While true
 		End If
 	Next
 	t.openShop
-	Delay 60*60000
-Wend
+//	Delay 60*60000
+//Wend
 
 
 
