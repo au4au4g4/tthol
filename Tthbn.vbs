@@ -300,6 +300,10 @@ Class Tthbn
 		simpleCall hwnd, tthbn + 57568, array(action(1), action(0), id)
 	End Function
 	
+	Public function reset()
+		simpleCall hwnd, tthbn + 61248, array()
+	End Function
+	
 	'hwnd
 	Public Function getAllHwnds()
 		getAllHwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1+4), ",")
