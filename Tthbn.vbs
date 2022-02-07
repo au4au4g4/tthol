@@ -30,7 +30,7 @@ Class Tthbn
 		level = dm.ReadInt(hwnd, "<tthbn.bin>+10A6C0", 1)
 	End Function
 	Public Function money()
-		money = dm.ReadInt(hwnd, "<tthbn.bin>+ACD24", 0) / 10 ^ 6
+		money = dm.ReadInt(hwnd, "<tthbn.bin>+ACD24", 0)
 	End Function	
 	Public Function expp()
 		expp = dm.ReadInt(hwnd, "<tthbn.bin>+ACD28", 0) / 10 ^ 6
@@ -53,7 +53,7 @@ Class Tthbn
 		monster = sum
 	End Function
 	Public Function cash ()
-		cash = dm.ReadInt(hwnd, "<tthbn.bin>+109A5C", 0) / 10 ^ 6
+		cash = dm.ReadInt(hwnd, "<tthbn.bin>+109A5C", 0)
 	End Function
 	Public Function deposit()
 		deposit = dm.ReadInt(hwnd, "<tthbn.bin>+AFCB8", 0)
