@@ -355,6 +355,12 @@ Class Tthol
 		amount = item.item("amount")
 		send "32","B",array(no,id,0,sn,0,amount),array(2,2,2,2,8,2)
 	End Function
+	
+	Public Function ad(str)
+		dm_ret = dm.WriteString(hwnd, "[[<tthola.dat>+003ED978]+10]+35A8", 0, str)
+		dm.AsmCall hwnd,1
+		send "7F","29",array(),array()
+	End Function
 		
 	' 登入
 	Public Function login1(id,pwd)
