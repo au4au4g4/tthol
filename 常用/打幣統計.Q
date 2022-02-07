@@ -33,7 +33,7 @@ For Each hwnd In hwnds
 	t.init(hwnd)
 	period = (timeGetTime() - t.start) / 60 / 60 / 1000
 	Redim Preserve datas(ubound(datas) + 1)
-	datas(ubound(datas)) = array(t.id, t.level, t.place, period, t.monster, t.expp, t.money, t.cash)
+	datas(ubound(datas)) = array(t.id, t.level, t.place, period, t.monster, t.expp, t.money + t.deposit, t.cash + t.deposit)
 Next
 u.post "±¾¾÷", datas
 
