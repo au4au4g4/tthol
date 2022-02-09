@@ -33,8 +33,8 @@ r = 2
 
 three = array(110, 7, 1, array("SnowFlakes", "FrozenBubbles", "SnowRollers","safedepositbox"))
 sky = array(110, 7, 1, array("tongxia", "xingzhi", "cangcui", "fenxue", "qiuyun", "yaolan", "yuanxiang", "yunmiao", "guiyan", "daohua"))
-bad = array(110, 2, 1, array("Hydrogenn", "Nitrogenn", "Oxygenn", "Fluorine", "Helium", "Neonnn", "Argonn", "Krypton", "Xenonn", "Radonn"))
-kylinkid = array(210, 6, 1, array("PersonalC", "ersonalCo", "rsonalCom", "sonalComp", "onalCompu", "nalComput", "alCompute", "lComputer", "ComputerCo", "omputerCom"))
+bad = array(110, 7, 1, array("Hydrogenn", "Nitrogenn", "Oxygenn", "Fluorine", "Helium", "Neonnn", "Argonn", "Krypton", "Xenonn", "Radonn"))
+kylinkid = array(210, 7, 1, array("PersonalC", "ersonalCo", "rsonalCom", "sonalComp", "onalCompu", "nalComput", "alCompute", "lComputer", "ComputerCo", "omputerCom"))
 
 fox  = array(110, 7, 1, array("ef7a82","eaff56","ca6924","a4e2c6","b0a4e3","e4c6d0","e3f9fd","afdd22","a2cc8c","f1c143"))
 kylin  = array(110, 7, 1, array("tzuyeh","rihdan","posiao","jihhsi","riiyuu","jhongrih","yangrih","chenrih","puurih","renjing"))
