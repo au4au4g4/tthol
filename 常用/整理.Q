@@ -53,16 +53,18 @@ For Each task In tasks
 			For Each hwnd In sellers
 				Call dm.WriteData(hwnd, "<tthbn.bin>+24EA8", "EB0C")
 				t.init hwnd
-//				While (t.deposit + t.cash) > 1000000
-//					t.withdrawal (99999999 - t.cash)
-//					t.withdrawal (t.deposit)
+				t.openbank 
+				Delay 200
+				While (t.deposit + t.cash) > 1000000
+					t.withdrawal (99999999 - t.cash)
+					t.withdrawal (t.deposit)
 					Set coin = CreateObject("Scripting.Dictionary")
 					coin.add "id", &H5e16
-					coin.add "cnt", int(t.cash)
+					coin.add "cnt", int(t.cash/1000000)
 					Set npc = t.findNPC("Åw³ß")
 					t.talkOption npc.item("id"), array(1,5)
 					t.buy npc, coin	
-//				Wend
+				Wend
 				Call dm.WriteData(hwnd, "<tthbn.bin>+24EA8", "8B45")
 			Next
 	End Select

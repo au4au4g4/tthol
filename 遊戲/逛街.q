@@ -67,3 +67,4 @@ Function readShop(list)
 	Next
 	readShop = list
 End Function
+

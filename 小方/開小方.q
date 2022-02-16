@@ -31,14 +31,16 @@ h = dm.getscreenheight() - 40
 c = 5
 r = 2
 
-three = array(110, 3, 1, array("SnowFlakes", "FrozenBubbles", "SnowRollers","safedepositbox"))
-sky = array(110, 3, 1, array("tongxia", "xingzhi", "cangcui", "fenxue", "qiuyun", "yaolan", "yuanxiang", "yunmiao", "guiyan", "daohua"))
-fox  = array(110, 3, 1, array("ef7a82","eaff56","ca6924","a4e2c6","b0a4e3","e4c6d0","e3f9fd","afdd22","a2cc8c","f1c143"))
-kylin  = array(110, 4, 1, array("tzuyeh","rihdan","posiao","jihhsi","riiyuu","jhongrih","yangrih","chenrih","puurih","renjing"))
-bad =  array(110, 2, 1, array("Hydrogenn", "Nitrogenn", "Oxygenn", "Fluorine", "Helium", "Neonnn", "Argonn", "Krypton", "Xenonn", "Radonn"))
-flower =  array(250, 10, 1, array("hwasheng","jhihma","lianru","heitang","fongni","hungtou","mochaa","cisihh","haitai","chaiyu"))
+three = array(110, 7, 1, array("SnowFlakes", "FrozenBubbles", "SnowRollers","safedepositbox"))
+sky = array(110, 7, 1, array("tongxia", "xingzhi", "cangcui", "fenxue", "qiuyun", "yaolan", "yuanxiang", "yunmiao", "guiyan", "daohua"))
+bad = array(110, 7, 1, array("Hydrogenn", "Nitrogenn", "Oxygenn", "Fluorine", "Helium", "Neonnn", "Argonn", "Krypton", "Xenonn", "Radonn"))
+kylinkid = array(210, 7, 1, array("PersonalC", "ersonalCo", "rsonalCom", "sonalComp", "onalCompu", "nalComput", "alCompute", "lComputer", "ComputerCo", "omputerCom"))
 
-teams = array(three)
+fox  = array(110, 7, 1, array("ef7a82","eaff56","ca6924","a4e2c6","b0a4e3","e4c6d0","e3f9fd","afdd22","a2cc8c","f1c143"))
+kylin  = array(110, 7, 1, array("tzuyeh","rihdan","posiao","jihhsi","riiyuu","jhongrih","yangrih","chenrih","puurih","renjing"))
+flower =  array(210, 7, 1, array("hwasheng","jhihma","lianru","heitang","fongni","hungtou","mochaa","cisihh","haitai","chaiyu"))
+
+teams = array(sky,bad,kylinkid)
 
 windowCnt = UBound(t.getAllHwnds())
 For j = 0 To UBound(teams)
