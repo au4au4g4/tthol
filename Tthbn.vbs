@@ -355,7 +355,7 @@ Class Tthbn
 		addHP()
 		addMP()
 		defBuff(def)
-		reLoginMin(2)
+		reLoginMin(4)
 	End Function
 	
 	Public Function crack()
