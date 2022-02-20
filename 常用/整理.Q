@@ -67,5 +67,11 @@ For Each task In tasks
 				Wend
 				Call dm.WriteData(hwnd, "<tthbn.bin>+24EA8", "8B45")
 			Next
+		Case "a"
+    		sellers = t.getPartHwnds()
+			For Each hwnd In sellers
+    			t.init hwnd
+        		t.apply keywords(1)
+			Next
 	End Select
 Next
