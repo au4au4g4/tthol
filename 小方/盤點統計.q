@@ -31,16 +31,17 @@ VBSBegin
 itemTable = array()
 statisticsTable = array()
 hwnds = t.getAllHwnds()
+'hwnds = array(t.getHwnd)
 For Each hwnd In hwnds
-	t.init (hwnd)
+	t.init hwnd
 	bag = t.getBag(array(""))
 	bank = t.getBank(array(""))
-	monster = t.getMonster()
-	reward = t.getReward()
 	arrayToTable bag, itemTable, array("id", "name", "cnt"), array(t.id, "背包")
 	arrayToTable bank, itemTable, array("id", "name", "cnt"), array(t.id, "錢莊")
-	arrayToTable monster, statisticsTable, array("id", "name", "cnt"), array(t.id, "怪物")
-	arrayToTable reward, statisticsTable, array("id","name", "cnt"), array(t.id, "物品")
+	'monster = t.getMonster()
+	'reward = t.getReward()
+	'arrayToTable monster, statisticsTable, array("id", "name", "cnt"), array(t.id, "怪物")
+	'arrayToTable reward, statisticsTable, array("id","name", "cnt"), array(t.id, "物品")
 Next
 
 u.post "盤點", itemTable
