@@ -2,9 +2,10 @@ Class Tthol
 
 	Private dm,hwnd
 	
-    Public default function Init(p_hwnd)
-		hwnd = p_hwnd
+    Public default function Init()
 		Set dm = createobject("dm.dmsoft")
+		hwnd = dm.FindWindow("_UJONLINE_", "Tthol")
+		dm_ret = dm.BindWindow(hwnd,"normal","normal","normal",0)
 		Call dm.WriteInt(hwnd, "<tthola.dat>+36B3FC", 0, 150)
     End function
 
@@ -240,6 +241,15 @@ Class Tthol
 		end if
 	End Function
 	
+	Public Function transBySN(sn)
+		dim portal
+		set portal = getNpc(array(array(302, &H65),array(306, sn)))
+		no = portal.item("no")
+		if portal.count > 0 Then
+			send "28","B",array(3,no,&H65,sn),array(1,2,4,4)
+		end if
+	End Function
+	
 	'穿裝
 	Public Function wear(eqpt)
 		dim no,id,sn
@@ -255,7 +265,7 @@ Class Tthol
 		dm.AsmAdd "mov ecx ,[ecx+10]"
 		dm.AsmAdd "mov ecx ,[ecx+3C]"		
 		dm.AsmAdd "add ecx ,2A0"
-		dm.AsmAdd "push " & (no-1)
+		dm.AsmAdd "push 0" & (no-1)
 		dm.AsmAdd "call 00435180"
 		dm.AsmCall hwnd, 1
 	End Function
@@ -330,8 +340,8 @@ Class Tthol
 	' 普攻
 	Public Function atk(monster)
 		dm.AsmClear 
-		dm.AsmAdd "push " & HEX(monster.item("key"))
-		dm.AsmAdd "push " & HEX(dm.ReadInt(hwnd, "[<tthola.dat>+3ED97C]+10", 0))
+		dm.AsmAdd "push 0" & HEX(monster.item("key"))
+		dm.AsmAdd "push 0" & HEX(dm.ReadInt(hwnd, "[<tthola.dat>+3ED97C]+10", 0))
 		dm.AsmAdd "call 00489C60"
 		dm.AsmCall hwnd, 1	
 	End Function
@@ -358,63 +368,55 @@ Class Tthol
 	
 	Public Function ad(str)
 		dm_ret = dm.WriteString(hwnd, "[[<tthola.dat>+003ED978]+10]+35A8", 0, str)
-		dm.AsmCall hwnd,1
 		send "7F","29",array(),array()
 	End Function
-		
-	' 登入
-	Public Function login1(id,pwd)
-		dm.AsmClear 
-		dm.AsmAdd "sub esp,30"
-		dm.AsmAdd "mov ecx, 65677774"
-		dm.AsmAdd "mov [esp], ecx"
-		dm.AsmAdd "mov ecx, 7361706E"
-		dm.AsmAdd "mov [esp+4], ecx"
-		dm.AsmAdd "mov ecx, 00190073"
-		dm.AsmAdd "mov [esp+8], ecx"
-		dm.AsmAdd "mov ecx, 386A6780"
-		dm.AsmAdd "mov [esp+14], ecx"	
-		dm.AsmAdd "mov ecx, 346A6433"
-		dm.AsmAdd "mov [esp+18], ecx"
-		dm.AsmAdd "mov ecx, 05570034"
-		dm.AsmAdd "mov [esp+1C], ecx"
-		
-		dm.AsmAdd "push 0"
-		dm.AsmAdd "push 2A"
-		dm.AsmAdd "push 0"
-
-		dm.AsmAdd "lea ebx,[esp+0C]"
-		dm.AsmAdd "mov ecx,00000003"		
-		dm.AsmAdd "call 0043EBD0"
-		dm.AsmAdd "add esp,30"
-		dm.AsmAdd "ret"
-		dm.AsmCall hwnd,1
+	
+	Public Function login(id,ps)
+		call dm.writeData(hwnd, "<tthola.dat>+39AB8", "B83C000000") '鎖伺服器
+		dm_ret = dm.WriteString(hwnd, "[[[<tthola.dat>+003EE04C]+16C]+124]", 0, id)
+		dm_ret = dm.WriteString(hwnd, "[[[<tthola.dat>+003EE04C]+168]+124]", 0, ps)
+		dm.MoveTo 543, 555
+		delay 100
+		dm.LeftClick
+		Delay 1000
 	End Function
 	
-	' 登入
-	Public Function login(id,pwd)
-		dm.AsmClear
-		dm_ret = dm.WriteString(hwnd,"0076C2C0",0,"gj83dj44")
-		dm.AsmAdd "mov ecx, 1704FBA0"
-		dm.AsmAdd "call 0439C40"
-		dm.AsmCall hwnd,1
-	End Function
-
-	Public Function socket()
+	Public Function logout()
 		dm.AsmClear 
-		dm.AsmAdd "mov ecx,[07EE054]"
-		dm.AsmAdd "mov edx,[07E97D0]"
-		dm.AsmAdd "mov eax,01"
-		dm.AsmAdd "imul eax,eax,3C"
-		dm.AsmAdd "add eax,ecx"
-		dm.AsmAdd "mov ecx,[edx+04]"
-		dm.AsmAdd "mov edx,[eax+30]"
-		dm.AsmAdd "push edx"
-		dm.AsmAdd "add eax,20"
-		dm.AsmAdd "push eax"
-		dm.AsmAdd "push ecx"
-		dm.AsmAdd "call 0596880"
-		dm.AsmCall hwnd,1
+		dm.AsmAdd "push 0"
+		dm.AsmAdd "push 0"
+		dm.AsmAdd "push 011E"
+		dm.AsmAdd "push 0" & HEX(read("[[<tthola.dat>+00238C30]+0]+140"))
+		dm.AsmAdd "mov ecx,0" & HEX(read("[<tthola.dat>+003ED97C]+10"))
+		dm.AsmAdd "call 004AB080"
+		dm.AsmCall hwnd, 1
+		Delay 1000		
+	End Function
+	
+	Public Function create(name)
+		dim i,big5 : big5 = ""
+		For i = 0 To len(name) - 1
+			big5 = big5 & HEX(asc(right(name,len(name)-i)))
+		Next
+	
+		' 創角
+		data = array(2, "1", 9, "14", 12, "214E", 39, big5, 144, "0502", 195, "6", 312, HEX(123+ramNum(0,6))&"71", 735, "1")
+		t.send1 "5", &H300, data
+		Delay 1000
+		
+		' 選角
+		dm.MoveTo 519,331
+		delay 100
+		dm.LeftClick
+		delay 100
+		dm.MoveTo 95, 438
+		delay 100
+		dm.LeftClick
+		delay 100
+
+		'data = array(0,"BF020000000000F6FEFFFFFFC8FC19005FD67175B06DFD000C2A6B7777D67175B0FC1900240000")
+		't.send1 "8", &H27, data
+		Delay 2000
 	End Function
 	
 	' ------------------------------記憶體------------------------------
@@ -522,4 +524,37 @@ Class Tthol
 		Delay 200
 	End Function
 	
+	Function send1(cid,length,data)
+		dim i,j,str
+		
+		dm.AsmClear 
+		dm.AsmAdd "sub esp,0"& HEX(length)
+		dm.AsmAdd "lea ebx,[esp]"
+	
+		For i = 0 To length - 1
+			dm.AsmAdd "mov cl,0"
+			dm.AsmAdd "mov [esp+0" & HEX(i) & "],cl"			
+		Next
+		
+		For i = 0 To (UBound(data) - 1) / 2		
+			str = data(i * 2 + 1)			
+			For j = 0 To len(str) / 2
+				dm.AsmAdd "mov cl,0" & MID(str, j * 2 + 1, 2)
+				dm.AsmAdd "mov [esp+0" & HEX(j + data ( i * 2 )) & "],cl"
+			next
+		next	
+
+		dm.AsmAdd "push 0" & HEX(length)
+		dm.AsmAdd "push 0"
+		dm.AsmAdd "mov ecx,0" & cid
+		dm.AsmAdd "call 0043EBD0"
+		dm.AsmAdd "add esp,0" & HEX(length)
+		dm.AsmCall hwnd, 1
+		Delay 200
+	End Function
+	
+	Function ramNum(min, max)
+	    Randomize    
+	    ramNum = Int((max - min + 1) * Rnd) + min  
+	End Function
 End Class

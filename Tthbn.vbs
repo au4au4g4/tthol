@@ -304,6 +304,12 @@ Class Tthbn
 		simpleCall hwnd, tthbn + 61248, array()
 	End Function
 	
+	Public function apply(name)
+		dim item
+		set item = getBag(array(name))(0)
+		simpleCall hwnd, tthbn + &H23C60, array(-01,item.item("sn"),item.item("id"))
+	End Function
+	
 	'hwnd
 	Public Function getAllHwnds()
 		getAllHwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1+4), ",")
@@ -355,7 +361,7 @@ Class Tthbn
 		addHP()
 		addMP()
 		defBuff(def)
-		reLoginMin(2)
+		reLoginMin(4)
 	End Function
 	
 	Public Function crack()
