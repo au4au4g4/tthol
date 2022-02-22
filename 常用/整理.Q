@@ -27,51 +27,51 @@ Set dm = createobject("dm.dmsoft")
 Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 
 hwnd = t.getHwnd()
-sellers = t.getAllHwnds()
 tasks = split(dm.getclipboard(), chr(13) & chr(10))
 For Each task In tasks
 	keywords = split(task," ")
-	Select Case keywords(0)
-    	Case "o"
-    		t.init hwnd
-        	t.pop keywords
-    	Case "u"
-    		t.init hwnd
-        	t.push keywords
-    	Case "t"
-			For Each seller In sellers
-				t.init seller
+	If keywords(0) = "o" or keywords(0) = "u" Then 
+		sellers = array(t.getHwnd)
+	Elseif keywords(0) = "i" then
+		sellers = t.getAllHwnds()
+	Else 
+		sellers = t.getPartHwnds()
+	End If
+
+	For Each seller In sellers
+		t.init seller
+	 	Select Case keywords(0)
+    		Case "o"
+        		t.pop keywords
+    		Case "u"
+        		t.push keywords
+    		Case "t"
 				t.trades hwnd, keywords, -1
-			Next
-		Case "g"
-			For Each seller In sellers
+			Case "g"
 				t.init hwnd
 				t.trades seller, array(keywords(1)), keywords(2)
-			Next
-    	Case "b"
-    		sellers = t.getPartHwnds()
-			For Each hwnd In sellers
+			Case "a"
+        		t.apply keywords(1)
+			Case "l"
+        		t.learn keywords(1)
+			Case "i"
+    			t.updateItem itemAction
+    		Case "b"
 				Call dm.WriteData(hwnd, "<tthbn.bin>+24EA8", "EB0C")
 				t.init hwnd
 				t.openbank 
 				Delay 200
-				While (t.deposit + t.cash) > 1000000
-					t.withdrawal (99999999 - t.cash)
-					t.withdrawal (t.deposit)
+//				While (t.deposit + t.cash) > 1000000
+//					t.withdrawal (99999999 - t.cash)
+//					t.withdrawal (t.deposit)
 					Set coin = CreateObject("Scripting.Dictionary")
 					coin.add "id", &H5e16
 					coin.add "cnt", int(t.cash/1000000)
 					Set npc = t.findNPC("Åw³ß")
 					t.talkOption npc.item("id"), array(1,5)
 					t.buy npc, coin	
-				Wend
+//				Wend
 				Call dm.WriteData(hwnd, "<tthbn.bin>+24EA8", "8B45")
-			Next
-		Case "a"
-    		sellers = t.getPartHwnds()
-			For Each hwnd In sellers
-    			t.init hwnd
-        		t.apply keywords(1)
-			Next
-	End Select
+		End Select
+	Next  
 Next
