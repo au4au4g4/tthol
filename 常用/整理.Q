@@ -55,10 +55,9 @@ For Each task In tasks
 			Case "l"
         		t.learn keywords(1)
 			Case "i"
-    			t.updateItem itemAction
+    			t.updateItem keywords(1)
     		Case "b"
-				Call dm.WriteData(hwnd, "<tthbn.bin>+24EA8", "EB0C")
-				t.init hwnd
+				Call dm.WriteData(seller, "<tthbn.bin>+24EA8", "EB0C")
 				t.openbank 
 				Delay 200
 //				While (t.deposit + t.cash) > 1000000
@@ -71,7 +70,7 @@ For Each task In tasks
 					t.talkOption npc.item("id"), array(1,5)
 					t.buy npc, coin	
 //				Wend
-				Call dm.WriteData(hwnd, "<tthbn.bin>+24EA8", "8B45")
+				Call dm.WriteData(seller, "<tthbn.bin>+24EA8", "8B45")
 		End Select
 	Next  
 Next
