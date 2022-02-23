@@ -40,7 +40,7 @@ fox  = array(110, 7, 1, array("ef7a82","eaff56","ca6924","a4e2c6","b0a4e3","e4c6
 kylin  = array(110, 7, 1, array("tzuyeh","rihdan","posiao","jihhsi","riiyuu","jhongrih","yangrih","chenrih","puurih","renjing"))
 flower =  array(210, 7, 1, array("hwasheng","jhihma","lianru","heitang","fongni","hungtou","mochaa","cisihh","haitai","chaiyu"))
 
-teams = array(flower)
+teams = array(sky,bad,kylinkid)
 
 windowCnt = UBound(t.getAllHwnds())
 For j = 0 To UBound(teams)
