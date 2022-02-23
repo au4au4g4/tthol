@@ -135,7 +135,7 @@ Class Tthbn
 		dm.AsmCall hwnd,1
 	End Function
 	
-	Public Function learn(code)
+	Public Function learn(byval code)
 		code = split(code, chr(9))
 		for i = 1 to code(1)
 			simpleCall hwnd, tthbn + &H2BA10, array(i,code(0))
@@ -293,7 +293,7 @@ Class Tthbn
 		Call inAsm("ttha.bin+6738B", codes)
 	End Function
 	
-	Public function updateItem(itemAction)
+	Public function updateItem(byval itemAction)
 		dim id
 		itemAction = split(itemAction, chr(9))
 		id = dm.ReadIni("id", itemAction(0), ".\item.ini")
