@@ -1,6 +1,6 @@
 Class Tthbn
 
-	Private dm,dw,re,hwnd,ttha,tthbn
+	Private dm,dw,re,hwnd,ttha,tthbn,tthsj
 	
 	Public Sub Class_Initialize()
 		Set dm = createobject("dm.dmsoft")
@@ -12,6 +12,7 @@ Class Tthbn
 	
    	Public default function Init(p_hwnd)
 		hwnd = p_hwnd
+		tthsj = dm.GetModuleBaseAddr(hwnd, "tthsj.bin")
 		ttha = dm.GetModuleBaseAddr(hwnd, "ttha.bin")
 		tthbn = dm.GetModuleBaseAddr(hwnd, "tthbn.bin")
    	End function
@@ -309,6 +310,15 @@ Class Tthbn
 		dim item
 		set item = getBag(array(name))(0)
 		simpleCall hwnd, tthbn + &H23C60, array(-01,item.item("sn"),item.item("id"))
+	End Function
+	
+	Public function map(place)
+		dim placeNum,result
+		result = split(dm.FindString(hwnd, HEX(tthsj + &H1605000) & "-FFFFFFFF", place, 0), "|")(0)
+		placeNum = dm.readint(hwnd, hex(clng("&H" & result) - 4), 0)
+		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+10C", 0, 0)
+		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+11C", 0, placeNum)
+		Call dm.WriteInt(hwnd, "[[[<ttha.bin>+4EF82C]+98]+F4]", 0, placeNum)
 	End Function
 	
 	'hwnd

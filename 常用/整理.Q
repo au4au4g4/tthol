@@ -56,6 +56,8 @@ For Each task In tasks
         		t.learn keywords(1)
 			Case "i"
     			t.updateItem keywords(1)
+    		Case "m"
+    			t.map keywords(1)
     		Case "b"
 				Call dm.WriteData(seller, "<tthbn.bin>+24EA8", "EB0C")
 				t.openbank 
