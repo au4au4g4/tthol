@@ -30,10 +30,10 @@ t.init hwnd
 
 Dim fileStr, count, str, typ, last, temp
 While true
+	str = ""
 	fileStr = dm.ReadFile("C:\Users\god\Desktop\系統對話.txt")
 	last = mid(fileStr, InstrRev(fileStr, " ["))
 	count = dm.ReadInt(hwnd, "[[<ttha.bin>+D80DC]+580]+6C", 0)
-	TracePrint count
 	For i = 0 To count - 1
 		str = dm.ReadString(hwnd, "[[[[<ttha.bin>+D80DC]+580]+68]+" & HEX((count - 1 - i) * 4) & "]", 0, 100) & chr(10)
 		typ = dm.ReadInt(hwnd, "[[[<ttha.bin>+D80DC]+580]+90]+" & HEX((count - 1 - i) * 4), 0)
