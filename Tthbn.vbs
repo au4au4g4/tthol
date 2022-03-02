@@ -136,8 +136,7 @@ Class Tthbn
 		dm.AsmCall hwnd,1
 	End Function
 	
-	Public Function learn(byval code)
-		code = split(code, chr(9))
+	Public Function learn(code)
 		for i = 1 to code(1)
 			simpleCall hwnd, tthbn + &H2BA10, array(i,code(0))
 		Next
@@ -294,10 +293,8 @@ Class Tthbn
 		Call inAsm("ttha.bin+6738B", codes)
 	End Function
 	
-	Public function updateItem(byval itemAction)
-		dim id
-		itemAction = split(itemAction, chr(9))
-		id = dm.ReadIni("id", itemAction(0), ".\item.ini")
+	Public function updateItem(itemAction)
+		dim id : id = dm.ReadIni("id", itemAction(0), ".\item.ini")
 		action = split(dm.ReadIni("action", itemAction(1), ".\item.ini"),",")
 		simpleCall hwnd, tthbn + 57568, array(action(1), action(0), id)
 	End Function
@@ -316,14 +313,27 @@ Class Tthbn
 		dim placeNum,result
 		result = split(dm.FindString(hwnd, HEX(tthsj + &H1605000) & "-FFFFFFFF", place, 0), "|")(0)
 		placeNum = dm.readint(hwnd, hex(clng("&H" & result) - 4), 0)
-		'Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+10C", 0, 0)
-		'Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+11C", 0, placeNum)
-		'Call dm.WriteInt(hwnd, "[[[<ttha.bin>+4EF82C]+98]+F4]", 0, placeNum)
 		Call dm.WriteInt(hwnd, "[[[[[[<ttha.bin>+4EF82C]+98]+2F8]+414]+4BC]+8]+8", 0, placeNum)
 		dm.AsmClear 
 		dm.AsmAdd "mov ecx,0" + HEX(dm.readint(hwnd, "[[[<ttha.bin>+4EF82C]+98]+2F8]+414", 0) + &H420)
 		dm.AsmAdd "call 0" + HEX(ttha + &H482A0)
 		dm.AsmCall hwnd, 1	
+	End Function
+	
+	Public function frame(arr)
+		dim x,y,w,h
+		x = arr(0)
+		y = arr(1)
+		w = arr(2)
+		h = arr(3)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+78", 0, x)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+7C", 0, y)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+80", 0, x+w)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+84", 0, y+h)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+1E8", 0, x)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+1EC", 0, y)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+1F0", 0, x+w)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+1F4", 0, y+h)
 	End Function
 	
 	'hwnd
