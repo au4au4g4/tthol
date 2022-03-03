@@ -315,10 +315,8 @@ Class Tthbn
 	End Function
 	
 	Public function map(place)
-		dim placeNum,result
-		result = split(dm.FindString(hwnd, HEX(tthsj + &H1605000) & "-FFFFFFFF", place, 0), "|")(0)
-		placeNum = dm.readint(hwnd, hex(clng("&H" & result) - 4), 0)
-		Call dm.WriteInt(hwnd, "[[[[[[<ttha.bin>+4EF82C]+98]+2F8]+414]+4BC]+8]+8", 0, placeNum)
+		dim placeId : placeId = dm.ReadIni("id", place, ".\QMScript\map.ini")
+		Call dm.WriteInt(hwnd, "[[[[[[<ttha.bin>+4EF82C]+98]+2F8]+414]+4BC]+8]+8", 0, placeId)
 		dm.AsmClear 
 		dm.AsmAdd "mov ecx,0" + HEX(dm.readint(hwnd, "[[[<ttha.bin>+4EF82C]+98]+2F8]+414", 0) + &H420)
 		dm.AsmAdd "call 0" + HEX(ttha + &H482A0)
