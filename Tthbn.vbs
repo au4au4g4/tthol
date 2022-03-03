@@ -36,8 +36,16 @@ Class Tthbn
 	Public Function expp()
 		expp = dm.ReadInt(hwnd, "<tthbn.bin>+ACD28", 0) / 10 ^ 6
 	End Function
+	Public Function locationNo()
+		locationNo = dm.ReadInt(hwnd, "[[<ttha.bin>+004EF82C]+98]+164", 0)
+	End Function
+	Public Function location()
+		location = dm.ReadString(hwnd, "<tthbn.bin>+1099E4", 0, 16)
+	End Function
 	Public Function place()
-		place = dm.ReadString(hwnd, "<tthbn.bin>+1099E4", 0, 16)
+		dim num
+		num = dm.Readint(hwnd, "[[<ttha.bin>+4EF82C]+98]+11C", 0)
+		place = dm.ReadIni("name", num, ".\QMScript\map.ini")
 	End Function
 	Public Function start()
 		start = dm.ReadInt(hwnd, "<tthbn.bin>+ACD20", 0)
@@ -58,9 +66,6 @@ Class Tthbn
 	End Function
 	Public Function deposit()
 		deposit = dm.ReadInt(hwnd, "<tthbn.bin>+AFCB8", 0)
-	End Function
-	Public Function location()
-		location = dm.ReadInt(hwnd, "[[<ttha.bin>+004EF82C]+98]+164", 0)
 	End Function
 	Public Function team()
 		team = dm.ReadIni("team", id, ".\tthbn.ini")
@@ -294,8 +299,8 @@ Class Tthbn
 	End Function
 	
 	Public function updateItem(itemAction)
-		dim id : id = dm.ReadIni("id", itemAction(0), ".\item.ini")
-		action = split(dm.ReadIni("action", itemAction(1), ".\item.ini"),",")
+		dim id : id = dm.ReadIni("id", itemAction(0), ".\QMScript\item.ini")
+		action = split(dm.ReadIni("action", itemAction(1), ".\QMScript\item.ini"),",")
 		simpleCall hwnd, tthbn + 57568, array(action(1), action(0), id)
 	End Function
 	
