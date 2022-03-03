@@ -29,10 +29,13 @@ Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 hwnd = t.getHwnd()
 tasks = split(dm.getclipboard(), chr(13) & chr(10))
 For Each task In tasks
-	keywords = split(task," ")
-	If keywords(0) = "o" or keywords(0) = "u" Then 
+	order = split(task, "-")
+	param = order(1)
+	paramArr = split(order(1), " ")
+	
+	If order(0) = "o" or order(0) = "u" Then 
 		sellers = array(t.getHwnd)
-	Elseif keywords(0) = "i" then
+	Elseif order(0) = "i" then
 		sellers = t.getAllHwnds()
 	Else 
 		sellers = t.getPartHwnds()
@@ -40,24 +43,26 @@ For Each task In tasks
 
 	For Each seller In sellers
 		t.init seller
-	 	Select Case keywords(0)
+	 	Select Case order(0)
     		Case "o"
-        		t.pop keywords
+        		t.pop paramArr
     		Case "u"
-        		t.push keywords
+        		t.push paramArr
     		Case "t"
-				t.trades hwnd, keywords, -1
+				t.trades hwnd, paramArr, -1
 			Case "g"
 				t.init hwnd
-				t.trades seller, array(keywords(1)), keywords(2)
+				t.trades seller, array(paramArr(0)), paramArr(1)
 			Case "a"
-        		t.apply keywords(1)
+        		t.apply param
 			Case "l"
-        		t.learn keywords(1)
+        		t.learn paramArr
 			Case "i"
-    			t.updateItem keywords(1)
+    			t.updateItem paramArr
     		Case "m"
-    			t.map keywords(1)
+    			t.map param
+    		Case "f"
+    			t.frame paramArr
     		Case "b"
 				Call dm.WriteData(seller, "<tthbn.bin>+24EA8", "EB0C")
 				t.openbank 

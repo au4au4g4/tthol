@@ -36,8 +36,16 @@ Class Tthbn
 	Public Function expp()
 		expp = dm.ReadInt(hwnd, "<tthbn.bin>+ACD28", 0) / 10 ^ 6
 	End Function
+	Public Function locationNo()
+		locationNo = dm.ReadInt(hwnd, "[[<ttha.bin>+004EF82C]+98]+164", 0)
+	End Function
+	Public Function location()
+		location = dm.ReadString(hwnd, "<tthbn.bin>+1099E4", 0, 16)
+	End Function
 	Public Function place()
-		place = dm.ReadString(hwnd, "<tthbn.bin>+1099E4", 0, 16)
+		dim num
+		num = dm.Readint(hwnd, "[[<ttha.bin>+4EF82C]+98]+11C", 0)
+		place = dm.ReadIni("name", num, ".\QMScript\map.ini")
 	End Function
 	Public Function start()
 		start = dm.ReadInt(hwnd, "<tthbn.bin>+ACD20", 0)
@@ -58,9 +66,6 @@ Class Tthbn
 	End Function
 	Public Function deposit()
 		deposit = dm.ReadInt(hwnd, "<tthbn.bin>+AFCB8", 0)
-	End Function
-	Public Function location()
-		location = dm.ReadInt(hwnd, "[[<ttha.bin>+004EF82C]+98]+164", 0)
 	End Function
 	Public Function team()
 		team = dm.ReadIni("team", id, ".\tthbn.ini")
@@ -94,6 +99,15 @@ Class Tthbn
 		Dim keys
 		keys = array(array("name", 12),array("id", 4), array("sn", 0))
 		set findNPC = getObjs(tthbn + &H105820, tthbn + &H1118B0, 32, array(name), keys)(0)
+	End Function
+	
+	Public Function getItemCnt(name)
+		dim items
+		getItemCnt = 0
+		items = getBag(array(name))
+		for each item in items
+			getItemCnt = getItemCnt + item.item("cnt")
+		Next
 	End Function
 	
 	Public Function getBag(names)
@@ -136,8 +150,7 @@ Class Tthbn
 		dm.AsmCall hwnd,1
 	End Function
 	
-	Public Function learn(byval code)
-		code = split(code, chr(9))
+	Public Function learn(code)
 		for i = 1 to code(1)
 			simpleCall hwnd, tthbn + &H2BA10, array(i,code(0))
 		Next
@@ -294,11 +307,9 @@ Class Tthbn
 		Call inAsm("ttha.bin+6738B", codes)
 	End Function
 	
-	Public function updateItem(byval itemAction)
-		dim id
-		itemAction = split(itemAction, chr(9))
-		id = dm.ReadIni("id", itemAction(0), ".\item.ini")
-		action = split(dm.ReadIni("action", itemAction(1), ".\item.ini"),",")
+	Public function updateItem(itemAction)
+		dim id : id = dm.ReadIni("id", itemAction(0), ".\QMScript\item.ini")
+		action = split(dm.ReadIni("action", itemAction(1), ".\QMScript\item.ini"),",")
 		simpleCall hwnd, tthbn + 57568, array(action(1), action(0), id)
 	End Function
 	
@@ -313,17 +324,28 @@ Class Tthbn
 	End Function
 	
 	Public function map(place)
-		dim placeNum,result
-		result = split(dm.FindString(hwnd, HEX(tthsj + &H1605000) & "-FFFFFFFF", place, 0), "|")(0)
-		placeNum = dm.readint(hwnd, hex(clng("&H" & result) - 4), 0)
-		'Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+10C", 0, 0)
-		'Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+11C", 0, placeNum)
-		'Call dm.WriteInt(hwnd, "[[[<ttha.bin>+4EF82C]+98]+F4]", 0, placeNum)
-		Call dm.WriteInt(hwnd, "[[[[[[<ttha.bin>+4EF82C]+98]+2F8]+414]+4BC]+8]+8", 0, placeNum)
+		dim placeId : placeId = dm.ReadIni("id", place, ".\QMScript\map.ini")
+		Call dm.WriteInt(hwnd, "[[[[[[<ttha.bin>+4EF82C]+98]+2F8]+414]+4BC]+8]+8", 0, placeId)
 		dm.AsmClear 
 		dm.AsmAdd "mov ecx,0" + HEX(dm.readint(hwnd, "[[[<ttha.bin>+4EF82C]+98]+2F8]+414", 0) + &H420)
 		dm.AsmAdd "call 0" + HEX(ttha + &H482A0)
 		dm.AsmCall hwnd, 1	
+	End Function
+	
+	Public function frame(arr)
+		dim x,y,w,h
+		x = arr(0)
+		y = arr(1)
+		w = arr(2)
+		h = arr(3)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+78", 0, x)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+7C", 0, y)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+80", 0, x+w)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+84", 0, y+h)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+1E8", 0, x)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+1EC", 0, y)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+1F0", 0, x+w)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+1F4", 0, y+h)
 	End Function
 	
 	'hwnd
