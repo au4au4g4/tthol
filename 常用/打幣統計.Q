@@ -33,7 +33,7 @@ For Each hwnd In hwnds
 	t.init(hwnd)
 	period = (timeGetTime() - t.start) / 60 / 60 / 1000
 	Redim Preserve datas(ubound(datas) + 1)
-	datas(ubound(datas)) = array(t.id, t.level, t.place, period, t.monster, t.expp, t.money, t.cash+ubound(t.getBag(array("百萬官幣")))+1, ubound(t.getBag(array("特貢令")))+1)
+	datas(ubound(datas)) = array(t.id, t.level, t.place, period, t.monster, t.expp, t.money, t.cash+(ubound(t.getBag(array("百萬官幣")))+1)*10^6, ubound(t.getBag(array("特貢令")))+1)
 Next
 u.post "掛機", datas
 
