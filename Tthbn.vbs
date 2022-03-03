@@ -101,6 +101,15 @@ Class Tthbn
 		set findNPC = getObjs(tthbn + &H105820, tthbn + &H1118B0, 32, array(name), keys)(0)
 	End Function
 	
+	Public Function getItemCnt(name)
+		dim items
+		getItemCnt = 0
+		items = getBag(array(name))
+		for each item in items
+			getItemCnt = getItemCnt + item.item("cnt")
+		Next
+	End Function
+	
 	Public Function getBag(names)
 		getBag = getItems(tthbn + &H102148, tthbn + &H1118B4, names)
 	End Function
