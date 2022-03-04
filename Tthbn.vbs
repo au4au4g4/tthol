@@ -338,14 +338,14 @@ Class Tthbn
 		y = arr(1)
 		w = arr(2)
 		h = arr(3)
-		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+78", 0, x)
-		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+7C", 0, y)
-		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+80", 0, 0+x+w)
-		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+84", 0, 0+y+h)
-		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+1E8", 0, x)
-		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+1EC", 0, y)
-		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+1F0", 0, 0+x+w)
-		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+104]+63C]+1F4", 0, 0+y+h)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+108]+694]+78", 0, x)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+108]+694]+7C", 0, y)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+108]+694]+80", 0, 0+x+w)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+108]+694]+84", 0, 0+y+h)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+108]+694]+1E8", 0, x)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+108]+694]+1EC", 0, y)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+108]+694]+1F0", 0, 0+x+w)
+		Call dm.WriteInt(hwnd, "[[[[<ttha.bin>+D80DC]+414]+108]+694]+1F4", 0, 0+y+h)
 	End Function
 	
 	'hwnd
