@@ -35,13 +35,18 @@ three = array(110, 7, 1, array("SnowFlakes", "FrozenBubbles", "SnowRollers","saf
 sky = array(110, 7, 1, array("tongxia", "xingzhi", "cangcui", "fenxue", "qiuyun", "yaolan", "yuanxiang", "yunmiao", "guiyan", "daohua"))
 bad = array(110, 2, 1, array("Hydrogenn", "Nitrogenn", "Oxygenn", "Fluorine", "Helium", "Neonnn", "Argonn", "Krypton", "Xenonn", "Radonn"))
 kylinkid = array(210, 6, 1, array("PersonalC", "ersonalCo", "rsonalCom", "sonalComp", "onalCompu", "nalComput", "alCompute", "lComputer", "ComputerCo", "omputerCom"))
-
 fox  = array(110, 7, 1, array("ef7a82","eaff56","ca6924","a4e2c6","b0a4e3","e4c6d0","e3f9fd","afdd22","a2cc8c","f1c143"))
 kylin  = array(110, 7, 1, array("tzuyeh","rihdan","posiao","jihhsi","riiyuu","jhongrih","yangrih","chenrih","puurih","renjing"))
 flower =  array(210, 7, 1, array("hwasheng","jhihma","lianru","heitang","fongni","hungtou","mochaa","cisihh","haitai","chaiyu"))
 
-teams = array(fox)
+aa =  array(210, 1, 0, array("ggfecdaehg","jgihagbffh","jiedihbejd","chbddbbhge","bbdjhcibfb","igbidcecjf","icigfcifaf","chedbceiaf","ajfcedfabd","eadejicbaj"))
+bb =  array(210, 1, 0, array("giddddgcgf","hgghgbjdci","jbgibcfgii","ebfgcfghff","gdhcfccjbb","aiaaefehfi","egbehifhbb","dbefhbhggf","gijhdigieg","hbdeeeaihi"))
+cc =  array(210, 1, 0, array("iidaacjggb","hfeijjgehh","gagdeijbbc","hhecdcebah","idijbjgeia","ifcfcjecib","deijejjaig","dgheffdbdb","gdgdbbgcce","jhgfefccjg"))
+dd =  array(210, 1, 0, array("cdaecjhbgb","hhddcjjcab","dcdgdabjii","jhafbahhda","cbebbgcdff","ihahehighf","gbeeahdecf","ibcggdjjdi","cbajgfheii","hdbbbigiic"))
+ee =  array(210, 1, 0, array("dhhgfifdaj","aghieagehb","cdjbbadfjh","dhigagfbdj","bbjdeghgcj","cfjhjaafhe","gcbeaebcfh","gfiggdegih","hcicdbceha","bbgbhcegdi"))
+ff =  array(210, 1, 0, array("fgcjjhhhjb","gdbiiadhig","ibgggghdai","idhbiejfjj","ejgfdhaagc","iebaddgcfj","adfdebjacf","bjihaaddec","biccbbfgij","daaiihdjfe"))
 
+teams = array(fox)
 
 windowCnt = UBound(t.getAllHwnds())
 For j = 0 To UBound(teams)
