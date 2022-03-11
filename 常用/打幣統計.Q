@@ -25,15 +25,13 @@ SetupOCXFile=
 [Script]
 Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 Import "QMScript/Util.vbs" : Set u = New Util
-Public Declare Function timeGetTime Lib "winmm.dll" () As Long
 
 Dim datas : datas = array()
 hwnds = t.getAllHwnds()
 For Each hwnd In hwnds
 	t.init(hwnd)
-	period = (timeGetTime() - t.start) / 60 / 60 / 1000
 	Redim Preserve datas(ubound(datas) + 1)
-	datas(ubound(datas)) = array(t.id, t.level, t.place, period, t.monster, t.expp, t.money, t.cash + t.getItemCnt("百萬官幣")*10^6, t.getItemCnt("特貢令"))
+	datas(ubound(datas)) = array(t.id, t.level, t.place, t.period, t.monster, t.expp, t.money, t.cash + t.getItemCnt("百萬官幣")*10^6, t.getItemCnt("特貢令"))
 Next
 u.post "掛機", datas
 

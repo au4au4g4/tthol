@@ -8,6 +8,7 @@ Class Tthbn
 		Set re = New RegExp
 		dw.Register "kernel32.dll", "OpenProcess", "i=uuu", "r=h" 
 		dw.Register "kernel32.dll", "VirtualAllocEx", "i=lllll", "r=l"
+		dw.Register "WINMM.DLL", "timeGetTime", "r=l", "f=s"
     	End Sub
 	
    	Public default function Init(p_hwnd)
@@ -47,8 +48,14 @@ Class Tthbn
 		num = dm.Readint(hwnd, "[[<ttha.bin>+4EF82C]+98]+11C", 0)
 		place = dm.ReadIni("name", num, ".\QMScript\map.ini")
 	End Function
-	Public Function start()
+	Public Function period()
+		dim start
 		start = dm.ReadInt(hwnd, "<tthbn.bin>+ACD20", 0)
+		period = dw.timeGetTime() - start
+		if period <= 0 then
+			period = period + 2^32
+		end if
+		period = period / 60 / 60 / 1000
 	End Function
 	Public Function monster()
 		sum = 0 : monId = 1 : cnt = 1 : i = 0
