@@ -31,27 +31,27 @@ h = dm.getscreenheight() - 40
 c = 5
 r = 2
 
-three = array(110, 7, 1, array("SnowFlakes", "FrozenBubbles", "SnowRollers","safedepositbox"))
-sky = array(110, 7, 1, array("tongxia", "xingzhi", "cangcui", "fenxue", "qiuyun", "yaolan", "yuanxiang", "yunmiao", "guiyan", "daohua"))
-bad = array(110, 2, 1, array("Hydrogenn", "Nitrogenn", "Oxygenn", "Fluorine", "Helium", "Neonnn", "Argonn", "Krypton", "Xenonn", "Radonn"))
-kylinkid = array(210, 6, 1, array("PersonalC", "ersonalCo", "rsonalCom", "sonalComp", "onalCompu", "nalComput", "alCompute", "lComputer", "ComputerCo", "omputerCom"))
-fox  = array(110, 7, 1, array("ef7a82","eaff56","ca6924","a4e2c6","b0a4e3","e4c6d0","e3f9fd","afdd22","a2cc8c","f1c143"))
-kylin  = array(110, 7, 1, array("tzuyeh","rihdan","posiao","jihhsi","riiyuu","jhongrih","yangrih","chenrih","puurih","renjing"))
-flower =  array(210, 7, 1, array("hwasheng","jhihma","lianru","heitang","fongni","hungtou","mochaa","cisihh","haitai","chaiyu"))
+aa =  array(210, 1, array("ggfecdaehg","jgihagbffh","jiedihbejd","chbddbbhge","bbdjhcibfb","igbidcecjf","icigfcifaf","chedbceiaf","ajfcedfabd","eadejicbaj"))
+bb =  array(210, 1, array("giddddgcgf","hgghgbjdci","jbgibcfgii","ebfgcfghff","gdhcfccjbb","aiaaefehfi","egbehifhbb","dbefhbhggf","gijhdigieg","hbdeeeaihi"))
+cc =  array(210, 1, array("iidaacjggb","hfeijjgehh","gagdeijbbc","hhecdcebah","idijbjgeia","ifcfcjecib","deijejjaig","dgheffdbdb","gdgdbbgcce","jhgfefccjg"))
+dd =  array(210, 1, array("cdaecjhbgb","hhddcjjcab","dcdgdabjii","jhafbahhda","cbebbgcdff","ihahehighf","gbeeahdecf","ibcggdjjdi","cbajgfheii","hdbbbigiic"))
+ee =  array(210, 1, array("dhhgfifdaj","aghieagehb","cdjbbadfjh","dhigagfbdj","bbjdeghgcj","cfjhjaafhe","gcbeaebcfh","gfiggdegih","hcicdbceha","bbgbhcegdi"))
+ff =  array(210, 1, array("fgcjjhhhjb","gdbiiadhig","ibgggghdai","idhbiejfjj","ejgfdhaagc","iebaddgcfj","adfdebjacf","bjihaaddec","biccbbfgij","daaiihdjfe"))
 
-aa =  array(210, 1, 0, array("ggfecdaehg","jgihagbffh","jiedihbejd","chbddbbhge","bbdjhcibfb","igbidcecjf","icigfcifaf","chedbceiaf","ajfcedfabd","eadejicbaj"))
-bb =  array(210, 1, 0, array("giddddgcgf","hgghgbjdci","jbgibcfgii","ebfgcfghff","gdhcfccjbb","aiaaefehfi","egbehifhbb","dbefhbhggf","gijhdigieg","hbdeeeaihi"))
-cc =  array(210, 1, 0, array("iidaacjggb","hfeijjgehh","gagdeijbbc","hhecdcebah","idijbjgeia","ifcfcjecib","deijejjaig","dgheffdbdb","gdgdbbgcce","jhgfefccjg"))
-dd =  array(210, 1, 0, array("cdaecjhbgb","hhddcjjcab","dcdgdabjii","jhafbahhda","cbebbgcdff","ihahehighf","gbeeahdecf","ibcggdjjdi","cbajgfheii","hdbbbigiic"))
-ee =  array(210, 1, 0, array("dhhgfifdaj","aghieagehb","cdjbbadfjh","dhigagfbdj","bbjdeghgcj","cfjhjaafhe","gcbeaebcfh","gfiggdegih","hcicdbceha","bbgbhcegdi"))
-ff =  array(210, 1, 0, array("fgcjjhhhjb","gdbiiadhig","ibgggghdai","idhbiejfjj","ejgfdhaagc","iebaddgcfj","adfdebjacf","bjihaaddec","biccbbfgij","daaiihdjfe"))
+gg =  array(230, 2, array("hjeahefdec","kkhekbecih","bakfdkfibd","dfbcjiiebh","cdjfajekab","kfhiebkaif","fajbhfdebh","jcddhchhaa","abheaaadde","aekfhabfej"))
+hh =  array(230, 2, array("jjjkjccddf","ebkkafbhhk","kbikfabfdd","aibiakcbfe","cjifbjaaej","kjbajbbjfc","ikfjfcijhh","ikjhkcdbke","zfbhjfcaji","fhbkhfkkcb"))
+ii =  array(230, 2, array("eekckhhebh","jjbebbfihi","eihhkhacic","hdbccddeaj","bifhcjbjkc","jfhecbjdeh","kkkiiaejfa","eeehhhidfb","kfdhbaiccf","cjbekiehik"))
+jj =  array(230, 2, array("bffaejijae","akcjikddhi","faiafehiif","beaiejkehj","ecabbhkjdd","edaekhhiji","djekfhcbaj","cdeffibkdc","jckidbifeh","beejdjaida"))
+kk =  array(230, 2, array("cjheahddai","cakehiehba","zakfhjhdhf","idaejcfikj","dafhhhdeka","dkccjhhbje","zajbkeebij","cachhifkic","kfkbakdafk","zfbfdhbkid"))
+ll =  array(230, 2, array("jiccfbfaai","jjcfebcafb","kabbcaecaf","zeecefdfeh","cibjjidjba","dffhchccef","ijkaccahdj","hfbfbcbjjf","ffbhaechdk","keachaicad"))
+mm =  array(230, 2, array("hjaficbjdi"))
 
-teams = array(fox)
+teams = array(gg,hh,ii)
 
 windowCnt = UBound(t.getAllHwnds())
 For j = 0 To UBound(teams)
 	team = teams(j)
-	For i = 0 To UBound(team(3))
+	For i = 0 To UBound(team(2))
 		dm_ret = dm.UnBindWindow()
 		dm.moveto 120, 1060
 		dm.leftclick 
@@ -72,7 +72,7 @@ For j = 0 To UBound(teams)
 		edits = split(dm.EnumWindow(login, "", "Edit", 2 + 4), ",")
 		dm_ret = dm.BindWindow(edits(0), "normal", "windows", "windows", 0)
 		call del(15)
-		dm.SendString edits(0), team(3)(i)
+		dm.SendString edits(0), team(2)(i)
 		dm.SendString edits(1), "gj83dj4"
 		comboBoxs = split(dm.EnumWindow(login, "", "ComboBox", 2 + 4), ",")
 		dm_ret = dm.BindWindow(login, "normal", "windows", "windows", 0)
@@ -82,7 +82,7 @@ For j = 0 To UBound(teams)
 		
 		// ¯}¸Ñ
 		t.init hwnd
-		t.crackAll team(0),team(1),team(2)
+		t.crackAll team(0),team(1)
 		t.login
 	Next
 	

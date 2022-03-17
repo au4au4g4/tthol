@@ -398,14 +398,14 @@ Class Tthbn
 	End Function
 	
 	'¯}¸Ñ
-	Public Function crackAll(speed,range,def)
+	Public Function crackAll(speed,range)
 		crack()
 		moveSpeed(speed)
 		atkRange(range)
-		atkSpeed(100)
-		addHP()
-		addMP()
-		defBuff(def)
+		'atkSpeed(100)
+		'addHP()
+		'addMP()
+		'defBuff(def)
 		reLoginMin(4)
 	End Function
 	
