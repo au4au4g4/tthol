@@ -63,6 +63,9 @@ For Each task In tasks
     		Case "f"
     			t.frame params
     		Case "b"
+    			If params(1) = "¦Ê¸U" Then 
+    				params(2) = int(t.cash / 10 ^ 6)
+    			End If
 				t.buy params(0), params(1), params(2)
     		Case "s"
 				t.sell params(0), params(1)

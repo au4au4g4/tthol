@@ -249,7 +249,7 @@ Class Tthbn
 	End Function
 	
 	Public Function buy(npcName, itemName, cnt)
-		dim npc : Set npc = t.findNPC(npcName)
+		dim npc : Set npc = findNPC(npcName)
 		dim itemId : itemId = dm.ReadIni("id", itemName, ".\QMScript\item.ini")
 		talkOption npc.item("id"), array(1,5)
 		simpleCall hwnd, tthbn + &H24E90, array(cnt, itemId, npc.item("sn"), npc.item("id"))
@@ -257,7 +257,7 @@ Class Tthbn
 	
 	Public Function sell(npcName, itemName)
 		dim item : set item = getBag(array(itemName))(0)
-		dim npc : Set npc = t.findNPC(npcName)
+		dim npc : Set npc = findNPC(npcName)
 		talkOption npc.item("id"), array(1,5)
 		simpleCall hwnd, tthbn + &H251A0, array(item.item("cnt"),item.item("sn"),item.item("id"),npc.item("sn"),npc.item("id"))
 	End Function
@@ -295,8 +295,6 @@ Class Tthbn
 	End Function
 
 	Public function fixBank()
-		Call dm.WriteData(hwnd, "<tthbn.bin>+251CC", "E9 3A 01 00 00")
-		Call dm.WriteData(hwnd, "<tthbn.bin>+24EA8", "E9 A3 00 00 00 90 90 90")
 		Call dm.WriteData(hwnd, "<ttha.bin>+69CDA", "10")
 		reDim codes(8)
 		codes(0) = "mov ecx,[esp+20]"
@@ -308,7 +306,37 @@ Class Tthbn
 		codes(6) = "test eax,eax"
 		codes(7) = "je ttha.bin+69C8E"
 		codes(8) = "jmp ttha.bin+69C85"
-		Call inAsm("ttha.bin+69C7C ", codes)
+		Call inAsm("ttha.bin+69C7C", codes)
+		
+		reDim codes(10)
+		codes(0) = "cmp edx,000018E8"
+		codes(1) = "je tthbn.bin+024F08"
+		codes(2) = "cmp edx,00001851"
+		codes(3) = "jne tthbn.bin+24F50"
+		codes(4) = "mov edx,[ebp+0C]"
+		codes(5) = "push edx"
+		codes(6) = "mov ax,[ebp+08]"
+		codes(7) = "push eax"
+		codes(8) = "push 05"
+		codes(9) = "call tthbn.bin+1361"
+		codes(10) = "jmp tthbn.bin+24F50"
+		Call inAsm("tthbn.bin+24F00", codes)
+		
+		reDim codes(12)
+		codes(0) = "push ecx"
+		codes(1) = "call tthbn.bin+10CD"
+		codes(2) = "mov ecx,[ebp+08]"
+		codes(3) = "and ecx,0000FFFF"
+		codes(4) = "cmp ecx,00001851"
+		codes(5) = "jne tthbn.bin+2530B"
+		codes(6) = "mov eax,[ebp+0C]"
+		codes(7) = "push eax"
+		codes(8) = "mov cx,[ebp+08]"
+		codes(9) = "push ecx"
+		codes(10) = "push 05"
+		codes(11) = "call tthbn.bin+1361"
+		codes(12) = "jmp tthbn.bin+2530B"
+		Call inAsm("tthbn.bin+25305", codes)
 	End Function
 	
 	Public function removePlayer()
