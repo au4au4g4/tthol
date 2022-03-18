@@ -304,38 +304,38 @@ Class Tthbn
 		codes(4) = "call 0" + HEX(ttha + &H8871A)
 		codes(5) = "call 0" + HEX(ttha + &H8DBD1)
 		codes(6) = "test eax,eax"
-		codes(7) = "je ttha.bin+69C8E"
-		codes(8) = "jmp ttha.bin+69C85"
+		codes(7) = "je 0" + HEX(ttha + &H69C8E)
+		codes(8) = "jmp 0" + HEX(ttha + &H69C85)
 		Call inAsm("ttha.bin+69C7C", codes)
 		
 		reDim codes(10)
 		codes(0) = "cmp edx,000018E8"
-		codes(1) = "je tthbn.bin+24F08"
+		codes(1) = "je 0" + HEX(tthbn + &H24F08)
 		codes(2) = "cmp edx,00001851"
-		codes(3) = "jne tthbn.bin+24F50"
+		codes(3) = "jne 0" + HEX(tthbn + &H24F50)
 		codes(4) = "mov edx,[ebp+0C]"
 		codes(5) = "push edx"
 		codes(6) = "mov ax,[ebp+08]"
 		codes(7) = "push eax"
 		codes(8) = "push 05"
-		codes(9) = "call tthbn.bin+1361"
-		codes(10) = "jmp tthbn.bin+24F50"
+		codes(9) = "call 0" + HEX(tthbn + &H1361)
+		codes(10) = "jmp 0" + HEX(tthbn + &H24F50)
 		Call inAsm("tthbn.bin+24F00", codes)
 		
 		reDim codes(12)
 		codes(0) = "push ecx"
-		codes(1) = "call tthbn.bin+10CD"
+		codes(1) = "call 0" + HEX(tthbn + &H10CD)
 		codes(2) = "mov ecx,[ebp+08]"
 		codes(3) = "and ecx,0000FFFF"
 		codes(4) = "cmp ecx,00001851"
-		codes(5) = "jne tthbn.bin+2530B"
+		codes(5) = "jne 0" + HEX(tthbn + &H2530B)
 		codes(6) = "mov eax,[ebp+0C]"
 		codes(7) = "push eax"
 		codes(8) = "mov cx,[ebp+08]"
 		codes(9) = "push ecx"
 		codes(10) = "push 05"
-		codes(11) = "call tthbn.bin+1361"
-		codes(12) = "jmp tthbn.bin+2530B"
+		codes(11) = "call 0" + HEX(tthbn + &H1361)
+		codes(12) = "jmp 0" + HEX(tthbn + &H2530B)
 		Call inAsm("tthbn.bin+25305", codes)
 	End Function
 	
@@ -346,7 +346,7 @@ Class Tthbn
 		codes(1) = "push 0000013C"
 		codes(2) = "call 0" + HEX(ttha + &H7E764)
 		codes(3) = "call 0" + HEX(tthbn + &H26180)
-		codes(4) = "jmp ttha.bin+67396"
+		codes(4) = "jmp 0" + HEX(ttha + &H67396)
 		Call inAsm("ttha.bin+6738B", codes)
 	End Function
 	
@@ -447,7 +447,7 @@ Class Tthbn
 	
 	Public Function crack()
 		Call dm.WriteData(hwnd, "<tthbn.bin>+ACD08", "E1 E7 F6 B7 84 AC ED B4 E1 E0 A0 9C A9 FB ED E6 B6 8B B1")
-		reDim codes(0) : codes(0) = "jmp ttha.bin+3B1E0"
+		reDim codes(0) : codes(0) = "jmp 0" + HEX(ttha + &H3B1E0)
 		Call asm("ttha.bin+3B162", codes)	
 	End Function
 
@@ -461,10 +461,10 @@ Class Tthbn
 		reDim codes(5)
 		codes(0) = "mov eax,0" & HEX(range ^ 2)
 		codes(1) = "cmp edx,eax"
-		codes(2) = "jg ttha.bin+535AA"
+		codes(2) = "jg 0" + HEX(ttha + &H535AA)
 		codes(3) = "cmp ecx,eax"
-		codes(4) = "jg ttha.bin+535AA"
-		codes(5) = "jmp ttha.bin+535AF"
+		codes(4) = "jg 0" + HEX(ttha + &H535AA)
+		codes(5) = "jmp 0" + HEX(ttha + &H535AF)
 		Call asm("ttha.bin+5358C", codes)
 	End Function
 	
@@ -492,13 +492,13 @@ Class Tthbn
 		' 導入原本流程
 		reDim codes(2)
 		codes(0) = "and eax, 0F"
-		codes(1) = "jmp ttha.bin+213BF"
+		codes(1) = "jmp 0" + HEX(ttha + &H213BF)
 		codes(2) = "nop"
 		Call asm("ttha.bin+213B6", codes)
 		
 		' 50%變身
 		reDim codes(0)
-		codes(0) = "jmp ttha.bin+215ED"
+		codes(0) = "jmp 0" + HEX(ttha + &H215ED)
 		Call asm("ttha.bin+215DC", codes)
 		
 		reDim codes(4)
@@ -506,7 +506,7 @@ Class Tthbn
 		codes(1) = "mov eax,[ecx]"
 		codes(2) = "imul eax,eax,02"
 		codes(3) = "cmp eax,[ecx+04]"
-		codes(4) = "ja ttha.bin+21671"
+		codes(4) = "ja 0" + HEX(ttha + &H21671)
 		Call asm("ttha.bin+21608", codes)
 	End Function
 
@@ -519,7 +519,7 @@ Class Tthbn
 		' 導入原本流程
 		reDim codes(2)
 		codes(0) = "and eax, 0F"
-		codes(1) = "jmp ttha.bin+213BF"
+		codes(1) = "jmp 0" + HEX(ttha + &H213BF)
 		codes(2) = "nop"
 		Call asm("ttha.bin+213B6", codes)
 		
@@ -530,8 +530,8 @@ Class Tthbn
 			codes(1) = "add eax,eax"
 			codes(2) = "add eax,[ebx+04]"		' 沒替身0
 			codes(3) = "cmp eax,02" 			' 1+1+0
-			codes(4) = "jne ttha.bin+21461"
-			codes(5) = "jmp ttha.bin+213DD"
+			codes(4) = "jne 0" + HEX(ttha + &H21461)
+			codes(5) = "jmp 0" + HEX(ttha + &H213DD)
 			Call inAsm("ttha.bin+213C6", codes)
 			
 			' 替身消失時 清空八卦
@@ -540,7 +540,7 @@ Class Tthbn
 			codes(1) = "jne newmem+12"
 			codes(2) = "mov dword ptr [tthbn.bin+A171C],0"' 清空八卦
 			codes(3) = "mov dword ptr [ecx+tthbn.bin+A0D14],0"
-			codes(4) = "jmp tthbn.bin+421B6"
+			codes(4) = "jmp 0" + HEX(tthbn + &H421B6)
 			Call inAsm("tthbn.bin+421AC", codes)		
 		End If
 	End Function
