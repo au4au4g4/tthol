@@ -310,7 +310,7 @@ Class Tthbn
 		
 		reDim codes(10)
 		codes(0) = "cmp edx,000018E8"
-		codes(1) = "je tthbn.bin+024F08"
+		codes(1) = "je tthbn.bin+24F08"
 		codes(2) = "cmp edx,00001851"
 		codes(3) = "jne tthbn.bin+24F50"
 		codes(4) = "mov edx,[ebp+0C]"
