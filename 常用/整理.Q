@@ -30,8 +30,7 @@ hwnd = t.getHwnd()
 tasks = split(dm.getclipboard(), chr(13) & chr(10))
 For Each task In tasks
 	order = split(task, "-")
-	param = order(1)
-	paramArr = split(order(1), " ")
+	params = split(order(1), " ")
 	
 	If order(0) = "o" or order(0) = "u" Then 
 		sellers = array(t.getHwnd)
@@ -45,39 +44,28 @@ For Each task In tasks
 		t.init seller
 	 	Select Case order(0)
     		Case "o"
-        		t.pop paramArr
+        		t.pop params
     		Case "u"
-        		t.push paramArr
+        		t.push params
     		Case "t"
-				t.trades hwnd, paramArr, -1
+				t.trades hwnd, params, -1
 			Case "g"
 				t.init hwnd
-				t.trades seller, array(paramArr(0)), paramArr(1)
+				t.trades seller, array(params(0)), params(1)
 			Case "a"
-        		t.apply param
+        		t.apply params(0)
 			Case "l"
-        		t.learn paramArr
+        		t.learn params
 			Case "i"
-    			t.updateItem paramArr
+    			t.updateItem params
     		Case "m"
-    			t.map param
+    			t.map params(0)
     		Case "f"
-    			t.frame paramArr
+    			t.frame params
     		Case "b"
-				Call dm.WriteData(seller, "<tthbn.bin>+24EA8", "EB0C")
-				t.openbank 
-				Delay 200
-//				While (t.deposit + t.cash) > 1000000
-//					t.withdrawal (99999999 - t.cash)
-//					t.withdrawal (t.deposit)
-					Set coin = CreateObject("Scripting.Dictionary")
-					coin.add "id", &H5e16
-					coin.add "cnt", int(t.cash/10^6)
-					Set npc = t.findNPC("Åw³ß")
-					t.talkOption npc.item("id"), array(1,5)
-					t.buy npc, coin	
-//				Wend
-				Call dm.WriteData(seller, "<tthbn.bin>+24EA8", "8B45")
+				t.buy params(0), params(1), params(2)
+    		Case "s"
+				t.sell params(0), params(1)
 		End Select
 	Next  
 Next

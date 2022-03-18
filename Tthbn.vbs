@@ -248,11 +248,17 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H24470, array(npc.item("sn"),npc.item("id"))
 	End Function
 	
-	Public Function buy(npc,item)
-		simpleCall hwnd, tthbn + &H24E90, array(item.item("cnt"),item.item("id"),npc.item("sn"),npc.item("id"))
+	Public Function buy(npcName, itemName, cnt)
+		dim npc : Set npc = t.findNPC(npcName)
+		dim itemId : itemId = dm.ReadIni("id", itemName, ".\QMScript\item.ini")
+		talkOption npc.item("id"), array(1,5)
+		simpleCall hwnd, tthbn + &H24E90, array(cnt, itemId, npc.item("sn"), npc.item("id"))
 	End Function
 	
-	Public Function sell(npc,item)
+	Public Function sell(npcName, itemName)
+		dim item : set item = getBag(array(itemName))(0)
+		dim npc : Set npc = t.findNPC(npcName)
+		talkOption npc.item("id"), array(1,5)
 		simpleCall hwnd, tthbn + &H251A0, array(item.item("cnt"),item.item("sn"),item.item("id"),npc.item("sn"),npc.item("id"))
 	End Function
 	
@@ -289,6 +295,8 @@ Class Tthbn
 	End Function
 
 	Public function fixBank()
+		Call dm.WriteData(hwnd, "<tthbn.bin>+251CC", "E9 3A 01 00 00")
+		Call dm.WriteData(hwnd, "<tthbn.bin>+24EA8", "E9 A3 00 00 00 90 90 90")
 		Call dm.WriteData(hwnd, "<ttha.bin>+69CDA", "10")
 		reDim codes(8)
 		codes(0) = "mov ecx,[esp+20]"
