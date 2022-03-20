@@ -149,6 +149,14 @@ Class Tthbn
 		Next
 	End Function
 	
+	Public Function start()
+		dm.AsmClear 
+		dm.AsmAdd "mov ecx,[" + HEX(ttha + &H4EF82C) + "]"
+		dm.AsmAdd "mov ecx,[ecx+98]"
+		dm.AsmAdd "call "+ HEX(ttha+&H54EE0)
+		dm.AsmCall hwnd,1
+	End Function
+	
 	Public Function stops()
 		dm.AsmClear 
 		dm.AsmAdd "mov ecx,[" + HEX(ttha + &H4EF82C) + "]"
@@ -158,9 +166,11 @@ Class Tthbn
 	End Function
 	
 	Public Function learn(code)
-		for i = 1 to code(1)
+		stops
+		For i = 1 to code(1)
 			simpleCall hwnd, tthbn + &H2BA10, array(i,code(0))
 		Next
+		start
 	End Function
 	
 	Public Function trades(buyer, keywords, ByVal cnt)
@@ -251,14 +261,12 @@ Class Tthbn
 	Public Function buy(npcName, itemName, cnt)
 		dim npc : Set npc = findNPC(npcName)
 		dim itemId : itemId = dm.ReadIni("id", itemName, ".\QMScript\item.ini")
-		talkOption npc.item("id"), array(1,5)
 		simpleCall hwnd, tthbn + &H24E90, array(cnt, itemId, npc.item("sn"), npc.item("id"))
 	End Function
 	
 	Public Function sell(npcName, itemName)
-		dim item : set item = getBag(array(itemName))(0)
 		dim npc : Set npc = findNPC(npcName)
-		talkOption npc.item("id"), array(1,5)
+		dim item : set item = getBag(array(itemName))(0)
 		simpleCall hwnd, tthbn + &H251A0, array(item.item("cnt"),item.item("sn"),item.item("id"),npc.item("sn"),npc.item("id"))
 	End Function
 	
