@@ -25,11 +25,11 @@ Class Tthbn
 	
 	'read
 	Public Function id()
-		id = dm.ReadString(hwnd, "<tthbn.bin>+1099D0", 0, 16)
+		id = dm.ReadString(hwnd, "<tthbn.bin>+109A40", 0, 16)
 	End Function
 
 	Public Function level()
-		level = dm.ReadInt(hwnd, "<tthbn.bin>+10A6C0", 1)
+		level = dm.ReadInt(hwnd, "<tthbn.bin>+109A6A", 1)
 	End Function
 	Public Function money()
 		money = dm.ReadInt(hwnd, "<tthbn.bin>+ACD24", 0)
