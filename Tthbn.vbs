@@ -69,7 +69,7 @@ Class Tthbn
 		monster = sum
 	End Function
 	Public Function cash ()
-		cash = dm.ReadInt(hwnd, "<tthbn.bin>+109A5C", 0)
+		cash = dm.ReadInt(hwnd, "<tthbn.bin>+109ACC", 0)
 	End Function
 	Public Function deposit()
 		deposit = dm.ReadInt(hwnd, "<tthbn.bin>+AFCB8", 0)
