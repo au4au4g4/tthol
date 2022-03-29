@@ -25,7 +25,7 @@ Class Tthbn
 	
 	'read
 	Public Function id()
-		id = dm.ReadString(hwnd, "<tthbn.bin>+109A40", 0, 16)
+		id = dm.ReadString(hwnd, "[<tthbn.bin>+16AE8]", 0, 16)
 	End Function
 
 	Public Function level()
@@ -69,10 +69,10 @@ Class Tthbn
 		monster = sum
 	End Function
 	Public Function cash ()
-		cash = dm.ReadInt(hwnd, "<tthbn.bin>+109ACC", 0) 
+		cash = dm.ReadInt(hwnd, "[<tthbn.bin>+F188]", 0) 
 	End Function
 	Public Function deposit()
-		deposit = dm.ReadInt(hwnd, "<tthbn.bin>+AFCB8", 0)
+		deposit = dm.ReadInt(hwnd, "[<tthbn.bin>+E5FC]", 0)
 	End Function
 	Public Function team()
 		team = dm.ReadIni("team", id, ".\tthbn.ini")
@@ -118,11 +118,17 @@ Class Tthbn
 	End Function
 	
 	Public Function getBag(names)
-		getBag = getItems(tthbn + &H102148, tthbn + &H1118B4, names)
+		dim addr, cntAddr
+		addr = dm.ReadInt(hwnd, "<tthbn.bin>+B050", 0)
+		cntAddr = dm.ReadInt(hwnd, "<tthbn.bin>+B0FC", 0)
+		getBag = getItems(addr, cntAddr, names)
 	End Function
 	
 	Public Function getBank(names)
-		getBank = getItems(tthbn + &HAFCC0, tthbn + &HAFCBC, names)
+		dim addr, cntAddr
+		addr = dm.ReadInt(hwnd, "<tthbn.bin>+41588", 0)
+		cntAddr = dm.ReadInt(hwnd, "<tthbn.bin>+415F4", 0)
+		getBank = getItems(addr, cntAddr, names)
 	End Function
 	
 	private Function getItems(addr, cntAddr, names)
@@ -191,25 +197,30 @@ Class Tthbn
 	End Function	
 	
 	Public Function trade(buyer, item, cnt)	
+		dim addr,sAddr,bAddr,sID,bID,sn,iID,bTthbn
 		if hwnd - buyer = 0 then
 			exit Function
 		end if
-		bTthbn = dm.GetModuleBaseAddr(buyer, "tthbn.bin")
-		sAddr = clng("&H" & dm.FindString(buyer, HEX(bTthbn + &HE9788) & "-" & HEX(bTthbn + &HE9788 + &H7850), id, 0)) - 16
+		addr = dm.ReadInt(buyer, "<tthbn.bin>+18278", 0)
+		sAddr = clng("&H" & dm.FindString(buyer, HEX(addr) & "-" & HEX(addr + &H7850), id, 0)) - 16
 		sID = dm.ReadInt(buyer, HEX(sAddr), 0)
-
-		bName = dm.ReadString(buyer, "<tthbn.bin>+1099D0", 0, 16)
-		bAddr = clng("&H" & dm.FindString(hwnd, HEX(tthbn + &HE9788) & "-" & HEX(tthbn + &HE9788 + &H7850), bName, 0)) - 16
+		
+		bName = dm.ReadString(buyer, "[<tthbn.bin>+16AE8]", 0, 16)
+		addr = dm.ReadInt(hwnd, "<tthbn.bin>+18278", 0)
+		bAddr = clng("&H" & dm.FindString(hwnd, HEX(addr) & "-" & HEX(addr + &H7850), bName, 0)) - 16
 		bID = dm.ReadInt(hwnd, HEX(bAddr), 0)
 		
 		sn = item.item("sn")
-		iID = item.item("id")	
+		iID = item.item("id")
+
+		bTthbn = dm.GetModuleBaseAddr(buyer, "tthbn.bin")
 		simpleCall hwnd, tthbn + &H27030, array(bID, &HEA64)	' 邀請	
 		simpleCall buyer, bTthbn + &H27200, array(sID, &HEA64)	' 接受	
 		simpleCall hwnd, tthbn + &H273D0, array(cnt, sn, iID)	' 交付	
 		simpleCall hwnd, tthbn + &H27BC0, array()	' 確定1
 		simpleCall buyer, bTthbn + &H27BC0, array()
 		simpleCall hwnd, tthbn + &H27CF0, array()	' 確定2
+		simpleCall buyer, bTthbn + &H27CF0, array()
 		simpleCall buyer, bTthbn + &H27CF0, array()
 	End Function
 	
