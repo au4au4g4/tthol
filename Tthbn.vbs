@@ -20,7 +20,7 @@ Class Tthbn
 
 	'flag
 	Public Function isOffLine()
-		isOffLine = (dm.ReadInt(hwnd, "<tthbn.bin>+111964", 0) = 0)
+		isOffLine = (dm.ReadInt(hwnd, "[<tthbn.bin>+8A64]", 0) = 0)
 	End Function
 	
 	'read
@@ -85,7 +85,7 @@ Class Tthbn
 	End Function
 	
 	Public Function getMsg()
-		getMsg = dm.ReadString(hwnd, "<tthbn.bin>+10A758", 0, 115)
+		getMsg = dm.ReadString(hwnd, "[<tthbn.bin>+A0C9]", 0, 115)
 	End Function
 	
 	Public Function getMonster()
@@ -103,9 +103,11 @@ Class Tthbn
 	End Function
 	
 	Public Function findNPC(name)
-		Dim keys
+		Dim keys,addr,cntAddr
 		keys = array(array("name", 12),array("id", 4), array("sn", 0))
-		set findNPC = getObjs(tthbn + &H105820, tthbn + &H1118B0, 32, array(name), keys)(0)
+		addr = dm.ReadInt(hwnd, "<tthbn.bin>+208C0", 0)
+		cntAddr = dm.ReadInt(hwnd, "<tthbn.bin>+208F1", 0)
+		set findNPC = getObjs(addr, cntAddr, 32, array(name), keys)(0)
 	End Function
 	
 	Public Function getItemCnt(name)
@@ -265,7 +267,7 @@ Class Tthbn
 	End Function
 	
 	Public Function openBank()
-		Set npc = findNPC("¥ë­p")
+		dim npc : Set npc = findNPC("¥ë­p")
 		simpleCall hwnd, tthbn + &H24470, array(npc.item("sn"),npc.item("id"))
 	End Function
 	

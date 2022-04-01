@@ -63,7 +63,7 @@ For Each task In tasks
     		Case "f"
     			t.frame params
     		Case "b"
-    			If params(1) = "百萬" Then 
+    			If params(1) = "百萬官幣" Then 
     				params(2) = int(t.cash / 10 ^ 6)
     			End If
 				t.buy params(0), params(1), params(2)
