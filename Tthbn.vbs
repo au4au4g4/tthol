@@ -455,14 +455,10 @@ Class Tthbn
 	End Function
 	
 	'¯}¸Ñ
-	Public Function crackAll(speed,range)
+	Public Function crackAll(atk,move,range)
 		crack()
 		moveSpeed(speed)
 		atkRange(range)
-		'atkSpeed(100)
-		'addHP()
-		'addMP()
-		'defBuff(def)
 		reLoginMin(4)
 	End Function
 	
@@ -473,9 +469,9 @@ Class Tthbn
 	End Function
 
 	'280
-	Public Function moveSpeed(speed)
-		Call dm.WriteInt(hwnd,"<ttha.bin>+3FD3D",0,speed)
-		Call dm.WriteInt(hwnd,"<ttha.bin>+3FD53",0,speed)
+	Public Function moveSpeed(atk,move)
+		Call dm.WriteInt(hwnd,"<ttha.bin>+3FD3D",0,atk)
+		Call dm.WriteInt(hwnd,"<ttha.bin>+3FD53",0,move)
 	End Function
 
 	Public Function atkRange(range)
