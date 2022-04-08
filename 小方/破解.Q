@@ -29,12 +29,13 @@ Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 Set re = New RegExp
 Set dm = createobject("dm.dmsoft")
 
-hwnds = array(t.getHwnd())
-//hwnds = t.getAllHwnds()
+//hwnds = array(t.getHwnd())
+hwnds = t.getAllHwnds()
 For each hwnd in hwnds
 	t.init hwnd
 //	t.crack
-//	t.moveSpeed(10,230)
+//	t.moveSpeed 10,230
 //	t.reLoginMin(2)
 //	t.fixbank
+	t.freeFrame
 Next

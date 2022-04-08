@@ -311,55 +311,6 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H23900, array(y,x,sn,id,code)
 	End Function
 	
-	Public Function reLoginMin(min)
-		call dm.WriteInt(hwnd, "<ttha.bin>+3C334", 0, min * 60000)
-	End Function
-
-	Public function fixBank()
-		Call dm.WriteData(hwnd, "<ttha.bin>+69CDA", "10")
-		reDim codes(8)
-		codes(0) = "mov ecx,[esp+20]"
-		codes(1) = "push 0"
-		codes(2) = "push ecx"
-		codes(3) = "lea ecx,[esp+20]"
-		codes(4) = "call 0" + HEX(ttha + &H8871A)
-		codes(5) = "call 0" + HEX(ttha + &H8DBD1)
-		codes(6) = "test eax,eax"
-		codes(7) = "je 0" + HEX(ttha + &H69C8E)
-		codes(8) = "jmp 0" + HEX(ttha + &H69C85)
-		Call inAsm("ttha.bin+69C7C", codes)
-		
-		reDim codes(10)
-		codes(0) = "cmp edx,000018E8"
-		codes(1) = "je 0" + HEX(tthbn + &H24F08)
-		codes(2) = "cmp edx,00001851"
-		codes(3) = "jne 0" + HEX(tthbn + &H24F50)
-		codes(4) = "mov edx,[ebp+0C]"
-		codes(5) = "push edx"
-		codes(6) = "mov ax,[ebp+08]"
-		codes(7) = "push eax"
-		codes(8) = "push 05"
-		codes(9) = "call 0" + HEX(tthbn + &H1361)
-		codes(10) = "jmp 0" + HEX(tthbn + &H24F50)
-		Call inAsm("tthbn.bin+24F00", codes)
-		
-		reDim codes(12)
-		codes(0) = "push ecx"
-		codes(1) = "call 0" + HEX(tthbn + &H10CD)
-		codes(2) = "mov ecx,[ebp+08]"
-		codes(3) = "and ecx,0000FFFF"
-		codes(4) = "cmp ecx,00001851"
-		codes(5) = "jne 0" + HEX(tthbn + &H2530B)
-		codes(6) = "mov eax,[ebp+0C]"
-		codes(7) = "push eax"
-		codes(8) = "mov cx,[ebp+08]"
-		codes(9) = "push ecx"
-		codes(10) = "push 05"
-		codes(11) = "call 0" + HEX(tthbn + &H1361)
-		codes(12) = "jmp 0" + HEX(tthbn + &H2530B)
-		Call inAsm("tthbn.bin+25305", codes)
-	End Function
-	
 	Public function removePlayer()
 		Call dm.WriteData(hwnd, "<ttha.bin>+66EAD", "909090909090")
 		reDim codes(4)
@@ -483,6 +434,61 @@ Class Tthbn
 		codes(4) = "jg 0" + HEX(ttha + &H535AA)
 		codes(5) = "jmp 0" + HEX(ttha + &H535AF)
 		Call asm("ttha.bin+5358C", codes)
+	End Function
+	
+	Public Function reLoginMin(min)
+		call dm.WriteInt(hwnd, "<ttha.bin>+3C334", 0, min * 60000)
+	End Function
+
+	Public function fixBank()
+		Call dm.WriteData(hwnd, "<ttha.bin>+69CDA", "10")
+		reDim codes(8)
+		codes(0) = "mov ecx,[esp+20]"
+		codes(1) = "push 0"
+		codes(2) = "push ecx"
+		codes(3) = "lea ecx,[esp+20]"
+		codes(4) = "call 0" + HEX(ttha + &H8871A)
+		codes(5) = "call 0" + HEX(ttha + &H8DBD1)
+		codes(6) = "test eax,eax"
+		codes(7) = "je 0" + HEX(ttha + &H69C8E)
+		codes(8) = "jmp 0" + HEX(ttha + &H69C85)
+		Call inAsm("ttha.bin+69C7C", codes)
+		
+		reDim codes(10)
+		codes(0) = "cmp edx,000018E8"
+		codes(1) = "je 0" + HEX(tthbn + &H24F08)
+		codes(2) = "cmp edx,00001851"
+		codes(3) = "jne 0" + HEX(tthbn + &H24F50)
+		codes(4) = "mov edx,[ebp+0C]"
+		codes(5) = "push edx"
+		codes(6) = "mov ax,[ebp+08]"
+		codes(7) = "push eax"
+		codes(8) = "push 05"
+		codes(9) = "call 0" + HEX(tthbn + &H1361)
+		codes(10) = "jmp 0" + HEX(tthbn + &H24F50)
+		Call inAsm("tthbn.bin+24F00", codes)
+		
+		reDim codes(12)
+		codes(0) = "push ecx"
+		codes(1) = "call 0" + HEX(tthbn + &H10CD)
+		codes(2) = "mov ecx,[ebp+08]"
+		codes(3) = "and ecx,0000FFFF"
+		codes(4) = "cmp ecx,00001851"
+		codes(5) = "jne 0" + HEX(tthbn + &H2530B)
+		codes(6) = "mov eax,[ebp+0C]"
+		codes(7) = "push eax"
+		codes(8) = "mov cx,[ebp+08]"
+		codes(9) = "push ecx"
+		codes(10) = "push 05"
+		codes(11) = "call 0" + HEX(tthbn + &H1361)
+		codes(12) = "jmp 0" + HEX(tthbn + &H2530B)
+		Call inAsm("tthbn.bin+25305", codes)
+	End Function
+	
+	' 解開打怪範圍最小限制
+	Public Function freeFrame()
+		Call dm.WriteData(hwnd, "<ttha.bin>+29C0A","F4")
+		Call dm.WriteData(hwnd, "<ttha.bin>+29C1F","F4")		
 	End Function
 
 	Public Function atkSpeed(speed)
