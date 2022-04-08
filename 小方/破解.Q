@@ -34,7 +34,7 @@ hwnds = t.getAllHwnds()
 For each hwnd in hwnds
 	t.init hwnd
 //	t.crack
-//	t.moveSpeed(10,230)
+//	t.moveSpeed 10,230
 //	t.reLoginMin(2)
 //	t.fixbank
 	t.freeFrame
