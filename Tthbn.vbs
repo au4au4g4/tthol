@@ -488,10 +488,6 @@ Class Tthbn
 		codes(5) = "jmp 0" + HEX(ttha + &H535AF)
 		Call asm("ttha.bin+5358C", codes)
 	End Function
-	
-	Public Function setRange(range)
-		call dm.WriteInt(hwnd, "<ttha.bin>+5358E", 0, range ^ 2)
-	End Function
 
 	Public Function atkSpeed(speed)
 		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+12100", 0,speed)	
