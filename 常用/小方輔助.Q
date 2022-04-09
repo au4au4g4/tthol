@@ -66,23 +66,25 @@ While true
 		Next
 	// 調視窗大小
 	ElseIf key = 116 Then
-		xy = getXY()
-		key = WaitKey()
-		For each hwnd in hwnds
-			Call Bind(hwnd)
-			dm.moveto xy(0), xy(1)
+		hwnds = split(dm.EnumWindow(0, "Tab2", "SysTabControl32", 1 + 2 + 16), ",")
+		For Each hwnd In hwnds
+			dm.GetClientRect dm.GetWindow(hwnd, 7),x,y,x0,y
+			dm.GetClientRect hwnd, x1, y, x, y
+			d = (x0 - x1 > 250) * - 2  - 1
+			
+			hwnd = dm.GetWindow(hwnd, 4)
+			dm_ret = dm.BindWindow(hwnd, "normal", "windows", "windows", 0)
+			dm.moveto 0, 0
 			dm.LeftDown 
-			Select Case key
-			Case 37
-				dm.moveto xy(0) - dw, xy(1)				
-			Case 38
-    			dm.moveto xy(0), xy(1) - dh	
-			Case 39
-    			dm.moveto xy(0) + dw, xy(1)
-    		Case Else
-    			dm.moveto xy(0), xy(1) + dh
-			End Select
-			dm.LeftUp
+			dm.moveto 260 * d, 0
+			dm.LeftUp 
+				
+			hwnd = dm.GetWindow(hwnd, 4)
+			dm_ret = dm.BindWindow(hwnd, "normal", "windows", "windows", 0)
+			dm.moveto 0, 0
+			dm.LeftDown 
+			dm.moveto 0, - 130  * d
+			dm.LeftUp 
 		Next
 	// 調打怪範圍
 	ElseIf key = 117 Then
