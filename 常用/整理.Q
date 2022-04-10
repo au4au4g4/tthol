@@ -34,7 +34,7 @@ For Each task In tasks
 	
 	If instr("ou",order(0)) > 0 Then 
 		sellers = array(t.getHwnd)
-	Elseif instr("i",order(0)) > 0 then
+	Elseif instr("itg",order(0)) > 0 then
 		sellers = t.getAllHwnds()
 	Else 
 		sellers = t.getPartHwnds()
