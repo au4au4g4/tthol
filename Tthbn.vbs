@@ -486,9 +486,14 @@ Class Tthbn
 	End Function
 	
 	' 解開打怪範圍最小限制
-	Public Function freeFrame()
-		Call dm.WriteData(hwnd, "<ttha.bin>+29C0A","F4")
-		Call dm.WriteData(hwnd, "<ttha.bin>+29C1F","F4")		
+	Public Function freeFrame(min)
+		Call dm.WriteData(hwnd, "<ttha.bin>+29C0A",HEX(256-min))
+		Call dm.WriteData(hwnd, "<ttha.bin>+29C1F",HEX(256-min))		
+	End Function
+	
+	' 完全補給
+	Public Function fullSupport()
+		Call dm.WriteData(hwnd, "<ttha.bin>+54917","EB")	
 	End Function
 
 	Public Function atkSpeed(speed)
