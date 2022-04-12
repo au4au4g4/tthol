@@ -31,20 +31,20 @@ h = dm.getscreenheight() - 40
 c = 5
 r = 2
 
-aa = array(10, 230, 7, array("ggfecdaehg", "jgihagbffh", "jiedihbejd", "chbddbbhge", "bbdjhcibfb", "igbidcecjf", "icigfcifaf", "chedbceiaf", "ajfcedfabd", "eadejicbaj"))
-bb = array(10, 230, 7, array("giddddgcgf", "hgghgbjdci", "jbgibcfgii", "ebfgcfghff", "gdhcfccjbb", "aiaaefehfi", "egbehifhbb", "dbefhbhggf", "gijhdigieg", "hbdeeeaihi"))
-cc = array(10, 230, 7, array("iidaacjggb", "hfeijjgehh", "gagdeijbbc", "hhecdcebah", "idijbjgeia", "ifcfcjecib", "deijejjaig", "dgheffdbdb", "gdgdbbgcce", "jhgfefccjg"))
-dd = array(10, 230, 7, array("cdaecjhbgb", "hhddcjjcab", "dcdgdabjii", "jhafbahhda", "cbebbgcdff", "ihahehighf", "gbeeahdecf", "ibcggdjjdi", "cbajgfheii", "hdbbbigiic"))
-ee = array(10, 230, 7, array("dhhgfifdaj", "aghieagehb", "cdjbbadfjh", "dhigagfbdj", "bbjdeghgcj", "cfjhjaafhe", "gcbeaebcfh", "gfiggdegih", "hcicdbceha", "bbgbhcegdi"))
-ff = array(10, 230, 7, array("fgcjjhhhjb", "gdbiiadhig", "ibgggghdai", "idhbiejfjj", "ejgfdhaagc", "iebaddgcfj", "adfdebjacf", "bjihaaddec", "biccbbfgij", "daaiihdjfe"))
+bb = array(100, 230, 7, array("giddddgcgf", "hgghgbjdci", "jbgibcfgii", "ebfgcfghff", "gdhcfccjbb", "aiaaefehfi", "egbehifhbb", "dbefhbhggf", "gijhdigieg", "hbdeeeaihi"))
+aa = array(100, 230, 7, array("ggfecdaehg", "jgihagbffh", "jiedihbejd", "chbddbbhge", "bbdjhcibfb", "igbidcecjf", "icigfcifaf", "chedbceiaf", "ajfcedfabd", "eadejicbaj"))
+cc = array(100, 230, 7, array("iidaacjggb", "hfeijjgehh", "gagdeijbbc", "hhecdcebah", "idijbjgeia", "ifcfcjecib", "deijejjaig", "dgheffdbdb", "gdgdbbgcce", "jhgfefccjg"))
+dd = array(100, 230, 7, array("cdaecjhbgb", "hhddcjjcab", "dcdgdabjii", "jhafbahhda", "cbebbgcdff", "ihahehighf", "gbeeahdecf", "ibcggdjjdi", "cbajgfheii", "hdbbbigiic"))
+ee = array(100, 230, 7, array("dhhgfifdaj", "aghieagehb", "cdjbbadfjh", "dhigagfbdj", "bbjdeghgcj", "cfjhjaafhe", "gcbeaebcfh", "gfiggdegih", "hcicdbceha", "bbgbhcegdi"))
+ff = array(100, 230, 7, array("fgcjjhhhjb", "gdbiiadhig", "ibgggghdai", "idhbiejfjj", "ejgfdhaagc", "iebaddgcfj", "adfdebjacf", "bjihaaddec", "biccbbfgij", "daaiihdjfe"))
 
-gg = array(230, 230, 2, array("hjeahefdec", "kkhekbecih", "bakfdkfibd", "dfbcjiiebh", "cdjfajekab", "kfhiebkaif", "fajbhfdebh", "jcddhchhaa", "abheaaadde", "aekfhabfej"))
-hh = array(230, 230, 2, array("jjjkjccddf", "ebkkafbhhk", "kbikfabfdd", "aibiakcbfe", "cjifbjaaej", "kjbajbbjfc", "ikfjfcijhh", "ikjhkcdbke", "zfbhjfcaji", "fhbkhfkkcb"))
-ii = array(10, 230, 2, array("eekckhhebh", "jjbebbfihi", "eihhkhacic", "hdbccddeaj", "bifhcjbjkc", "jfhecbjdeh", "kkkiiaejfa", "eeehhhidfb", "kfdhbaiccf", "cjbekiehik"))
-jj = array(10, 230, 2, array("bffaejijae", "akcjikddhi", "faiafehiif", "beaiejkehj", "ecabbhkjdd", "edaekhhiji", "djekfhcbaj", "cdeffibkdc", "jckidbifeh", "beejdjaida"))
-kk = array(10, 230, 2, array("cjheahddai", "cakehiehba", "zakfhjhdhf", "idaejcfikj", "dafhhhdeka", "dkccjhhbje", "zajbkeebij", "cachhifkic", "kfkbakdafk", "zfbfdhbkid"))
-ll = array(10, 230, 2, array("jiccfbfaai", "jjcfebcafb", "kabbcaecaf", "zeecefdfeh", "cibjjidjba", "dffhchccef", "ijkaccahdj", "hfbfbcbjjf", "ffbhaechdk", "keachaicad"))
-mm = array(230, 230, 2, array("hjaficbjdi"))
+gg = array(100, 180, 5, array("hjeahefdec", "kkhekbecih", "bakfdkfibd", "dfbcjiiebh", "cdjfajekab", "kfhiebkaif", "fajbhfdebh", "jcddhchhaa", "abheaaadde", "aekfhabfej"))
+hh = array(100, 180, 5, array("jjjkjccddf", "ebkkafbhhk", "kbikfabfdd", "aibiakcbfe", "cjifbjaaej", "kjbajbbjfc", "ikfjfcijhh", "ikjhkcdbke", "zfbhjfcaji", "fhbkhfkkcb"))
+ii = array(100, 230, 2, array("eekckhhebh", "jjbebbfihi", "eihhkhacic", "hdbccddeaj", "bifhcjbjkc", "jfhecbjdeh", "kkkiiaejfa", "eeehhhidfb", "kfdhbaiccf", "cjbekiehik"))
+jj = array(100, 230, 2, array("bffaejijae", "akcjikddhi", "faiafehiif", "beaiejkehj", "ecabbhkjdd", "edaekhhiji", "djekfhcbaj", "cdeffibkdc", "jckidbifeh", "beejdjaida"))
+kk = array(100, 230, 2, array("cjheahddai", "cakehiehba", "zakfhjhdhf", "idaejcfikj", "dafhhhdeka", "dkccjhhbje", "zajbkeebij", "cachhifkic", "kfkbakdafk", "zfbfdhbkid"))
+ll = array(100, 230, 2, array("jiccfbfaai", "jjcfebcafb", "kabbcaecaf", "zeecefdfeh", "cibjjidjba", "dffhchccef", "ijkaccahdj", "hfbfbcbjjf", "ffbhaechdk", "keachaicad"))
+mm = array(100, 230, 2, array("hjaficbjdi"))
 
 teams = array(gg, hh, ii)
 
