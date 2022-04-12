@@ -408,9 +408,12 @@ Class Tthbn
 	'¯}¸Ñ
 	Public Function crackAll(atk,move,range)
 		crack()
-		moveSpeed(speed)
+		moveSpeed(atk,move)
 		atkRange(range)
 		reLoginMin(4)
+		fixBank()
+		freeFrame(10)
+		fullSupport()
 	End Function
 	
 	Public Function crack()
