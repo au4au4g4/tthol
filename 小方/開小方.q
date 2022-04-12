@@ -51,7 +51,7 @@ teams = array(gg, hh, ii)
 windowCnt = UBound(t.getAllHwnds())
 For j = 0 To UBound(teams)
 	team = teams(j)
-	For i = 0 To UBound(team(2))
+	For i = 0 To UBound(team(3))
 		dm_ret = dm.UnBindWindow()
 		dm.moveto 120, 1060
 		dm.leftclick 
@@ -69,12 +69,12 @@ For j = 0 To UBound(teams)
 		
 		// 輸入帳密
 		login = dm.FindWindow("", "登錄")
-		edits = split(dm.EnumWindow(login, "", "Edit", 2 + 4), ", ")
+		edits = split(dm.EnumWindow(login, "", "Edit", 2 + 4), ",")
 		dm_ret = dm.BindWindow(edits(0), "normal", "windows", "windows", 0)
 		call del(15)
-		dm.SendString edits(0), team(2)(i)
+		dm.SendString edits(0), team(3)(i)
 		dm.SendString edits(1), "gj83dj4"
-		comboBoxs = split(dm.EnumWindow(login, "", "ComboBox", 2 + 4), ", ")
+		comboBoxs = split(dm.EnumWindow(login, "", "ComboBox", 2 + 4), ",")
 		dm_ret = dm.BindWindow(login, "normal", "windows", "windows", 0)
 		dm.SendString comboBoxs(0), "飛雁山莊(花)"
 		dm.SendString comboBoxs(1), "1"
