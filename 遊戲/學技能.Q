@@ -26,8 +26,7 @@ SetupOCXFile=
 Set dm = createobject("dm.dmsoft")
 hwnd = dm.FindWindow("_UJONLINE_", "Tthol")
 
-Import "QMScript/Tthol.vbs" : Set t = New Tthol
-t.init (hwnd)
+Import "QMScript/Tthol.vbs" : Set t = New Tthol : t.init
 
 skillCodes = split(Replace(dm.GetClipboard(),"""",""), chr(10))
 For Each code In skillCodes

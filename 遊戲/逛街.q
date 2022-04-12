@@ -24,19 +24,17 @@ SetupOCXFile=
 
 [Script]
 Set dm = createobject("dm.dmsoft")
-Import "QMScript/Tthol.vbs" : Set t = New Tthol
+Import "QMScript/Tthol.vbs" : Set t = New Tthol : t.init
 Import "QMScript/Util.vbs" : Set u = New Util
 
 hwnd = dm.FindWindow("", "Tthol")
-t.init (hwnd)
 bossList = ""
-xyList = array(array(29, 29), array(29, 16), array(41, 16), array(41, 31))
+xyList = array(array(28, 16), array(28,30), array(47,28), array(47, 15))
 Dim datas : datas = array()
 Dim j : j = 0
 
 For Each xy In xyList
 	t.go xy(0), xy(1)
-	Delay 4000
 	bossList = readShop(bossList)	
 Next
 u.post "市集", datas
@@ -44,22 +42,25 @@ u.post "市集", datas
 Function readShop(list)
 	btnAddr = dm.FindData(hwnd, "12000000-30000000", "BC 44 5E 00")
 	For Each addr In split(btnAddr, "|")
-		If dm.readint(hwnd, HEX(CLNG("&H" & addr) + 8), 0) = &H778 Then 	// 是商店按鈕
+		If dm.readint(hwnd, HEX(CLNG("&H" & addr) + 8), 0) = &H778 Then // 是商店按鈕
+		TracePrint 1
 			t.shopping(addr)
-			Delay 500
+			Delay 1000
 			
 			// 將商品存入文檔
 			boss = dm.ReadString(hwnd, "[" & addr & "+D4]+1E4", 0, 16)
+			TracePrint 2
 			If instr(list, boss) = 0 Then 
 				list = list & " " & boss
 				cnt = dm.ReadInt(hwnd, HEX(t.getMainAddr() + &H3D0), 0)
+				TracePrint 3
 				For i = 0 To cnt - 1
 					base = "[[" & HEX(t.getMainAddr() + &H3D4) & "]+" & HEX(i * 4) & "]"
 					id = dm.ReadInt(hwnd, base & "+4", 0) / &H100
-					product = dm.ReadString(hwnd, base & "+14", 0, 16)
+					'product = dm.ReadString(hwnd, base & "+14", 0, 16)
 					price = dm.ReadInt(hwnd, base & "+114", 0)
-					amount = dm.ReadInt(hwnd, base & "+10", 0)
-					ReDim Preserve datas(j) : datas(j) = array(id,product,price,amount,boss)
+					'amount = dm.ReadInt(hwnd, base & "+10", 0)
+					ReDim Preserve datas(j) : datas(j) = array(id,boss,price)
 					j = j+ 1
 				Next
 			End If
