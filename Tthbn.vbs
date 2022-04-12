@@ -408,7 +408,7 @@ Class Tthbn
 	'¯}¸Ñ
 	Public Function crackAll(atk,move,range)
 		crack()
-		moveSpeed(atk,move)
+		moveSpeed atk,move
 		atkRange(range)
 		reLoginMin(4)
 		fixBank()
