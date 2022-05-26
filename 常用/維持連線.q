@@ -33,6 +33,9 @@ While True
 		If t.isOffLine() Then 
 			dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
 			Call lClick(array(37, 14))
+		ElseIf (t.x < 10) * (t.locationNo = 229) Then
+			dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
+			Call lClick(array(92, 14))
 		End If
 	Next
 	Delay 2000
