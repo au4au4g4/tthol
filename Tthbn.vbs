@@ -37,6 +37,9 @@ Class Tthbn
 	Public Function expp()
 		expp = dm.ReadInt(hwnd, "<tthbn.bin>+ACD28", 0) / 10 ^ 6
 	End Function
+	Public Function x()
+		locationNo = dm.ReadInt(hwnd, "[[[<ttha.bin>+004EF82C]+98]+2F8]+4C", 0)
+	End Function
 	Public Function locationNo()
 		locationNo = dm.ReadInt(hwnd, "[[<ttha.bin>+004EF82C]+98]+164", 0)
 	End Function
