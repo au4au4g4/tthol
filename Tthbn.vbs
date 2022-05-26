@@ -23,7 +23,7 @@ Class Tthbn
 		isOffLine = (dm.ReadInt(hwnd, "[<tthbn.bin>+8A64]", 0) = 0)
 	End Function
 	Public Function isStart()
-		isStart = (dm.ReadInt(hwnd, "[<tthbn.bin>+111968]", 0) = 1)
+		isStart = (dm.ReadInt(hwnd, "<tthbn.bin>+111968", 0) = 1)
 	End Function
 	
 	'read
