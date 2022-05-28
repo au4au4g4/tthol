@@ -32,7 +32,7 @@ Class Tthbn
 	End Function
 
 	Public Function level()
-		level = dm.ReadInt(hwnd, "<tthbn.bin>+109A6A", 1)
+		level = dm.ReadInt(hwnd, "[<tthbn.bin>+AE3C]", 1)
 	End Function
 	Public Function money()
 		money = dm.ReadInt(hwnd, "<tthbn.bin>+ACD24", 0)
