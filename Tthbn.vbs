@@ -23,7 +23,7 @@ Class Tthbn
 		isOffLine = (dm.ReadInt(hwnd, "[<tthbn.bin>+8A64]", 0) = 0)
 	End Function
 	Public Function isStart()
-		isStart = (dm.ReadInt(hwnd, "<tthbn.bin>+111968", 0) = 1)
+		isStart = (dm.ReadInt(hwnd, "[<tthbn.bin>+C520]", 0) = 1)
 	End Function
 	
 	'read
@@ -32,7 +32,7 @@ Class Tthbn
 	End Function
 
 	Public Function level()
-		level = dm.ReadInt(hwnd, "<tthbn.bin>+109A6A", 1)
+		level = dm.ReadInt(hwnd, "[<tthbn.bin>+AE3C]", 1)
 	End Function
 	Public Function money()
 		money = dm.ReadInt(hwnd, "<tthbn.bin>+ACD24", 0)
