@@ -38,13 +38,13 @@ dd = array(100, 230, 7, array("cdaecjhbgb", "hhddcjjcab", "dcdgdabjii", "jhafbah
 ee = array(100, 230, 7, array("dhhgfifdaj", "aghieagehb", "cdjbbadfjh", "dhigagfbdj", "bbjdeghgcj", "cfjhjaafhe", "gcbeaebcfh", "gfiggdegih", "hcicdbceha", "bbgbhcegdi"))
 ff = array(100, 230, 7, array("fgcjjhhhjb", "gdbiiadhig", "ibgggghdai", "idhbiejfjj", "ejgfdhaagc", "iebaddgcfj", "adfdebjacf", "bjihaaddec", "biccbbfgij", "daaiihdjfe"))
 
-gg = array(100, 180, 5, array("hjeahefdec", "kkhekbecih", "bakfdkfibd", "dfbcjiiebh", "cdjfajekab", "kfhiebkaif", "fajbhfdebh", "jcddhchhaa", "abheaaadde", "aekfhabfej"))
-hh = array(100, 180, 5, array("jjjkjccddf", "ebkkafbhhk", "kbikfabfdd", "aibiakcbfe", "cjifbjaaej", "kjbajbbjfc", "ikfjfcijhh", "ikjhkcdbke", "zfbhjfcaji", "fhbkhfkkcb"))
-ii = array(100, 230, 2, array("eekckhhebh", "jjbebbfihi", "eihhkhacic", "hdbccddeaj", "bifhcjbjkc", "jfhecbjdeh", "kkkiiaejfa", "eeehhhidfb", "kfdhbaiccf", "cjbekiehik"))
-jj = array(100, 230, 2, array("bffaejijae", "akcjikddhi", "faiafehiif", "beaiejkehj", "ecabbhkjdd", "edaekhhiji", "djekfhcbaj", "cdeffibkdc", "jckidbifeh", "beejdjaida"))
-kk = array(100, 230, 2, array("cjheahddai", "cakehiehba", "zakfhjhdhf", "idaejcfikj", "dafhhhdeka", "dkccjhhbje", "zajbkeebij", "cachhifkic", "kfkbakdafk", "zfbfdhbkid"))
-ll = array(100, 230, 2, array("jiccfbfaai", "jjcfebcafb", "kabbcaecaf", "zeecefdfeh", "cibjjidjba", "dffhchccef", "ijkaccahdj", "hfbfbcbjjf", "ffbhaechdk", "keachaicad"))
-mm = array(100, 230, 2, array("hjaficbjdi"))
+gg = array(50, 130, 5, array("hjeahefdec", "kkhekbecih", "bakfdkfibd", "dfbcjiiebh", "cdjfajekab", "kfhiebkaif", "fajbhfdebh", "jcddhchhaa", "abheaaadde", "aekfhabfej"))
+hh = array(50, 130, 5, array("jjjkjccddf", "ebkkafbhhk", "kbikfabfdd", "aibiakcbfe", "cjifbjaaej", "kjbajbbjfc", "ikfjfcijhh", "ikjhkcdbke", "zfbhjfcaji", "fhbkhfkkcb"))
+ii = array(50, 130, 2, array("eekckhhebh", "jjbebbfihi", "eihhkhacic", "hdbccddeaj", "bifhcjbjkc", "jfhecbjdeh", "kkkiiaejfa", "eeehhhidfb", "kfdhbaiccf", "cjbekiehik"))
+jj = array(50, 130, 2, array("bffaejijae", "akcjikddhi", "faiafehiif", "beaiejkehj", "ecabbhkjdd", "edaekhhiji", "djekfhcbaj", "cdeffibkdc", "jckidbifeh", "beejdjaida"))
+kk = array(50, 130, 2, array("cjheahddai", "cakehiehba", "zakfhjhdhf", "idaejcfikj", "dafhhhdeka", "dkccjhhbje", "zajbkeebij", "cachhifkic", "kfkbakdafk", "zfbfdhbkid"))
+ll = array(50, 130, 2, array("jiccfbfaai", "jjcfebcafb", "kabbcaecaf", "zeecefdfeh", "cibjjidjba", "dffhchccef", "ijkaccahdj", "hfbfbcbjjf", "ffbhaechdk", "keachaicad"))
+mm = array(50, 130, 2, array("hjaficbjdi"))
 
 teams = array(gg, hh, ii)
 
