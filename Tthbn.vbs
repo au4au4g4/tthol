@@ -299,7 +299,7 @@ Class Tthbn
 		dm.AsmAdd "mov ecx,[ecx]"
 		dm.AsmAdd "push 0"
 		dm.AsmAdd "push 03EC"
-		dm.AsmAdd "call 0" + HEX(ttha + &H8B010)
+		dm.AsmAdd "call 0" + HEX(ttha + &H8B0A0)
 		dm.AsmCall hwnd, 1	
 	End Function	
 	
@@ -417,13 +417,13 @@ Class Tthbn
 		moveSpeed atk,move
 		atkRange(range)
 		reLoginMin(4)
-		fixBank()
-		freeFrame(10)
-		fullSupport()
+		'fixBank()
+		'freeFrame(10)
+		'fullSupport()
 	End Function
 	
 	Public Function crack()
-		Call dm.WriteData(hwnd, "<tthbn.bin>+ACD08", "E1 E7 F6 B7 84 AC ED B4 E1 E0 A0 9C A9 FB ED E6 B6 8B B1")
+		Call dm.WriteData(hwnd, "<tthbn.bin>+ACD08", "E1E7FDB784ACEDB4E1EBA09CA9FBEDEDB68BB100")
 		reDim codes(0) : codes(0) = "jmp 0" + HEX(ttha + &H3B1E0)
 		Call asm("ttha.bin+3B162", codes)	
 	End Function
@@ -435,14 +435,15 @@ Class Tthbn
 	End Function
 
 	Public Function atkRange(range)
+		result = dm.FindData(hwnd,"00000000-FFFFFFFF","03 D1 89 54 24 04 DB 44 24 04 D9 FA E8 1F")
 		reDim codes(5)
 		codes(0) = "mov eax,0" & HEX(range ^ 2)
 		codes(1) = "cmp edx,eax"
-		codes(2) = "jg 0" + HEX(ttha + &H535AA)
+		codes(2) = "jg 0" + HEX(CLNG("&H"&result)+30)
 		codes(3) = "cmp ecx,eax"
-		codes(4) = "jg 0" + HEX(ttha + &H535AA)
-		codes(5) = "jmp 0" + HEX(ttha + &H535AF)
-		Call asm("ttha.bin+5358C", codes)
+		codes(4) = "jg 0" + HEX(CLNG("&H"&result)+30)
+		codes(5) = "jmp 0" + HEX(CLNG("&H"&result)+35)
+		Call asm(result, codes)
 	End Function
 	
 	Public Function reLoginMin(min)
