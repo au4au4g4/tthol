@@ -509,7 +509,7 @@ Class Tthbn
 	
 	' §¹¥þ¸Éµ¹
 	Public Function fullSupport()
-		Call dm.WriteData(hwnd, HEX(findAddr("75 29 3B")),"EB")
+		Call dm.WriteData(hwnd, HEX(findAddr("75 29 3B C7")),"EB")
 	End Function
 
 	Public Function atkSpeed(speed)
