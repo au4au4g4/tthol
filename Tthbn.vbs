@@ -454,7 +454,8 @@ Class Tthbn
 	End Function
 
 	Public function fixBank()
-		Call dm.WriteData(hwnd, "<ttha.bin>+69CDA", "10")	'¶ZÂ÷
+		Call dm.WriteData(hwnd, HEX(findAddr("02 81 E2 FF FF")), "10")	'¶ZÂ÷
+		
 		result = findAddr("E8 50 3F 02")
 		reDim codes(8)
 		codes(0) = "mov ecx,[esp+20]"
