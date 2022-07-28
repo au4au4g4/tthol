@@ -502,8 +502,17 @@ Class Tthbn
 	
 	' §¹¥þ¸Éµ¹
 	Public Function fullSupport()
-		Call dm.WriteData(hwnd, "<ttha.bin>+54917","EB")	
+		result = dm.FindData(hwnd,"00000000-FFFFFFFF",)
+		Call dm.WriteData(hwnd, addr("75 29 3B"),"EB")
 	End Function
+	
+	Set addrs = CreateObject("Scripting.Dictionary")
+	private function addr(code)
+		if not addrs.Exists(code) then
+			addrs.Add code, dm.FindData(hwnd,"00000000-FFFFFFFF",code)
+		end if
+		addr = addrs.Item(code)	
+	end function
 
 	Public Function atkSpeed(speed)
 		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+12100", 0,speed)	
