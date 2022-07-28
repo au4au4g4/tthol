@@ -1,6 +1,6 @@
 Class Tthbn
 
-	Private dm,dw,re,hwnd,ttha,tthbn,tthsj
+	Private dm,dw,re,hwnd,ttha,tthbn,tthsj,addrs
 	
 	Public Sub Class_Initialize()
 		Set dm = createobject("dm.dmsoft")
@@ -16,6 +16,7 @@ Class Tthbn
 		tthsj = dm.GetModuleBaseAddr(hwnd, "tthsj.bin")
 		ttha = dm.GetModuleBaseAddr(hwnd, "ttha.bin")
 		tthbn = dm.GetModuleBaseAddr(hwnd, "tthbn.bin")
+		Set addrs = CreateObject("Scripting.Dictionary")
    	End function
 
 	'flag
@@ -417,9 +418,11 @@ Class Tthbn
 		moveSpeed atk,move
 		atkRange(range)
 		reLoginMin(4)
-		'fixBank()
+		fixBank()
 		'freeFrame(10)
-		'fullSupport()
+		if range=7 then
+			fullSupport()
+		end if
 	End Function
 	
 	Public Function crack()
@@ -435,15 +438,15 @@ Class Tthbn
 	End Function
 
 	Public Function atkRange(range)
-		result = dm.FindData(hwnd,"00000000-FFFFFFFF","03 D1 89 54 24 04 DB 44 24 04 D9 FA E8 1F")
+		result = findAddr("03 D1 89 54 24 04 DB 44 24 04 D9 FA E8 1F")
 		reDim codes(5)
 		codes(0) = "mov eax,0" & HEX(range ^ 2)
 		codes(1) = "cmp edx,eax"
-		codes(2) = "jg 0" + HEX(CLNG("&H"&result)+30)
+		codes(2) = "jg 0" + HEX(result+30)
 		codes(3) = "cmp ecx,eax"
-		codes(4) = "jg 0" + HEX(CLNG("&H"&result)+30)
-		codes(5) = "jmp 0" + HEX(CLNG("&H"&result)+35)
-		Call asm(result, codes)
+		codes(4) = "jg 0" + HEX(result+30)
+		codes(5) = "jmp 0" + HEX(result+35)
+		Call asm(HEX(result), codes)
 	End Function
 	
 	Public Function reLoginMin(min)
@@ -451,48 +454,51 @@ Class Tthbn
 	End Function
 
 	Public function fixBank()
-		Call dm.WriteData(hwnd, "<ttha.bin>+69CDA", "10")
+		Call dm.WriteData(hwnd, "<ttha.bin>+69CDA", "10")	'距離
+		result = findAddr("E8 50 3F 02")
 		reDim codes(8)
 		codes(0) = "mov ecx,[esp+20]"
 		codes(1) = "push 0"
 		codes(2) = "push ecx"
 		codes(3) = "lea ecx,[esp+20]"
-		codes(4) = "call 0" + HEX(ttha + &H8871A)
-		codes(5) = "call 0" + HEX(ttha + &H8DBD1)
+		codes(4) = "call 0" + HEX(dm.ReadInt(hwnd, HEX(result - 4), 0) + result - 4 + 4)
+		codes(5) = "call 0" + HEX(dm.ReadInt(hwnd, HEX(result + 1), 0) + result + 1 + 4)
 		codes(6) = "test eax,eax"
-		codes(7) = "je 0" + HEX(ttha + &H69C8E)
-		codes(8) = "jmp 0" + HEX(ttha + &H69C85)
-		Call inAsm("ttha.bin+69C7C", codes)
+		codes(7) = "je 0" + HEX(result+18)
+		codes(8) = "jmp 0" + HEX(result+9)
+		Call inAsm(HEX(result), codes)
 		
+		result = findAddr("81 FA E8 18")
 		reDim codes(10)
 		codes(0) = "cmp edx,000018E8"
-		codes(1) = "je 0" + HEX(tthbn + &H24F08)
+		codes(1) = "je 0" + HEX(result+8)
 		codes(2) = "cmp edx,00001851"
-		codes(3) = "jne 0" + HEX(tthbn + &H24F50)
+		codes(3) = "jne 0" + HEX(result+50)
 		codes(4) = "mov edx,[ebp+0C]"
 		codes(5) = "push edx"
 		codes(6) = "mov ax,[ebp+08]"
 		codes(7) = "push eax"
 		codes(8) = "push 05"
-		codes(9) = "call 0" + HEX(tthbn + &H1361)
-		codes(10) = "jmp 0" + HEX(tthbn + &H24F50)
-		Call inAsm("tthbn.bin+24F00", codes)
+		codes(9) = "call 0" + HEX(dm.ReadInt(hwnd, HEX(result + 34), 0) + result + 34 + 4)
+		codes(10) = "jmp 0" + HEX(result+50)
+		Call inAsm(HEX(result), codes)
 		
+		result = findAddr("51 E8 C2 BD")
 		reDim codes(12)
 		codes(0) = "push ecx"
-		codes(1) = "call 0" + HEX(tthbn + &H10CD)
+		codes(1) = "call 0" + HEX(dm.ReadInt(hwnd, HEX(result + 2), 0) + result + 2 + 4)
 		codes(2) = "mov ecx,[ebp+08]"
 		codes(3) = "and ecx,0000FFFF"
 		codes(4) = "cmp ecx,00001851"
-		codes(5) = "jne 0" + HEX(tthbn + &H2530B)
+		codes(5) = "jne 0" + HEX(result+6)
 		codes(6) = "mov eax,[ebp+0C]"
 		codes(7) = "push eax"
 		codes(8) = "mov cx,[ebp+08]"
 		codes(9) = "push ecx"
 		codes(10) = "push 05"
-		codes(11) = "call 0" + HEX(tthbn + &H1361)
-		codes(12) = "jmp 0" + HEX(tthbn + &H2530B)
-		Call inAsm("tthbn.bin+25305", codes)
+		codes(11) = "call 0" + HEX(dm.ReadInt(hwnd, HEX(result - 31), 0) + result - 31 + 4)
+		codes(12) = "jmp 0" + HEX(result+6)
+		Call inAsm(HEX(result), codes)
 	End Function
 	
 	' 解開打怪範圍最小限制
@@ -503,17 +509,8 @@ Class Tthbn
 	
 	' 完全補給
 	Public Function fullSupport()
-		result = dm.FindData(hwnd,"00000000-FFFFFFFF",)
 		Call dm.WriteData(hwnd, addr("75 29 3B"),"EB")
 	End Function
-	
-	Set addrs = CreateObject("Scripting.Dictionary")
-	private function addr(code)
-		if not addrs.Exists(code) then
-			addrs.Add code, dm.FindData(hwnd,"00000000-FFFFFFFF",code)
-		end if
-		addr = addrs.Item(code)	
-	end function
 
 	Public Function atkSpeed(speed)
 		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+12100", 0,speed)	
@@ -686,4 +683,11 @@ Class Tthbn
 		Next
 		getObjs = objs
 	End Function
+	
+	private function findAddr(code)
+		if not addrs.Exists(code) then
+			addrs.Add code, dm.FindData(hwnd,"00000000-FFFFFFFF",code)
+		end if
+		findAddr = CLNG("&H" & addrs.Item(code))
+	end function
 End Class
