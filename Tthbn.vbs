@@ -9,7 +9,7 @@ Class Tthbn
 		dw.Register "kernel32.dll", "OpenProcess", "i=uuu", "r=h" 
 		dw.Register "kernel32.dll", "VirtualAllocEx", "i=lllll", "r=l"
 		dw.Register "WINMM.DLL", "timeGetTime", "r=l", "f=s"
-    	End Sub
+    End Sub
 	
    	Public default function Init(p_hwnd)
 		hwnd = p_hwnd
@@ -330,9 +330,27 @@ Class Tthbn
 	End Function
 	
 	Public function updateItem(itemAction)
-		dim id : id = dm.ReadIni("id", itemAction(0), ".\QMScript\item.ini")
 		action = split(dm.ReadIni("action", itemAction(1), ".\QMScript\item.ini"),",")
-		simpleCall hwnd, tthbn + 57568, array(action(1), action(0), id)
+		arr = itemCode(itemAction(0))
+		For i = 0 To UBound(arr)
+			simpleCall hwnd, tthbn + 57568, array(action(1), action(0), arr(i))
+		Next
+	End Function
+	Function itemCode(name)
+		Dim itemStart,itemAddr,arr
+		itemStart = dm.FindData(hwnd, "00000000-FFFFFFF", "20 4E 00 00 1E 00 00 00 00 00 00 00 BB C8 A8 E2")
+		itemAddr = dm.FindData(hwnd, itemStart + "-" + hex(clng("&H" + itemStart) + 3000000), "00 00 00 00" + big5(name) + "00 00 00 00")
+		arr = split(itemAddr, "|")
+		For i = 0 To UBound(arr)
+			arr(i) = dm.readint(hwnd, hex(clng("&H" + arr(i)) - 8), 0)
+		Next
+		itemCode = arr
+	End Function
+	Function big5(word)
+		dim i
+		For i = 0 To len(word) - 1
+			big5 = big5 & HEX(asc(right(word,len(word)-i)))
+		Next
 	End Function
 	
 	Public function reset()
