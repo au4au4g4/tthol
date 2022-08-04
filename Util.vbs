@@ -3,7 +3,7 @@ Class Util
 	Private dm,hwnd,http,json
 	
 	Public Sub Class_Initialize
-		include "VbsJson.vbs"
+		include ".\QMScript\VbsJson.vbs"
 		Set json = New VbsJson
 		Set dm = createobject("dm.dmsoft")
 		Set http = createObject("winhttp.winhttprequest.5.1")
