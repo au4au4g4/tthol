@@ -86,14 +86,6 @@ While true
 			dm.moveto 0, - 130  * d
 			dm.LeftUp 
 		Next
-	// ½Õ¥´©Ç½d³ò
-	ElseIf key = 117 Then
-		Call GetCursorPos(x, y)
-		hwnd = dm.GetPointWindow(x, y)
-		data = dm.ReadData(hwnd, "[[[<ttha.bin>+6FDC88]+350]+208]+120", 16)
-		For Each hwnd In hwnds
-			Call dm.WriteData(hwnd, "[[[<ttha.bin>+6FDC88]+350]+208]+120", data)
-		Next
 	End If
  	dm_ret = dm.UnBindWindow()
 Wend
