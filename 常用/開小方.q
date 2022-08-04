@@ -1,7 +1,7 @@
 [General]
 SyntaxVersion=2
-BeginHotkey=121
-BeginHotkeyMod=0
+BeginHotkey=105
+BeginHotkeyMod=2
 PauseHotkey=0
 PauseHotkeyMod=0
 StopHotkey=123
@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=3781a671-1216-431f-be63-fdde4c1be28d
 Description=ถ}คpค่
-Enable=0
+Enable=1
 AutoRun=0
 [Repeat]
 Type=0

@@ -1,7 +1,7 @@
 [General]
 SyntaxVersion=2
-BeginHotkey=121
-BeginHotkeyMod=0
+BeginHotkey=104
+BeginHotkeyMod=2
 PauseHotkey=0
 PauseHotkeyMod=0
 StopHotkey=123
@@ -10,7 +10,7 @@ RunOnce=1
 EnableWindow=
 MacroID=21bf90ac-ccf2-4fb6-90c9-23cb0b5d4566
 Description=¯}¸Ñ
-Enable=0
+Enable=1
 AutoRun=0
 [Repeat]
 Type=0
@@ -34,8 +34,9 @@ hwnds = array(t.getHwnd())
 For each hwnd in hwnds
 	t.init hwnd
 	t.crack
-	t.moveSpeed 50,130
+	t.moveSpeed 50,230
 	t.atkrange(2)
 	t.reLoginMin(4)
-	t.fixbank
+	t.fixbank 
+	t.fullsupport
 Next
