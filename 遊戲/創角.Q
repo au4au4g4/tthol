@@ -25,10 +25,8 @@ SetupOCXFile=
 [Script]
 Import "QMScript/Tthol.vbs" : Set t = New Tthol : t.init 
 
-accounts = array("hjeahefdec","kkhekbecih","bakfdkfibd","dfbcjiiebh","cdjfajekab","kfhiebkaif","fajbhfdebh","jcddhchhaa","abheaaadde","aekfhabfej","jjjkjccddf","ebkkafbhhk","kbikfabfdd","aibiakcbfe","cjifbjaaej","kjbajbbjfc","ikfjfcijhh","ikjhkcdbke","zfbhjfcaji","fhbkhfkkcb","eekckhhebh","jjbebbfihi","eihhkhacic","hdbccddeaj","bifhcjbjkc","jfhecbjdeh","kkkiiaejfa","eeehhhidfb","kfdhbaiccf","cjbekiehik","bffaejijae","akcjikddhi","faiafehiif","beaiejkehj","ecabbhkjdd","edaekhhiji","djekfhcbaj","cdeffibkdc","jckidbifeh","beejdjaida","cjheahddai","cakehiehba","zakfhjhdhf","idaejcfikj","dafhhhdeka","dkccjhhbje","zajbkeebij","cachhifkic","kfkbakdafk","zfbfdhbkid","jiccfbfaai","jjcfebcafb","kabbcaecaf","zeecefdfeh","cibjjidjba","dffhchccef","ijkaccahdj","hfbfbcbjjf","ffbhaechdk","keachaicad","hjaficbjdi")
-ids = array("乾為天","天地否","天澤履","天山遯","天火同人","天水訟","天雷無妄","天風姤","地天泰","坤為地","地澤臨","地山謙","地火明夷","地水師","地雷復","澤天夬","澤地萃","兌為澤","澤山咸","澤火革","澤水困","澤雷隨","澤風大過","山天大畜","山地剝","山澤損","艮為山","山火賁","山水蒙","山雷頤","山風蠱","火天大有","火地晉","火澤睽","火山旅","離為火","火水未濟","火雷噬嗑","火風鼎","水天需","水地比","水澤節","水山蹇","水火既濟","坎為水","水雷屯","水風井","雷天大壯","雷地豫","雷澤歸妹","雷山小過","雷火豐","雷水解","震為雷","雷風恒","風天小畜","風地觀","風澤中孚","風山漸","風火家人","風水渙","風雷益","巽為風")
-accounts = array("fdjtykutfk")
-ids = array("風雷益阿")
+accounts = array("idddidffak","chkchjacai","eekhdfahic","ikacidbdjf","jbkjhbdfck","cjfieiekde","abcdjkecai","bkhbdkchdc","fcafceaach","edfjjfddef","akefcaaedk","djdbjhfake","kjbbdbfjhj","ccaabjcdbb","cbjacicdbb","kbcfkadbcf","ejeaafeeia","jkheebddae","dajbhhiecj","bakhfiffji")
+ids = array("尖葉槭","土田七","野牽牛","尖瓣花","萬年麻","漿果莧","蔓竹杞","仙丹花","枯里珍","彩虹菊")
 For k = 0 To UBound(accounts)
 	TracePrint k
 	TracePrint accounts(k)
