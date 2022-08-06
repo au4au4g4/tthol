@@ -66,7 +66,7 @@ Function record()
 		t.init (hwnd)
 		earn = t.cash - cash.item(hwnd)
 		If earn < 10000 Then 
-			str = str + t.id + + "/" + earn + "-"
+			str = str + t.id + + "/" + cstr(earn) + "-"
 		End If
 		cash(hwnd) = cash(hwnd) + earn
 	Next
