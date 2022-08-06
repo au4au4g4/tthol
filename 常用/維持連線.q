@@ -34,7 +34,7 @@ While True
 	If (min mod 2) = 0 Then 
 		call keep()
 	End If
-	If (min mod 30) = 0 Then 
+	If (min mod 60) = 0 Then 
 		call record()
 	End If
 	Delay 60 * 1000
@@ -65,7 +65,7 @@ Function record()
 	For Each hwnd In hwnds
 		t.init (hwnd)
 		earn = t.cash - cash.item(hwnd)
-		If earn < 10000 Then 
+		If earn < 20000 Then 
 			str = str + t.id + + "/" + cstr(earn) + "-"
 		End If
 		cash(hwnd) = cash(hwnd) + earn
