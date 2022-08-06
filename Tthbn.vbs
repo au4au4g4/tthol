@@ -469,7 +469,7 @@ Class Tthbn
 	
 	Public Function reLoginMin(min)
 		Randomize
-		min = Int(5 * Rnd() + 1)
+		min = Int(6 * Rnd() + 2)
 		call dm.WriteInt(hwnd, "<ttha.bin>+3C334", 0, min * 60000)
 	End Function
 

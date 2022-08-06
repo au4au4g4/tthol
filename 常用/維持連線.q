@@ -60,16 +60,15 @@ Function lClick(xy)
 	Delay 100
 End Function
 
-
 Function record()
 	str = ""
 	For Each hwnd In hwnds
 		t.init (hwnd)
 		earn = t.cash - cash.item(hwnd)
 		If earn < 10000 Then 
-			str = str + t.id + "-"
+			str = str + t.id + + "/" + cstr(earn) + "-"
 		End If
-		cash(hwnd) = t.cash
+		cash(hwnd) = cash(hwnd) + earn
 	Next
 	u.pushMsg str
 End Function
