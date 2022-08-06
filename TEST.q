@@ -8,7 +8,7 @@ StopHotkey=123
 StopHotkeyMod=0
 RunOnce=1
 EnableWindow=
-MacroID=11f10087-a4ce-43dd-a8ec-6151cbd3a0d7
+MacroID=c559cb34-2c95-4b80-8095-4fa3cd169748
 Description=TEST
 Enable=0
 AutoRun=0
@@ -23,46 +23,54 @@ SetupOCXFile=
 [Comment]
 
 [UIPackage]
-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
+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
 
 
 [Script]
-Set dm = createobject("dm.dmsoft")
-//Import "QMScript/Tthol.vbs" : Set t = New Tthol
+//Set dm = createobject("dm.dmsoft")
+//Import "QMScript/Tthol.vbs" : Set t = New Tthol : t.init
 //hwnd = dm.FindWindow("_UJONLINE_", "Tthol")
 //dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
-hwnd = dm.FindWindow("", "絕代方程式")
-Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
-t.init hwnd
+//
+//Set dm = createobject("dm.dmsoft")
+//hwnd = dm.FindWindow("", "絕代方程式")
+//Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
+//t.init hwnd
 
-hwnds = t.getPartHwnds()
-For Each hwnd In hwnds
+hwnds = t.getAllHwnds()
+For each hwnd in hwnds
 	t.init hwnd
-	t.skill 550
+	t.reLoginMin(4)
 Next
 
-// 入門派
-//While true
-//	key = WaitKey()
-//	Select case key
-//	Case 97
-//		t.learnSkills(array(array(1,1),array(4,1),array(4,2),array(4,3),array(5,2),array(5,3),array(9,1),array(7,1)))
-//		t.talkNPC &H17B9, &H1, array(1, 2, 2, 2, 4, array(2, 10))
-//	Case 98
-//		t.talkNPC &H17B9, &H1, array(1, 2, 2, 2)
-//		t.talkNPC &H197A, &H1, array(1, 4, 6, 4)
-//	Case 99
-//		t.talkNPC &H19DF, &H1, array(1, 2, 5, 4, 4, 2, 2)
-//	Case 100
-//		t.talkNPC &H1789, &H1, array(1, 2, 8, 2, 4, 4, 2, 2)
-//	Case 101
-//		t.talkNPC &H1DD4, &H1, array(1, array(2, 12))
-//		Delay 500
-//		t.talkNPC &H1DD5, &H27, array(1, array(2, 6))
-//	Case 102
-//		t.talkNPC &H1DD4, &H1, array(1, array(2, 5))
-//	End Select
-//Wend
+//result = dm.FindData(hwnd, "00000000-FFFFFFFF", "51 E8 C2 BD")
+//TracePrint result
+
+
+//Set addrs = CreateObject("Scripting.Dictionary")
+//addrs.Add "login", "8B C3 6B C0 3C"
+//addrs.Add "send", "80 3D 34 C8 7E 00 01 75 6A 8B 44 24 08 56 50 51 E8 3B"
+//addrs.Add "send1", "80 3D 34 C8 7E 00 01 75 6A 8B 44 24 08 56 50 51 E8 4B"
+//addrs.Add "go", "56 8B F0 8B 86 04 03 00  00 85 C0 74"
+//addrs.Add "atk", "83 EC 08 53 8B 5C 24 10 8B"
+//addrs.Add "learnSkill", "51 53 6A 04 51 8D 5C 24  0C B9 3C"
+//addrs.Add "speed", "7D 05 B9 64"
+//For Each key In addrs.Keys
+//	result = dm.FindData(hwnd, "00400000-00500000", addrs.item(key))
+//	dm.WriteIni "addr", key, CLNG("&H" & result), ".\QMScript\tthbn.ini"
+//Next
+
+//arr = split(dm.EnumWindow(0, "挂機路線", "Static", 1 + 2), ",")
+//For Each a In arr
+//	a = clng(dm.GetWindow(clng(a),0))
+//	hwnd = clng(dm.GetWindow(a, 7))
+//	TracePrint HEX(dm.ReadInt(hwnd, "[[[<ttha.bin>+006FDE48]+C]+8]+14", 0)+4)
+//	dm.AsmClear 
+//	dm.AsmAdd "push 0" & HEX(a)
+//	dm.AsmAdd "mov ecx,0" & HEX(dm.ReadInt(hwnd, "[[[<ttha.bin>+006FDE48]+C]+8]+14", 0)+4)
+//	dm.AsmAdd "call 0" & HEX(dm.GetModuleBaseAddr(hwnd, "ttha.bin") + &H888C5)
+//	TracePrint HEX(dm.AsmCall(hwnd, 1))
+//Next
 
 // 取得小方家族名單
 //hwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1 + 4 + 8 + 16), ",")
