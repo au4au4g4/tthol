@@ -30,9 +30,12 @@ Set cash = CreateObject("Scripting.Dictionary")
 
 hwnds = t.getAllHwnds()
 While True
-	min = Minute(Now) 
-	If (min mod 2) = 0 Then 
-		call keep()
+	min = Minute(Now)
+	If (min mod 1) = 0 Then 
+		call disconnect()
+	End If
+	If (min mod 5) = 0 Then 
+		call connect()
 	End If
 	If (min mod 60) = 0 Then 
 		call record()
@@ -40,15 +43,23 @@ While True
 	Delay 60 * 1000
 Wend
 
-Function keep()
+Function disconnect()
+	For Each hwnd In hwnds
+		t.init (hwnd)
+		TracePrint t.isDisConnect
+		If (t.x < 10) * (t.locationNo = 229) * t.isStart + t.isDisConnect Then
+			dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
+			Call lClick(array(92, 14))
+		End If
+	Next	
+End Function
+
+Function connect()
 	For Each hwnd In hwnds
 		t.init(hwnd)
 		If t.isOffLine() Then 
 			dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
 			Call lClick(array(37, 14))
-		ElseIf (t.x < 10) * (t.locationNo = 229) * t.isStart Then
-			dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
-			Call lClick(array(92, 14))
 		End If
 	Next	
 End Function
