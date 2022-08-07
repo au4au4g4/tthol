@@ -26,6 +26,9 @@ Class Tthbn
 	Public Function isStart()
 		isStart = (dm.ReadInt(hwnd, "[<tthbn.bin>+C520]", 0) = 1)
 	End Function
+	Public Function isDisConnect()
+		isDisConnect = (dm.ReadInt(hwnd, "<tthbn.bin>+111E40", 0) = 0)
+	End Function
 	
 	'read
 	Public Function id()
