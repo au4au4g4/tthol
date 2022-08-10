@@ -34,7 +34,9 @@ Class Tthbn
 	Public Function id()
 		id = dm.ReadString(hwnd, "[<tthbn.bin>+16AE8]", 0, 16)
 	End Function
-
+	Public Function account()
+		account = dm.ReadString(hwnd, "<tthbn.bin>+10CD58", 0, 16)
+	End Function
 	Public Function level()
 		level = dm.ReadInt(hwnd, "[<tthbn.bin>+AE3C]", 1)
 	End Function
@@ -713,5 +715,9 @@ Class Tthbn
 			addrs.Add code, dm.FindData(hwnd,"00000000-FFFFFFFF",code)
 		end if
 		findAddr = CLNG("&H" & addrs.Item(code))
+	end function
+	
+	public function addr(key)
+		addr = split(dm.ReadIni("addr", key, ".\QMScript\tthbn.ini"),",")
 	end function
 End Class
