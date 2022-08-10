@@ -34,7 +34,9 @@ Class Tthbn
 	Public Function id()
 		id = dm.ReadString(hwnd, "[<tthbn.bin>+16AE8]", 0, 16)
 	End Function
-
+	Public Function account()
+		account = dm.ReadString(hwnd, "<tthbn.bin>+10CD58", 0, 16)
+	End Function
 	Public Function level()
 		level = dm.ReadInt(hwnd, "[<tthbn.bin>+AE3C]", 1)
 	End Function
@@ -283,7 +285,7 @@ Class Tthbn
 	
 	Public Function buy(npcName, itemName, cnt)
 		dim npc : Set npc = findNPC(npcName)
-		dim itemId : itemId = dm.ReadIni("id", itemName, ".\QMScript\item.ini")
+		dim itemId : itemId = itemCode(itemName)(0)
 		simpleCall hwnd, tthbn + &H24E90, array(cnt, itemId, npc.item("sn"), npc.item("id"))
 	End Function
 	
@@ -333,7 +335,7 @@ Class Tthbn
 	End Function
 	
 	Public function updateItem(itemAction)
-		action = split(dm.ReadIni("action", itemAction(1), ".\QMScript\item.ini"),",")
+		action = split(dm.ReadIni("action", itemAction(1), ".\QMScript\tthbn.ini"),",")
 		arr = itemCode(itemAction(0))
 		For i = 0 To UBound(arr)
 			simpleCall hwnd, tthbn + 57568, array(action(1), action(0), arr(i))
@@ -713,5 +715,9 @@ Class Tthbn
 			addrs.Add code, dm.FindData(hwnd,"00000000-FFFFFFFF",code)
 		end if
 		findAddr = CLNG("&H" & addrs.Item(code))
+	end function
+	
+	public function addr(key)
+		addr = split(dm.ReadIni("addr", key, ".\QMScript\tthbn.ini"),",")
 	end function
 End Class

@@ -1,9 +1,10 @@
 Class Tthol
 
-	Private dm,hwnd
+	Private dm,hwnd,addrs
 	
     Public default function Init()
 		Set dm = createobject("dm.dmsoft")
+		Set addrs = CreateObject("Scripting.Dictionary")
 		hwnd = dm.FindWindow("_UJONLINE_", "Tthol")
 		dm_ret = dm.BindWindow(hwnd,"normal","normal","normal",0)
 		Call dm.WriteInt(hwnd, "<tthola.dat>+36B3FC", 0, 150)
@@ -20,8 +21,8 @@ Class Tthol
 
 	Public Function getXY()
 		dim x,y,xy
-		x = -fix(-read("[<tthola.dat>+3E97A4]+2C04")/40)
-		y = -fix(-read("[<tthola.dat>+3E97A4]+2C08")/40)
+		x = -fix(-read("["&addr("getXY")&"]+2C04")/40)
+		y = -fix(-read("["&addr("getXY")&"]+2C08")/40)
 		getXY = array(x,y)
 	End Function
 
@@ -61,14 +62,20 @@ Class Tthol
 		chat = readString("[[[[[<tthola.dat>+3ED978]+10]+C50]+14]+8]",40)
 	End Function
 	
+	'mov*0000*
+	'mov
+	'mov
+	'mov
+	'and*FFFF
+	'mov*4]
 	Public Function getMainAddr()
 		Dim edx, eax
-		edx = read("[[[<tthola.dat>+3ED97C]+10]+C]+8")
-		eax = read("[[<tthola.dat>+3ED97C]+10]+AFC") and "&HFFFF"
+		edx = read("[[[<tthola.dat>+3F099C]+10]+C]+8")
+		eax = read("[[<tthola.dat>+3F099C]+10]+CC4") and "&HFFFF"
 		getMainAddr = read(edx + eax * 4)
 	End Function
 	
-	' ÁÑ°ÊîªÊìä0 ÊôÆÂäü1 ÊäÄËÉΩ3
+	' µLß¿ª0 ¥∂•\1 ßﬁØ‡3
 	Public Function attackType()
 		attackType = read(getMainAddr + &H10C8)
 	End Function
@@ -115,13 +122,13 @@ Class Tthol
 
 	Function getBagInfo(place)
 		If place = "bank" Then 
-			getBagInfo = read("[[<tthola.dat>+003ED978]+10]+2134") + &H1A8
+			getBagInfo = read("[[<tthola.dat>+003F099C]+10]+2318") + &H1A8
 		Else 
 			Dim eax,esi
 			If place = "bag" Then 
-				getBagInfo = read("[[[<tthola.dat>+003ED978]+10]+87C]") + &H360
+				getBagInfo = getMainAddr + &H360
 			Else 
-				getBagInfo = read("[[[<tthola.dat>+003ED978]+10]+87C]") + &H368	'pet
+				getBagInfo = getMainAddr + &H368	'pet
 			End If
 		End If
 	End Function
@@ -170,9 +177,9 @@ Class Tthol
 		Loop
 	End Function
 
-	' ------------------------------ram Âãï‰Ωú------------------------------
+	' ------------------------------ram ∞ ß@------------------------------
 
-	' ÁßªÂãï
+	' ≤æ∞ 
 	Public Function go(x,y)
 		dim xy : xy = getXY()
 		while (x<>xy(0))+(y<>xy(1))
@@ -181,14 +188,14 @@ Class Tthol
 			dm.AsmAdd "mov ebx,0"+Hex(x * 40)
 			dm.AsmAdd "mov edi,0"+Hex(y * 40)
 			dm.AsmAdd "push 00000001"
-			dm.AsmAdd "call 00407480"
+			dm.AsmAdd "call 0" + addr("go")
 			dm.AsmCall hwnd,1
 			delay 1000
 			xy = getXY()
 		wend
 	End Function
 
-	' ÂéªÊâæNPC
+	' •hß‰NPC
 	Public Function goNpc(id)
 		dm.AsmClear 
 		dm.AsmAdd "mov eax,[7EABBC]"
@@ -226,7 +233,7 @@ Class Tthol
 		end if
 	End Function
 	
-	'ÂÇ≥ÈÄÅ
+	'∂«∞e
 	Public Function trans()
 		dim portal, sn
 		set portal = getNpc(array(array(302, &H65)))
@@ -237,7 +244,7 @@ Class Tthol
 		end if
 	End Function
 	
-	'ÂÇ≥ÈÄÅ
+	'∂«∞e
 	Public Function transWait(l)
 		do
 			Delay 2000
@@ -253,7 +260,7 @@ Class Tthol
 		end if
 	End Function
 	
-	'Á©øË£ù
+	'¨Ô∏À
 	Public Function wear(eqpt)
 		dim no,id,sn
 		no = eqpt.item("no")
@@ -261,8 +268,49 @@ Class Tthol
 		sn = eqpt.item("sn")
 		send "2A","B",array(no,id,sn,3),array(2,4,4,1)
 	End Function
+	
+	'¨Ô∏À
+	Public Function wear2()
+		dim no,id,sn,eqpt
+		Set eqpt = getBag(array("ÆÒÆ∏n")).GetByIndex(0)
+		no = eqpt.item("no")
+		id = eqpt.item("id")
+		sn = eqpt.item("sn")
+	
+		dm.AsmClear 
+		dm.AsmAdd "sub esp,021"
+		dm.AsmAdd "mov eax,015"
+		dm.AsmAdd "lea ebx,[esp]"
+		
+		dm.AsmAdd "mov ecx,0"
+		dm.AsmAdd "mov [esp+00],ecx"
+		dm.AsmAdd "lea ecx,[esp+0C]"
+		dm.AsmAdd "mov [esp+04],ecx"
+		dm.AsmAdd "mov ecx,016"
+		dm.AsmAdd "mov [esp+08],ecx"
+		dm.AsmAdd "mov ecx,01"
+		dm.AsmAdd "mov [esp+0C],ecx"
+		dm.AsmAdd "mov ecx,07"
+		dm.AsmAdd "mov [esp+0E],ecx"
+		dm.AsmAdd "mov ecx,0" & HEX(no)
+		dm.AsmAdd "mov [esp+10],ecx"
+		dm.AsmAdd "mov ecx,0" & HEX(id)
+		dm.AsmAdd "mov [esp+14],ecx"
+		dm.AsmAdd "mov ecx,0" & HEX(sn)
+		dm.AsmAdd "mov [esp+18],ecx"
+		dm.AsmAdd "mov ecx,01600"
+		dm.AsmAdd "mov [esp+1C],ecx"
+		dm.AsmAdd "mov ecx,0"
+		dm.AsmAdd "mov [esp+20],cl"		
+		
+		dm.AsmAdd "call 00442010"
+		dm.AsmAdd "add esp,021"
+		dm.AsmAdd "ret"
+		dm.AsmCall hwnd, 1
+		Delay 300
+	End Function
 
-	' ÈéñÂÆöÊÄ™Áâ©
+	' ¬Í©w©«™´
 	Public Function aimMonster(yes)
 		If yes Then 
 			Call dm.WriteData(hwnd, "<tthola.dat>+4312E", "8B4424048B4014C20C00")
@@ -271,7 +319,7 @@ Class Tthol
 		End If
 	End Function
 	
-	'Â≠∏ÊäÄËÉΩ
+	'æ«ßﬁØ‡
 	Public function learnSkills(codes)
 		For Each code In codes
 			learnSkill (HEX(code(0)*100 + code(1)))
@@ -279,15 +327,15 @@ Class Tthol
 		Next
 	end Function
 	
-	'Â≠∏ÊäÄËÉΩ
+	'æ«ßﬁØ‡
 	Public function learnSkill(code)
 		dm.AsmClear 
 		dm.AsmAdd "mov eax,0" & code
-		dm.AsmAdd "call 00440780"
+		dm.AsmAdd "call 0" + addr("learnSkill")
 		dm.AsmCall hwnd, 1
 	end Function
 	
-	'ÁßªÈô§ÊäÄËÉΩ
+	'≤æ∞£ßﬁØ‡
 	Public function reomveSkill(code)
 		dm.AsmClear 
 		dm.AsmAdd "mov eax,0" & code
@@ -296,7 +344,7 @@ Class Tthol
 		dm.AsmCall hwnd, 1
 	end Function
 	
-	' ÈÄõÊî§Ë≤©
+	' ≥}≈u≥c
 	Public function shopping(addr)
 		dm.AsmClear
 		dm.AsmAdd "mov eax,0" & HEX(dm.ReadInt(hwnd,addr&"+D4", 0))
@@ -306,7 +354,7 @@ Class Tthol
 		dm.AsmCall hwnd, 1
 	end Function
 	
-	' ÁÖâÂåñ
+	' ∑“§∆
 	Public Function compound(id,addr)
 		Call dm.WriteInt(hwnd, "[[<tthola.dat>+003ED978]+10]+18B4", 0, id)
 		Call dm.WriteInt(hwnd, "[[<tthola.dat>+003ED978]+10]+18CC", 0, addr + 3)
@@ -317,7 +365,7 @@ Class Tthol
 		dm.AsmCall hwnd, 1
 	End Function
 	
-	' ÁÖâÂåñ
+	' ∑“§∆
 	Public Function compound0(cid,item)
 		dim no,id,sn
 		no = item.item("no")
@@ -329,7 +377,7 @@ Class Tthol
 		send "49","0",array(),array()
 	End Function
 	
-	' ‰ΩøÁî®Áâ©ÂìÅ
+	' ®œ•Œ™´´~
 	Public Function use(item)
 		dim no,id,sn
 		no = item.item("no")
@@ -338,23 +386,16 @@ Class Tthol
 		send "29","E",array(no,id,0,sn),array(2,2,2,2)
 	End Function
 	
-	' ÊôÆÊîª
+	' ¥∂ß
 	Public Function atk(monster)
-		TracePrint monster.item("no")
-		TracePrint monster.item("id")
-		TracePrint monster.item("sn")
-		TracePrint monster.item("key")
-		TracePrint monster.item("tp")
-		TracePrint monster.item("dead")
-		TracePrint monster.item("name")
 		dm.AsmClear 
 		dm.AsmAdd "push 0" & HEX(monster.item("key"))
-		dm.AsmAdd "push 0" & HEX(dm.ReadInt(hwnd, "[<tthola.dat>+3ED97C]+10", 0))
-		dm.AsmAdd "call 00489C60"
+		dm.AsmAdd "push 0" & HEX(dm.ReadInt(hwnd, "[<tthola.dat>+3F099C]+10", 0))
+		dm.AsmAdd "call 0" + addr("atk")
 		dm.AsmCall hwnd, 1
 	End Function
 	
-	' ÈñãÂïüÊà∞È¨•Ê®°Â°ä
+	' ∂}±“æ‘∞´º“∂Ù
 	Public Function openAtk(byval sw)
 		dm.WriteData hwnd, "<tthola.bin>+005367E7", "EB"
 		dm.writeInt hwnd, "[[[[<tthola.dat>+03ED44]+34]+24]+4]+179", 0,1
@@ -374,7 +415,7 @@ Class Tthol
 		exp = dm.ReadInt(hwnd, "[[[[<tthola.dat>+03ED44]+34]+24]+4]+610", 0)
 	End Function
 	
-	'È†òÂèñ
+	'ª‚®˙
 	Public Function pop(item)
 		Dim id, no, sn, amount
 		id = item.item("id")
@@ -384,7 +425,7 @@ Class Tthol
 		send "34","B",array(no,id,0,sn,0,amount),array(2,2,2,2,8,2)
 	End Function
 
-	'Â≠òÂÖ•
+	'¶s§J
 	Public Function push(item)
 		Dim id, no, sn, amount
 		id = item.item("id")
@@ -400,9 +441,9 @@ Class Tthol
 	End Function
 	
 	Public Function login(id,ps)
-		call dm.writeData(hwnd, "<tthola.dat>+39AB8", "B83C000000") 'Èéñ‰º∫ÊúçÂô®
-		dm_ret = dm.WriteString(hwnd, "[[[<tthola.dat>+003EE04C]+16C]+124]", 0, id)
-		dm_ret = dm.WriteString(hwnd, "[[[<tthola.dat>+003EE04C]+168]+124]", 0, ps)
+		call dm.writeData(hwnd, addr("login"), "B83C000000") '¬Í¶¯™Aæπ
+		dm_ret = dm.WriteString(hwnd, "[[[[<tthola.dat>+3EC7F0]+128]+28]+124]", 0, id)
+		dm_ret = dm.WriteString(hwnd, "[[[[<tthola.dat>+3EC7F0]+128]+24]+124]", 0, ps)
 		dm.MoveTo 543, 555
 		delay 100
 		dm.LeftClick
@@ -414,14 +455,18 @@ Class Tthol
 		dm.AsmAdd "push 0"
 		dm.AsmAdd "push 0"
 		dm.AsmAdd "push 011E"
-		dm.AsmAdd "push 0" & HEX(read("[[<tthola.dat>+00238C30]+0]+140"))
-		dm.AsmAdd "mov ecx,0" & HEX(read("[<tthola.dat>+003ED97C]+10"))
-		dm.AsmAdd "call 004AB080"
+		dm.AsmAdd "push 0" 
+		dm.AsmAdd "mov ecx,0" & HEX(read("[<tthola.dat>+003F099C]+10"))
+		dm.AsmAdd "call 0" & addr("logout")
 		dm.AsmCall hwnd, 1
 		Delay 1000		
 	End Function
 	
-	' ÂâµËßí
+	Public Function speed(s)
+		Call dm.WriteData(hwnd, addr("speed"), "9090B9"+HEX(s)+"000000")
+	End Function
+	
+	' ≥–®§
 	Public Function create(name)
 		dim i,big5 : big5 = ""
 		For i = 0 To len(name) - 1
@@ -434,7 +479,7 @@ Class Tthol
 		Delay 1000
 	End Function
 	
-	' Âà™Ëßí
+	' ßR®§
 	Public Function del(account,name)
 		data = array(0, toBig5(account), 21, toBig5(name))
 		t.send1 "6", &H25, data
@@ -449,7 +494,7 @@ Class Tthol
 	End Function
 	
 	Public Function choose()
-		' ÈÅ∏Ëßí
+		' øÔ®§
 		dm.MoveTo 519,331
 		delay 100
 		dm.LeftClick
@@ -464,7 +509,7 @@ Class Tthol
 		Delay 2000
 	End Function
 	
-	' ------------------------------Ë®òÊÜ∂È´î------------------------------
+	' ------------------------------∞Oæ–≈È------------------------------
 
 	Private Function read(addrs)
 		read = dm.ReadInt(hwnd, getScript(addrs), 0)
@@ -509,9 +554,9 @@ Class Tthol
 		getAddrs = result
 	End Function
 	
-	' ------------------------------ÂÖ±Áî®------------------------------
+	' ------------------------------¶@•Œ------------------------------
 	
-	' ÈñãÂïü Â∑¶ÈçµÁÑ°Ê≥ïÈªûÊìäNPC
+	' ∂}±“ •™¡‰µL™k¬I¿ªNPC
 	Public Function lockLClickNPC(yes)
 		If yes Then 
 			Call dm.WriteData(hwnd, "<tthola.dat>+5FC8A", "90E9")
@@ -533,7 +578,7 @@ Class Tthol
 		dm.AsmAdd "push 0"& pid
 		dm.AsmAdd "push 0"
 		dm.AsmAdd "mov ecx,0"& cid
-		dm.AsmAdd "call 0043EAB0"
+		dm.AsmAdd "call 0" + addr("send")
 		dm.AsmAdd "add esp,0"& HEX(UBound(lens)*4+4)
 		dm.AsmCall hwnd, 1
 		Delay 300
@@ -562,7 +607,7 @@ Class Tthol
 		dm.AsmAdd "push 0" & HEX(length)
 		dm.AsmAdd "push 0"
 		dm.AsmAdd "mov ecx,0" & cid
-		dm.AsmAdd "call 0043EBD0"
+		dm.AsmAdd "call 0" + addr("send1")
 		dm.AsmAdd "add esp,0" & HEX(length)
 		dm.AsmCall hwnd, 1
 		Delay 200
@@ -572,4 +617,8 @@ Class Tthol
 	    Randomize    
 	    ramNum = Int((max - min + 1) * Rnd) + min  
 	End Function
+	
+	function addr(key)
+		addr = HEX(dm.ReadIni("addr", key, ".\QMScript\tthol.ini"))
+	end function
 End Class

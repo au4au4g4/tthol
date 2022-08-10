@@ -76,7 +76,7 @@ Function record()
 	For Each hwnd In hwnds
 		t.init (hwnd)
 		earn = t.cash - cash.item(hwnd)
-		If earn < 20000 Then 
+		If earn < 10000 Then 
 			str = str + t.id + + "/" + cstr(earn) + "-"
 		End If
 		cash(hwnd) = cash(hwnd) + earn

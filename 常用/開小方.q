@@ -31,27 +31,13 @@ h = dm.getscreenheight() - 40
 c = 5
 r = 2
 
-bb = array(100, 230, 7, array("giddddgcgf", "hgghgbjdci", "jbgibcfgii", "ebfgcfghff", "gdhcfccjbb", "aiaaefehfi", "egbehifhbb", "dbefhbhggf", "gijhdigieg", "hbdeeeaihi"))
-aa = array(100, 230, 7, array("ggfecdaehg", "jgihagbffh", "jiedihbejd", "chbddbbhge", "bbdjhcibfb", "igbidcecjf", "icigfcifaf", "chedbceiaf", "ajfcedfabd", "eadejicbaj"))
-cc = array(100, 230, 7, array("iidaacjggb", "hfeijjgehh", "gagdeijbbc", "hhecdcebah", "idijbjgeia", "ifcfcjecib", "deijejjaig", "dgheffdbdb", "gdgdbbgcce", "jhgfefccjg"))
-dd = array(100, 230, 7, array("cdaecjhbgb", "hhddcjjcab", "dcdgdabjii", "jhafbahhda", "cbebbgcdff", "ihahehighf", "gbeeahdecf", "ibcggdjjdi", "cbajgfheii", "hdbbbigiic"))
-ee = array(100, 230, 7, array("dhhgfifdaj", "aghieagehb", "cdjbbadfjh", "dhigagfbdj", "bbjdeghgcj", "cfjhjaafhe", "gcbeaebcfh", "gfiggdegih", "hcicdbceha", "bbgbhcegdi"))
-ff = array(100, 230, 7, array("fgcjjhhhjb", "gdbiiadhig", "ibgggghdai", "idhbiejfjj", "ejgfdhaagc", "iebaddgcfj", "adfdebjacf", "bjihaaddec", "biccbbfgij", "daaiihdjfe"))
-
-gg = array(50, 130, 5, array("hjeahefdec", "kkhekbecih", "bakfdkfibd", "dfbcjiiebh", "cdjfajekab", "kfhiebkaif", "fajbhfdebh", "jcddhchhaa", "abheaaadde", "aekfhabfej"))
-hh = array(50, 130, 5, array("jjjkjccddf", "ebkkafbhhk", "kbikfabfdd", "aibiakcbfe", "cjifbjaaej", "kjbajbbjfc", "ikfjfcijhh", "ikjhkcdbke", "zfbhjfcaji", "fhbkhfkkcb"))
-ii = array(50, 130, 2, array("eekckhhebh", "jjbebbfihi", "eihhkhacic", "hdbccddeaj", "bifhcjbjkc", "jfhecbjdeh", "kkkiiaejfa", "eeehhhidfb", "kfdhbaiccf", "cjbekiehik"))
-jj = array(50, 130, 2, array("bffaejijae", "akcjikddhi", "faiafehiif", "beaiejkehj", "ecabbhkjdd", "edaekhhiji", "djekfhcbaj", "cdeffibkdc", "jckidbifeh", "beejdjaida"))
-kk = array(50, 130, 2, array("cjheahddai", "cakehiehba", "zakfhjhdhf", "idaejcfikj", "dafhhhdeka", "dkccjhhbje", "zajbkeebij", "cachhifkic", "kfkbakdafk", "zfbfdhbkid"))
-ll = array(50, 130, 2, array("jiccfbfaai", "jjcfebcafb", "kabbcaecaf", "zeecefdfeh", "cibjjidjba", "dffhchccef", "ijkaccahdj", "hfbfbcbjjf", "ffbhaechdk", "keachaicad"))
-mm = array(50, 130, 2, array("hjaficbjdi"))
-
-teams = array(gg, hh, ii)
+teams = t.addr("teams")
 
 windowCnt = UBound(t.getAllHwnds())
-For j = 0 To UBound(teams)
-	team = teams(j)
-	For i = 0 To UBound(team(3))
+For each team in teams
+	team = t.addr(team)
+	For Each id In team
+		setting = t.addr(id)
 		dm_ret = dm.UnBindWindow()
 		dm.moveto 120, 1060
 		dm.leftclick 
@@ -63,8 +49,8 @@ For j = 0 To UBound(teams)
 		// 調整位置
 		hwnd = dm.FindWindow("", "絕代方程式")
 		dm_ret = dm.SetClientSize(hwnd, w / c - 2, h / r - 32)
-		x = (i mod 5) * w / c - 7
-		y = (i \ 5) * h / r
+		x = (setting(0) mod 5) * w / c - 7
+		y = (setting(0) \ 5) * h / r
 		dm.MoveWindow hwnd, x, y
 		
 		// 輸入帳密
@@ -72,7 +58,7 @@ For j = 0 To UBound(teams)
 		edits = split(dm.EnumWindow(login, "", "Edit", 2 + 4), ",")
 		dm_ret = dm.BindWindow(edits(0), "normal", "windows", "windows", 0)
 		call del(15)
-		dm.SendString edits(0), team(3)(i)
+		dm.SendString edits(0), id
 		dm.SendString edits(1), "gj83dj4"
 		comboBoxs = split(dm.EnumWindow(login, "", "ComboBox", 2 + 4), ",")
 		dm_ret = dm.BindWindow(login, "normal", "windows", "windows", 0)
@@ -82,7 +68,7 @@ For j = 0 To UBound(teams)
 		
 		// 破解
 		t.init hwnd
-		t.crackAll team(0), team(1), team(2)
+		t.crackAll setting(1), setting(2), setting(3)
 		t.login
 	Next
 	

@@ -23,17 +23,27 @@ SetupOCXFile=
 [Comment]
 
 [Script]
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 Set dm = createobject("dm.dmsoft")
 w = dm.getscreenwidth() / 5
 h = (dm.getscreenheight() - 40) / 2
 
-hwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1+4), ",")
+hwnds = t.getAllHwnds()
 For each hwnd in hwnds
     dm_ret = dm.SetWindowSize(hwnd, w + 14, h + 7)
-    dm_ret = dm.GetWindowRect(hwnd, x1, y1, x2, y2)
-    cx = (x1 + x2) / 2
-    cy = (y1 + y2) / 2
-    x = ((cx + 7) \ w) * w - 7
-    y = (cy \ h) * h
+    t.init hwnd
+	i = t.addr(t.account)(0)
+    x = (i mod 5) * w - 7
+    y = (i \ 5) * h
     dm.MoveWindow hwnd, x, y
 Next
+
+//For each hwnd in hwnds
+//    dm_ret = dm.SetWindowSize(hwnd, w + 14, h + 7)
+//    dm_ret = dm.GetWindowRect(hwnd, x1, y1, x2, y2)
+//    cx = (x1 + x2) / 2
+//    cy = (y1 + y2) / 2
+//    x = ((cx + 7) \ w) * w - 7
+//    y = (cy \ h) * h
+//    dm.MoveWindow hwnd, x, y
+//Next
