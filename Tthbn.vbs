@@ -285,7 +285,7 @@ Class Tthbn
 	
 	Public Function buy(npcName, itemName, cnt)
 		dim npc : Set npc = findNPC(npcName)
-		dim itemId : itemId = dm.ReadIni("id", itemName, ".\QMScript\item.ini")
+		dim itemId : itemId = itemCode(itemName)(0)
 		simpleCall hwnd, tthbn + &H24E90, array(cnt, itemId, npc.item("sn"), npc.item("id"))
 	End Function
 	
@@ -335,7 +335,7 @@ Class Tthbn
 	End Function
 	
 	Public function updateItem(itemAction)
-		action = split(dm.ReadIni("action", itemAction(1), ".\QMScript\item.ini"),",")
+		action = split(dm.ReadIni("action", itemAction(1), ".\QMScript\tthbn.ini"),",")
 		arr = itemCode(itemAction(0))
 		For i = 0 To UBound(arr)
 			simpleCall hwnd, tthbn + 57568, array(action(1), action(0), arr(i))
