@@ -27,7 +27,8 @@ Import "QMScript/Tthol.vbs" : Set t = New Tthol : t.init
 
 accounts = array("idddidffak","chkchjacai","eekhdfahic","ikacidbdjf","jbkjhbdfck","cjfieiekde","abcdjkecai","bkhbdkchdc","fcafceaach","edfjjfddef","akefcaaedk","djdbjhfake","kjbbdbfjhj","ccaabjcdbb","cbjacicdbb","kbcfkadbcf","ejeaafeeia","jkheebddae","dajbhhiecj","bakhfiffji")
 ids = array("尖葉槭","土田七","野牽牛","尖瓣花","萬年麻","漿果莧","蔓竹杞","仙丹花","枯里珍","彩虹菊")
-For k = 0 To UBound(accounts)
+t.speed (150)
+For k = 10 To UBound(accounts)
 	TracePrint k
 	TracePrint accounts(k)
 	TracePrint ids(k)
@@ -39,7 +40,7 @@ For k = 0 To UBound(accounts)
 	t.trans	'進入傳點
 	t.talkNPC &HEA64&, array(2, 2, 2, 4, 2)'進入對話
 	t.go 26, 9
-	t.talkNPC &H1901, array(1, array(2,5))'明若蘭1
+	t.talkNPC &H1901, array(1, array(2, 5))'明若蘭1
 	t.go 44, 7
 	t.trans '*入弓手傳點
 	Delay 3000
