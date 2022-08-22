@@ -188,7 +188,7 @@ Class Tthol
 			dm.AsmAdd "mov ebx,0"+Hex(x * 40)
 			dm.AsmAdd "mov edi,0"+Hex(y * 40)
 			dm.AsmAdd "push 00000001"
-			dm.AsmAdd "call 0" + addr("go")
+			dm.AsmAdd "call 0" & addr("go")
 			dm.AsmCall hwnd,1
 			delay 1000
 			xy = getXY()
@@ -276,7 +276,7 @@ Class Tthol
 		no = eqpt.item("no")
 		id = eqpt.item("id")
 		sn = eqpt.item("sn")
-	
+
 		dm.AsmClear 
 		dm.AsmAdd "sub esp,021"
 		dm.AsmAdd "mov eax,015"
@@ -303,7 +303,7 @@ Class Tthol
 		dm.AsmAdd "mov ecx,0"
 		dm.AsmAdd "mov [esp+20],cl"		
 		
-		dm.AsmAdd "call 00442010"
+		dm.AsmAdd "call 0" & addr("wear2")
 		dm.AsmAdd "add esp,021"
 		dm.AsmAdd "ret"
 		dm.AsmCall hwnd, 1
@@ -331,7 +331,7 @@ Class Tthol
 	Public function learnSkill(code)
 		dm.AsmClear 
 		dm.AsmAdd "mov eax,0" & code
-		dm.AsmAdd "call 0" + addr("learnSkill")
+		dm.AsmAdd "call 0" & addr("learnSkill")
 		dm.AsmCall hwnd, 1
 	end Function
 	
@@ -391,7 +391,7 @@ Class Tthol
 		dm.AsmClear 
 		dm.AsmAdd "push 0" & HEX(monster.item("key"))
 		dm.AsmAdd "push 0" & HEX(dm.ReadInt(hwnd, "[<tthola.dat>+3F099C]+10", 0))
-		dm.AsmAdd "call 0" + addr("atk")
+		dm.AsmAdd "call 0" & addr("atk")
 		dm.AsmCall hwnd, 1
 	End Function
 	
@@ -578,7 +578,7 @@ Class Tthol
 		dm.AsmAdd "push 0"& pid
 		dm.AsmAdd "push 0"
 		dm.AsmAdd "mov ecx,0"& cid
-		dm.AsmAdd "call 0" + addr("send")
+		dm.AsmAdd "call 0" & addr("send")
 		dm.AsmAdd "add esp,0"& HEX(UBound(lens)*4+4)
 		dm.AsmCall hwnd, 1
 		Delay 300
@@ -607,7 +607,7 @@ Class Tthol
 		dm.AsmAdd "push 0" & HEX(length)
 		dm.AsmAdd "push 0"
 		dm.AsmAdd "mov ecx,0" & cid
-		dm.AsmAdd "call 0" + addr("send1")
+		dm.AsmAdd "call 0" & addr("send1")
 		dm.AsmAdd "add esp,0" & HEX(length)
 		dm.AsmCall hwnd, 1
 		Delay 200
