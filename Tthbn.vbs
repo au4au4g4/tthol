@@ -186,11 +186,11 @@ Class Tthbn
 	End Function
 	
 	Public Function learn(code)
-		stops
+		'stops
 		For i = 1 to code(1)
 			simpleCall hwnd, tthbn + &H2BA10, array(i,code(0))
 		Next
-		start
+		'start
 	End Function
 	
 	Public Function trades(buyer, keywords, ByVal cnt)

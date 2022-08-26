@@ -2,13 +2,13 @@ Class Tthol
 
 	Private dm,hwnd,addrs
 	
-    Public default function Init()
+    Public default Function  Init()
 		Set dm = createobject("dm.dmsoft")
 		Set addrs = CreateObject("Scripting.Dictionary")
 		hwnd = dm.FindWindow("_UJONLINE_", "Tthol")
 		dm_ret = dm.BindWindow(hwnd,"normal","normal","normal",0)
 		Call dm.WriteInt(hwnd, "<tthola.dat>+36B3FC", 0, 150)
-    End function
+    End Function
 
 	' ------------------------------ram flag------------------------------
 
@@ -21,8 +21,8 @@ Class Tthol
 
 	Public Function getXY()
 		dim x,y,xy
-		x = -fix(-read("["&addr("getXY")&"]+2C04")/40)
-		y = -fix(-read("["&addr("getXY")&"]+2C08")/40)
+		x = -fix(-read("["&addr("location")&"]+2C04")/40)
+		y = -fix(-read("["&addr("location")&"]+2C08")/40)
 		getXY = array(x,y)
 	End Function
 
@@ -38,12 +38,12 @@ Class Tthol
 		talkWnd = (read("[[[[<tthola.dat>+3EABBC]+10]+8]+104]+20") = 3)
 	End Function
 	
-	public function selectWnd()
+	public Function  selectWnd()
 		selectWnd = (read("<tthola.dat>+1FAE84") = 0)
-	end function 
+	end Function
 
 	Public Function location()
-		location = readString("[<tthola.dat>+3E97A4]+2B04",16)
+		location = readString("["&addr("location")&"]+2B04",16)
 	End Function
 
 	Public Function name()
@@ -59,7 +59,7 @@ Class Tthol
 	End Function
 	
 	Public Function chat()
-		chat = readString("[[[[[<tthola.dat>+3ED978]+10]+C50]+14]+8]",40)
+		chat = readString("[[[[[<tthola.dat>+3F099C]+10]+3C]+2B4]+8]",40)
 	End Function
 	
 	'mov*0000*
@@ -94,7 +94,7 @@ Class Tthol
 		set getBag = bag
 	End Function
 	
-	Function getItems(place)
+	Public Function getItems(place)
 		Dim bagAddr, lenAddr, headAddr, itemAddr, item, id,bag
 		Set bag = CreateObject("System.Collections.SortedList")
 		bagAddr = getBagInfo(place)
@@ -120,7 +120,7 @@ Class Tthol
 		set getItems = bag
 	End Function
 
-	Function getBagInfo(place)
+	Public Function getBagInfo(place)
 		If place = "bank" Then 
 			getBagInfo = read("[[<tthola.dat>+003F099C]+10]+2318") + &H1A8
 		Else 
@@ -320,7 +320,7 @@ Class Tthol
 	End Function
 	
 	'學技能
-	Public function learnSkills(codes)
+	Public Function  learnSkills(codes)
 		For Each code In codes
 			learnSkill (HEX(code(0)*100 + code(1)))
 			Delay 200
@@ -328,7 +328,7 @@ Class Tthol
 	end Function
 	
 	'學技能
-	Public function learnSkill(code)
+	Public Function  learnSkill(code)
 		dm.AsmClear 
 		dm.AsmAdd "mov eax,0" & code
 		dm.AsmAdd "call 0" & addr("learnSkill")
@@ -336,7 +336,7 @@ Class Tthol
 	end Function
 	
 	'移除技能
-	Public function reomveSkill(code)
+	Public Function  reomveSkill(code)
 		dm.AsmClear 
 		dm.AsmAdd "mov eax,0" & code
 		dm.AsmAdd "mov ecx,07081"
@@ -345,22 +345,21 @@ Class Tthol
 	end Function
 	
 	' 逛攤販
-	Public function shopping(addr)
+	Public Function  shopping(add)
 		dm.AsmClear
-		dm.AsmAdd "mov eax,0" & HEX(dm.ReadInt(hwnd,addr&"+D4", 0))
-		'dm.AsmAdd "mov eax,[eax+D4]"
-		dm.AsmAdd "mov edi,0"& HEX(dm.ReadInt(hwnd,"[<tthola.dat>+003ED978]+10", 0))
-		dm.AsmAdd "call 004855D0"
+		dm.AsmAdd "mov eax,0" & HEX(dm.ReadInt(hwnd, add & "+D0", 0))
+		dm.AsmAdd "mov edi,0"& HEX(dm.ReadInt(hwnd, "[" + addr("shop") + "]+10", 0))
+		dm.AsmAdd "call 0" + addr("shopping")
 		dm.AsmCall hwnd, 1
 	end Function
 	
 	' 煉化
 	Public Function compound(id,addr)
-		Call dm.WriteInt(hwnd, "[[<tthola.dat>+003ED978]+10]+18B4", 0, id)
-		Call dm.WriteInt(hwnd, "[[<tthola.dat>+003ED978]+10]+18CC", 0, addr + 3)
+		Call dm.WriteInt(hwnd, "[[" & addr("shop") & "]+10]+18B4", 0, id)
+		Call dm.WriteInt(hwnd, "[[" & addr("shop") & "]+10]+18CC", 0, addr + 3)
 		dm.AsmClear 
 		dm.AsmAdd "mov eax,01"
-		dm.AsmAdd "mov esi,0"& HEX(dm.ReadInt(hwnd, "[<tthola.dat>+003ED978]+10", 0))
+		dm.AsmAdd "mov esi,0"& HEX(dm.ReadInt(hwnd, "[" & addr("shop") & "]+10", 0))
 		dm.AsmAdd "call 004E7D80"
 		dm.AsmCall hwnd, 1
 	End Function
@@ -436,7 +435,7 @@ Class Tthol
 	End Function
 	
 	Public Function ad(str)
-		dm_ret = dm.WriteString(hwnd, "[[<tthola.dat>+003ED978]+10]+35A8", 0, str)
+		dm_ret = dm.WriteString(hwnd, "[[" & addr("shop") & "]+10]+35A8", 0, str)
 		send "7F","29",array(),array()
 	End Function
 	
@@ -486,7 +485,7 @@ Class Tthol
 		Delay 1000
 	End Function
 	
-	Function toBig5(str)
+	Private Function toBig5(str)
 		dim i
 		For i = 0 To len(str) - 1
 			toBig5 = toBig5 & HEX(asc(right(str,len(str)-i)))
@@ -549,7 +548,7 @@ Class Tthol
 		len = read(lenAddr)
 		For i = 0 To len - 1
 			Redim Preserve result(i)
-			 result(i) = read(headAddr+4*i)
+			result(i) = read(headAddr+4*i)
 		Next
 		getAddrs = result
 	End Function
@@ -584,7 +583,7 @@ Class Tthol
 		Delay 300
 	End Function
 	
-	Function send1(cid,length,data)
+	Private Function send1(cid,length,data)
 		dim i,j,str
 		
 		dm.AsmClear 
@@ -613,12 +612,12 @@ Class Tthol
 		Delay 200
 	End Function
 	
-	Function ramNum(min, max)
+	Private Function ramNum(min, max)
 	    Randomize    
 	    ramNum = Int((max - min + 1) * Rnd) + min  
 	End Function
 	
-	function addr(key)
+	Private Function addr(key)
 		addr = HEX(dm.ReadIni("addr", key, ".\QMScript\tthol.ini"))
-	end function
+	end Function
 End Class
