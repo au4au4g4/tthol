@@ -335,7 +335,7 @@ Class Tthbn
 	End Function
 	
 	Public function updateItem(itemAction)
-		action = split(dm.ReadIni("action", itemAction(1), ".\QMScript\tthbn.ini"),",")
+		action = split(dm.ReadIni("action", itemAction(1), ".\QMScript\tthbn.ini"),",")	
 		arr = itemCode(itemAction(0))
 		For i = 0 To UBound(arr)
 			simpleCall hwnd, tthbn + 57568, array(action(1), action(0), arr(i))
@@ -344,10 +344,10 @@ Class Tthbn
 	Function itemCode(name)
 		Dim itemStart,itemAddr,arr
 		itemStart = dm.FindData(hwnd, "00000000-FFFFFFFF", "20 4E 00 00 1E 00 00 00 00 00 00 00 BB C8 A8 E2")
-		itemAddr = dm.FindData(hwnd, itemStart + "-" + hex(clng("&H" + itemStart) + 3000000), "00 00 00 00" + big5(name) + "00 00 00 00")
+		itemAddr = dm.FindData(hwnd, itemStart + "-" + hex(clng("&H" + itemStart) + 4000000), "00 00" + big5(name) + "00 00 00 00")
 		arr = split(itemAddr, "|")
 		For i = 0 To UBound(arr)
-			arr(i) = dm.readint(hwnd, hex(clng("&H" + arr(i)) - 8), 0)
+			arr(i) = dm.readint(hwnd, hex(clng("&H" + arr(i)) - 10), 0)
 		Next
 		itemCode = arr
 	End Function
