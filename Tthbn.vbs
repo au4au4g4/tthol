@@ -95,6 +95,12 @@ Class Tthbn
 	Public Function gRange()
 		gRange = dm.ReadIni(team, "gRange", ".\tthbn.ini")	
 	End Function
+	Public Function skillLv(no,name)
+		dim str,addr
+		str =  dm.IntToData(no,0) & dm.StringToData(name,0)
+		addr = dm.FindData(hwnd, "0-FFFFFFFF", str)
+		skillLv = dm.ReadInt(hwnd, addr & "+14", 0)
+	End Function
 	
 	Public Function getMsg()
 		getMsg = dm.ReadString(hwnd, "[<tthbn.bin>+A0C9]", 0, 115)
@@ -321,6 +327,18 @@ Class Tthbn
 		sn = dm.ReadInt(hwnd, HEX(base+&H184), 0)
 		id = dm.ReadInt(hwnd, HEX(base+&H180), 0)
 		simpleCall hwnd, tthbn + &H23900, array(y,x,sn,id,code)
+	End Function
+	
+	Public Function addPoint()
+		simpleCall hwnd, ttha + &H3EBB0, array()
+	End Function
+	
+	Public Function wear(name)
+		dim weapon,id,sn
+		set weapon = t.getBag(array(name))(0)
+		id = weapon.item("id")
+		sn = weapon.item("sn")
+		simpleCall hwnd, tthbn + &H26AB0, array(sn,id)
 	End Function
 	
 	Public function removePlayer()
