@@ -42,7 +42,7 @@ While True
 	End If
 	If (min mod 60) = 0 Then 
 		Call record()
-		Call train()
+		'Call train()
 	End If
 	Delay 60 * 1000
 Wend
@@ -105,7 +105,7 @@ Function train()
 		Next
 		'Ä_½c
 		For Each box In boxes
-			If (lv >= box(0)) * (lv < box(0)+2) Then 
+			If (lv >= box(0)) * (lv < box(0) + 2) Then
 				t.apply box(1)
 				t.apply box(1)
 				t.wear("¤M")
