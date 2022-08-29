@@ -474,14 +474,14 @@ Class Tthol
 	
 		'data = array(2, "1", 9, "14", 12, "214E", 39, big5, 144, "0502", 195, "6", 312, HEX(123+ramNum(0,6))&"71", 735, "1")
 		data = array(2, "1", 8, "1", 12, "214E", 39, big5, 144, "0502", 191, "6", 312, HEX(73+ramNum(0,6))&"71", 735, "1")
-		t.send1 "5", &H300, data
+		send1 "5", &H300, data
 		Delay 1000
 	End Function
 	
 	' зRид
 	Public Function del(account,name)
 		data = array(0, toBig5(account), 21, toBig5(name))
-		t.send1 "6", &H25, data
+		send1 "6", &H25, data
 		Delay 1000
 	End Function
 	
