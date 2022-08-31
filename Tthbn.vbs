@@ -32,7 +32,7 @@ Class Tthbn
 	
 	'read
 	Public Function id()
-		id = dm.ReadString(hwnd, "[<tthbn.bin>+16AE8]", 0, 16)
+		id = dm.ReadString(hwnd, "<tthbn.bin>+109ED0", 0, 16)
 	End Function
 	Public Function account()
 		account = dm.ReadString(hwnd, "<tthbn.bin>+10CD58", 0, 16)
@@ -44,7 +44,7 @@ Class Tthbn
 		money = dm.ReadInt(hwnd, "<tthbn.bin>+ACD24", 0)
 	End Function	
 	Public Function expp()
-		expp = dm.ReadInt(hwnd, "<tthbn.bin>+ACD28", 0) / 10 ^ 6
+		expp = dm.ReadInt(hwnd, "<tthbn.bin>+109F10", 0)
 	End Function
 	Public Function x()
 		x = dm.ReadInt(hwnd, "[[[<ttha.bin>+004EF82C]+98]+2F8]+48", 0)
@@ -94,6 +94,12 @@ Class Tthbn
 	End Function
 	Public Function gRange()
 		gRange = dm.ReadIni(team, "gRange", ".\tthbn.ini")	
+	End Function
+	Public Function skillLv(no,name)
+		dim str,addr
+		str =  dm.IntToData(no,0) & dm.StringToData(name,0)
+		addr = dm.FindData(hwnd, "0-FFFFFFFF", str)
+		skillLv = dm.ReadInt(hwnd, addr & "+14", 0)
 	End Function
 	
 	Public Function getMsg()
@@ -187,7 +193,7 @@ Class Tthbn
 	
 	Public Function learn(code)
 		'stops
-		For i = 1 to code(1)
+		For i = code(1) to code(2)
 			simpleCall hwnd, tthbn + &H2BA10, array(i,code(0))
 		Next
 		'start
@@ -323,6 +329,18 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H23900, array(y,x,sn,id,code)
 	End Function
 	
+	Public Function addPoint()
+		simpleCall hwnd, ttha + &H3EBB0, array()
+	End Function
+	
+	Public Function wear(name)
+		dim weapon,id,sn
+		set weapon = t.getBag(array(name))(0)
+		id = weapon.item("id")
+		sn = weapon.item("sn")
+		simpleCall hwnd, tthbn + &H26AB0, array(sn,id)
+	End Function
+	
 	Public function removePlayer()
 		Call dm.WriteData(hwnd, "<ttha.bin>+66EAD", "909090909090")
 		reDim codes(4)
@@ -368,13 +386,14 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H23C60, array(-01,item.item("sn"),item.item("id"))
 	End Function
 	
-	Public function map(place)
-		dim placeId : placeId = dm.ReadIni("id", place, ".\QMScript\map.ini")
-		Call dm.WriteInt(hwnd, "[[[[[[<ttha.bin>+4EF82C]+98]+2F8]+414]+4BC]+8]+8", 0, placeId)
-		dm.AsmClear 
-		dm.AsmAdd "mov ecx,0" + HEX(dm.readint(hwnd, "[[[<ttha.bin>+4EF82C]+98]+2F8]+414", 0) + &H420)
-		dm.AsmAdd "call 0" + HEX(ttha + &H482A0)
-		dm.AsmCall hwnd, 1	
+	Public function map(mapID)
+		dim src
+		src = "../JD_FCS21.60/config/" & t.id & "_­¸¶­¤s²ø(ªá).dbt"
+		dm.DeleteFile src
+		dm.WriteFile src, "1,1," & mapID
+		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+10C", 0, 0)
+		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+11C", 0, mapID)
+		Call dm.WriteInt(hwnd, "[[[<ttha.bin>+4EF82C]+98]+F4]", 0, mapID)	
 	End Function
 	
 	Public function frame(arr)
