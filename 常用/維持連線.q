@@ -42,7 +42,7 @@ While True
 	End If
 	If (min mod 60) = 0 Then 
 		Call record()
-		'Call train()
+		Call train()
 	End If
 	Delay 60 * 1000
 Wend
@@ -50,7 +50,6 @@ Wend
 Function disconnect()
 	For Each hwnd In hwnds
 		t.init (hwnd)
-		TracePrint t.isDisConnect
 		If (t.x < 10) * (t.locationNo = 229) * t.isStart + t.isDisConnect Then
 			dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
 			Call lClick(array(92, 14))
@@ -93,7 +92,7 @@ Function train()
 		t.init (hwnd)
 		lv = t.level
 		'配點
-		For 5
+		For 2
 			t.addpoint
 		Next
 		'技能
@@ -105,9 +104,12 @@ Function train()
 		Next
 		'寶箱
 		For Each box In boxes
-			If (lv >= box(0)) * (lv < box(0) + 2) Then
+			If (lv >= box(0)) * (lv < box(0) + 2) Then 
+				TracePrint box(1)
 				t.apply box(1)
+				Delay 2000
 				t.apply box(1)
+				Delay 2000
 				t.wear("刀")
 			End If
 		Next
