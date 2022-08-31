@@ -100,7 +100,7 @@ Function train()
 		For Each skill In skills
 			slv = t.skillLv(skill(1),skill(2))
 			If (lv >= skill(0)) * (slv < skill(3)) Then 
-				t.learn (array(skill(1), slv + 1))
+				t.learn (array(skill(1), slv + 1, slv + 1))
 			End If
 		Next
 		'Ä_½c
