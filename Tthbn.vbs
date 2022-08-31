@@ -193,7 +193,7 @@ Class Tthbn
 	
 	Public Function learn(code)
 		'stops
-		For i = 1 to code(1)
+		For i = code(1) to code(2)
 			simpleCall hwnd, tthbn + &H2BA10, array(i,code(0))
 		Next
 		'start

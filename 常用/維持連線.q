@@ -94,21 +94,23 @@ Function train()
 		t.init (hwnd)
 		lv = t.level
 		'配點
-		For 5
+		For 2
 			t.addpoint
 		Next
 		'技能
 		For Each skill In skills
 			slv = t.skillLv(skill(1),skill(2))
 			If (lv >= skill(0)) * (slv < skill(3)) Then 
-				t.learn (array(skill(1), slv + 1))
+				t.learn (array(skill(1), slv + 1, slv + 1))
 			End If
 		Next
 		'寶箱
 		For Each box In boxes
 			If (lv >= box(0)) * (lv < box(0) + 2) Then
 				t.apply box(1)
+				Delay 2000
 				t.apply box(1)
+				Delay 2000
 				t.wear("刀")
 			End If
 		Next
