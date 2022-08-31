@@ -145,6 +145,7 @@ Class Tthol
 			for each cond in conds
 				pass = pass and (read(addr + cond(0)) = cond(1))
 			next
+			pass = pass * (dm.ReadInt(hwnd, HEX(addr + &H10C8), 2) = 0)
 			if pass Then
 				npc.Add "addr", HEX(addr)
 				npc.Add "no", dm.ReadInt(hwnd, HEX(addr + 300), 1)
@@ -154,7 +155,7 @@ Class Tthol
 				npc.Add "x", read(addr + 38)
 				npc.Add "y", read(addr + 42)
 				npc.Add "tp", read(addr + 220)
-				npc.Add "dead", dm.ReadInt(hwnd, HEX(addr + &H10C3), 2)
+				npc.Add "dead", dm.ReadInt(hwnd, HEX(addr + &H10C8), 2)
 				npc.Add "name", readString(addr + 484,10)
 				exit do
 			End If
@@ -474,14 +475,14 @@ Class Tthol
 	
 		'data = array(2, "1", 9, "14", 12, "214E", 39, big5, 144, "0502", 195, "6", 312, HEX(123+ramNum(0,6))&"71", 735, "1")
 		data = array(2, "1", 8, "1", 12, "214E", 39, big5, 144, "0502", 191, "6", 312, HEX(73+ramNum(0,6))&"71", 735, "1")
-		t.send1 "5", &H300, data
+		send1 "5", &H300, data
 		Delay 1000
 	End Function
 	
 	' зRид
 	Public Function del(account,name)
 		data = array(0, toBig5(account), 21, toBig5(name))
-		t.send1 "6", &H25, data
+		send1 "6", &H25, data
 		Delay 1000
 	End Function
 	
