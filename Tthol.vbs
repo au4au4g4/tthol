@@ -145,6 +145,7 @@ Class Tthol
 			for each cond in conds
 				pass = pass and (read(addr + cond(0)) = cond(1))
 			next
+			pass = pass * (dm.ReadInt(hwnd, HEX(addr + &H10C8), 2) = 0)
 			if pass Then
 				npc.Add "addr", HEX(addr)
 				npc.Add "no", dm.ReadInt(hwnd, HEX(addr + 300), 1)
@@ -154,7 +155,7 @@ Class Tthol
 				npc.Add "x", read(addr + 38)
 				npc.Add "y", read(addr + 42)
 				npc.Add "tp", read(addr + 220)
-				npc.Add "dead", dm.ReadInt(hwnd, HEX(addr + &H10C3), 2)
+				npc.Add "dead", dm.ReadInt(hwnd, HEX(addr + &H10C8), 2)
 				npc.Add "name", readString(addr + 484,10)
 				exit do
 			End If

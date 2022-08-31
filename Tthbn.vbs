@@ -32,7 +32,7 @@ Class Tthbn
 	
 	'read
 	Public Function id()
-		id = dm.ReadString(hwnd, "[<tthbn.bin>+16AE8]", 0, 16)
+		id = dm.ReadString(hwnd, "<tthbn.bin>+109ED0", 0, 16)
 	End Function
 	Public Function account()
 		account = dm.ReadString(hwnd, "<tthbn.bin>+10CD58", 0, 16)
@@ -386,13 +386,14 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H23C60, array(-01,item.item("sn"),item.item("id"))
 	End Function
 	
-	Public function map(place)
-		dim placeId : placeId = dm.ReadIni("id", place, ".\QMScript\map.ini")
-		Call dm.WriteInt(hwnd, "[[[[[[<ttha.bin>+4EF82C]+98]+2F8]+414]+4BC]+8]+8", 0, placeId)
-		dm.AsmClear 
-		dm.AsmAdd "mov ecx,0" + HEX(dm.readint(hwnd, "[[[<ttha.bin>+4EF82C]+98]+2F8]+414", 0) + &H420)
-		dm.AsmAdd "call 0" + HEX(ttha + &H482A0)
-		dm.AsmCall hwnd, 1	
+	Public function map(mapID)
+		dim src
+		src = "../JD_FCS21.60/config/" & t.id & "_­¸¶­¤s²ø(ªá).dbt"
+		dm.DeleteFile src
+		dm.WriteFile src, "1,1," & mapID
+		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+10C", 0, 0)
+		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+11C", 0, mapID)
+		Call dm.WriteInt(hwnd, "[[[<ttha.bin>+4EF82C]+98]+F4]", 0, mapID)	
 	End Function
 	
 	Public function frame(arr)
