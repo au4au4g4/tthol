@@ -26,7 +26,7 @@ SetupOCXFile=
 Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 Import "QMScript/Util.vbs" : Set u = New Util
 Set dm = createobject("dm.dmsoft")
-Set cash = CreateObject("Scripting.Dictionary")
+Set expp = CreateObject("Scripting.Dictionary")
 
 skills = array(array(9,190,"±j¤O¨ëÀ»",8),array(25,511,"¥©¹Ü¤o»Ø",3),array(30,750,"ÁëÅé­×·Ò",10),array(30,756,"·Ò¤ß­×·Ò",1),array(34,751,"¼CÀú¤d¬î",3),array(40,753,"¸U¼C«ß¥O",15),array(36,761,"¦BÁ÷¯Pª¢¬Þ",5),array(45,762,"¤K¨ö¯«ªZ°}",5),array(80,11,"´c·N±þ»ù",10),array(80,12,"«¡©ï»ù®æ",10),array(80,18,"ÃÄ¤ý¸g",10),array(80,193,"ÃÃÅÚ¦å«´",5),array(80,194,"µéµ·ÆF«´",5),array(80,359,"¯ð´Æ¦å«´",5),array(80,360,"°­µ·ÆF«´",20))
 boxes = array(array(1,"»î¦^"),array(1,"·s¤â"),array(10,"ªì¶¥"),array(20,"¤¤¶¥"),array(30,"°ª¶¥"),array(45,"ªì¶¥"),array(55,"¤¤¶¥"),array(65,"°ª¶¥"),array(70,"ªì¶¥"),array(80,"¤¤¶¥"))
@@ -80,11 +80,11 @@ Function record()
 	str = ""
 	For Each hwnd In hwnds
 		t.init (hwnd)
-		earn = t.cash - cash.item(hwnd)
-		If earn < 10000 Then 
+		earn = t.expp - expp.item(hwnd)
+		If earn < 100 Then 
 			str = str + t.id + + "/" + cstr(earn) + "-"
 		End If
-		cash(hwnd) = cash(hwnd) + earn
+		expp(hwnd) = expp(hwnd) + earn
 	Next
 	u.pushMsg str
 End Function

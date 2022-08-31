@@ -44,7 +44,7 @@ Class Tthbn
 		money = dm.ReadInt(hwnd, "<tthbn.bin>+ACD24", 0)
 	End Function	
 	Public Function expp()
-		expp = dm.ReadInt(hwnd, "<tthbn.bin>+ACD28", 0) / 10 ^ 6
+		expp = dm.ReadInt(hwnd, "<tthbn.bin>+109F10", 0)
 	End Function
 	Public Function x()
 		x = dm.ReadInt(hwnd, "[[[<ttha.bin>+004EF82C]+98]+2F8]+48", 0)
