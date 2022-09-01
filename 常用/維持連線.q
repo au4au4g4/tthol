@@ -38,7 +38,7 @@ While True
 	If (min mod 1) = 0 Then 
 		call disconnect()
 	End If
-	If (min mod 5) = 0 Then 
+	If (min mod 4) = 0 Then 
 		call connect()
 	End If
 	If (min mod 60) = 0 Then 
@@ -80,7 +80,7 @@ Function record()
 	str = ""
 	For Each hwnd In hwnds
 		t.init (hwnd)
-		earn = t.expp - expp.item(hwnd)
+		earn = t.x - expp.item(hwnd)
 		If earn < 100 Then 
 			str = str + t.id + + "/" + cstr(earn) + "-"
 		End If
@@ -116,8 +116,10 @@ Function train()
 		Next
 		'¦a¹Ï
 		For Each map In maps
-			If (lv >= map(0)) * (lv < map(0) + 2) Then
-				t.map(map)
+			If (lv >= map(0)) * (lv < map(0) + 2) * (t.loctionNo <> map(0)) Then
+				t.map (map)
+				dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
+				Call lClick(array(37, 14))
 			End If
 		Next
 	Next	
