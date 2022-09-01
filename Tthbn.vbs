@@ -391,9 +391,9 @@ Class Tthbn
 		src = "../JD_FCS21.60/config/" & t.id & "_­¸¶­¤s²ø(ªá).dbt"
 		dm.DeleteFile src
 		dm.WriteFile src, "1,1," & mapID
-		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+10C", 0, 0)
-		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+11C", 0, mapID)
-		Call dm.WriteInt(hwnd, "[[[<ttha.bin>+4EF82C]+98]+F4]", 0, mapID)	
+		'Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+10C", 0, 0)
+		'Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+11C", 0, mapID)
+		'Call dm.WriteInt(hwnd, "[[[<ttha.bin>+4EF82C]+98]+F4]", 0, mapID)	
 	End Function
 	
 	Public function frame(arr)
