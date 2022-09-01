@@ -80,7 +80,7 @@ Function record()
 	For Each hwnd In hwnds
 		t.init (hwnd)
 		earn = t.x - expp.item(hwnd)
-		If earn < 100 Then 
+		If earn = 0 Then 
 			str = str + t.id + + "/" + cstr(earn) + "-"
 		End If
 		expp(hwnd) = expp(hwnd) + earn
