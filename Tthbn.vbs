@@ -333,9 +333,9 @@ Class Tthbn
 		simpleCall hwnd, ttha + &H3EBB0, array()
 	End Function
 	
-	Public Function wear(name)
+	Public Function wear(names)
 		dim weapon,id,sn
-		set weapon = t.getBag(array(name))(0)
+		set weapon = t.getBag(names)(0)
 		id = weapon.item("id")
 		sn = weapon.item("sn")
 		simpleCall hwnd, tthbn + &H26AB0, array(sn,id)
