@@ -79,7 +79,7 @@ Function record()
 	str = ""
 	For Each hwnd In hwnds
 		t.init (hwnd)
-		earn = t.x - expp.item(hwnd)
+		earn = t.cash - expp.item(hwnd)
 		If earn = 0 Then 
 			str = str + t.id + + "/" + cstr(earn) + "-"
 		End If
