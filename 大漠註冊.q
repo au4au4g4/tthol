@@ -24,6 +24,6 @@ SetupOCXFile=
 
 [Script]
 set ws=createobject("Wscript.Shell")
-ws.run "regsvr32 /s .\dm.dll "
-ws.run "regsvr32 /s .\dynwrap.dll "
+ws.run "regsvr32 /s .\QMScript\dm.dll "
+ws.run "regsvr32 /s .\QMScript\dynwrap.dll "
 set ws=nothing
