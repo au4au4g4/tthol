@@ -333,9 +333,9 @@ Class Tthbn
 		simpleCall hwnd, ttha + &H3EBB0, array()
 	End Function
 	
-	Public Function wear(name)
+	Public Function wear(names)
 		dim weapon,id,sn
-		set weapon = t.getBag(array(name))(0)
+		set weapon = t.getBag(names)(0)
 		id = weapon.item("id")
 		sn = weapon.item("sn")
 		simpleCall hwnd, tthbn + &H26AB0, array(sn,id)
@@ -387,13 +387,20 @@ Class Tthbn
 	End Function
 	
 	Public function map(mapID)
-		dim src
-		src = "../JD_FCS21.60/config/" & t.id & "_飛雁山莊(花).dbt"
+		dim src,name,big5
+		src = "../JD_FCS21.60/config/"
+		name = t.id & "_飛雁山莊(花)"
+		big5 = replace(dm.StringToData(name, 0), " ", "")
+		if dm.IsFileExist(src & big5 & ".dbt") then
+			src = src & big5 & ".dbt"
+		else
+			src = src & name & ".dbt"
+		end if
 		dm.DeleteFile src
 		dm.WriteFile src, "1,1," & mapID
-		'Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+10C", 0, 0)
-		'Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+11C", 0, mapID)
-		'Call dm.WriteInt(hwnd, "[[[<ttha.bin>+4EF82C]+98]+F4]", 0, mapID)	
+		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+10C", 0, 0)
+		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+11C", 0, mapID)
+		Call dm.WriteInt(hwnd, "[[[<ttha.bin>+4EF82C]+98]+F4]", 0, mapID)	
 	End Function
 	
 	Public function frame(arr)
