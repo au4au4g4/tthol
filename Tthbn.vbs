@@ -96,10 +96,14 @@ Class Tthbn
 		gRange = dm.ReadIni(team, "gRange", ".\tthbn.ini")	
 	End Function
 	Public Function skillLv(no,name)
-		dim str,addr
-		str =  dm.IntToData(no,0) & dm.StringToData(name,0)
-		addr = dm.FindData(hwnd, "0-FFFFFFFF", str)
-		skillLv = dm.ReadInt(hwnd, addr & "+14", 0)
+		dim i,learnedSkill
+		i=0
+		learnedSkill = dm.readint(hwnd,HEX(tthbn+&H1082A0+36*i),0)
+		while (learnedSkill<>0) * (no<>cstr(learnedSkill))
+			i=i+1
+			learnedSkill = dm.readint(hwnd,HEX(tthbn+&H1082A0+36*i),0)
+		Wend
+		skillLv = dm.readint(hwnd,HEX(tthbn+&H1082A0+36*i+20),0)
 	End Function
 	
 	Public Function getMsg()
@@ -129,7 +133,7 @@ Class Tthbn
 	End Function
 	
 	Public Function getItemCnt(name)
-		dim items
+		dim item,items
 		getItemCnt = 0
 		items = getBag(array(name))
 		for each item in items
@@ -192,11 +196,10 @@ Class Tthbn
 	End Function
 	
 	Public Function learn(code)
-		'stops
 		For i = code(1) to code(2)
 			simpleCall hwnd, tthbn + &H2BA10, array(i,code(0))
 		Next
-		'start
+		delay 2000
 	End Function
 	
 	Public Function trades(buyer, keywords, ByVal cnt)
@@ -329,8 +332,54 @@ Class Tthbn
 		simpleCall hwnd, tthbn + &H23900, array(y,x,sn,id,code)
 	End Function
 	
-	Public Function addPoint()
-		simpleCall hwnd, ttha + &H3EBB0, array()
+	Public Function useSkill(code)
+		call dm.WriteInt(hwnd, "[[[<ttha.bin>+4EF82C]+98]+11E90]", 0, code(0))
+		dim src,name,big5
+		src = "../JD_FCS21.60/config/"
+		name = t.id & "_­¸¶­¤s²ø(ªá)"
+		big5 = replace(dm.StringToData(name, 0), " ", "")
+		if dm.IsFileExist(src & big5 & ".dat") then
+			src = src & big5 & ".dat"
+		else
+			src = src & name & ".dat"
+		end if
+		dm.writeini "hit","loopskill1",code(1),src 
+	End Function
+	
+	Public Function point(p)
+		Select Case p
+			Case "w"
+				offset=0
+			Case "n"
+				offset=1
+			Case "gg"
+				offset=2
+			Case "s"
+				offset=3
+			Case "g"
+				offset=4
+			Case "ss"
+				offset=5
+		End Select
+		point = dm.ReadInt(hwnd, HEX(tthbn+&H109F1A+offset*2), 1)
+	End Function
+	
+	Public Function addPoint(p)
+		Select Case p
+			Case "w"
+				offset=0
+			Case "n"
+				offset=1
+			Case "gg"
+				offset=2
+			Case "s"
+				offset=3
+			Case "g"
+				offset=4
+			Case "ss"
+				offset=5
+		End Select
+		simpleCall hwnd, ttha + &H3EBB0 + offset*16, array()
 	End Function
 	
 	Public Function wear(names)
@@ -384,6 +433,7 @@ Class Tthbn
 		dim item
 		set item = getBag(array(name))(0)
 		simpleCall hwnd, tthbn + &H23C60, array(-01,item.item("sn"),item.item("id"))
+		delay 2000
 	End Function
 	
 	Public function map(mapID)
