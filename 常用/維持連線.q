@@ -43,7 +43,7 @@ While True
 	End If
 	If (min mod 60) = 0 Then 
 		Call record()
-		'Call train()
+		Call train()
 	End If
 	Delay 60 * 1000
 Wend
