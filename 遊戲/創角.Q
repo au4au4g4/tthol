@@ -24,17 +24,17 @@ SetupOCXFile=
 
 [Script]
 Import "QMScript/Tthol.vbs" : Set t = New Tthol : t.init 
+Set dm = createobject("dm.dmsoft")
 
-accounts = array("idddidffak","chkchjacai","eekhdfahic","ikacidbdjf","jbkjhbdfck","cjfieiekde","abcdjkecai","bkhbdkchdc","fcafceaach","edfjjfddef","akefcaaedk","djdbjhfake","kjbbdbfjhj","ccaabjcdbb","cbjacicdbb","kbcfkadbcf","ejeaafeeia","jkheebddae","dajbhhiecj","bakhfiffji")
-ids = array("¦y¸­¼Ø","¤g¥Ð¤C","³¥²o¤û","¦yÃ¤ªá","¸U¦~³Â","¼ßªG³A","½¯¦Ë§û","¥P¤¦ªá","¬\¨½¬Ã","±m­iµâ")
+accounts = split(dm.ReadIni("addr", "n", ".\QMScript\tthbn.ini"),",")
 t.speed (150)
-For k = 10 To UBound(accounts)
-	TracePrint k
-	TracePrint accounts(k)
-	TracePrint ids(k)
-	t.login accounts(k), "gj83dj4"
-	t.del accounts(k), ids(k)
-	t.create ids(k)
+For k = 0 To UBound(accounts)
+	account =  accounts(k)
+	id = split(dm.ReadIni("addr", account, ".\QMScript\tthbn.ini"), ",")(4)
+	TracePrint k & "/" & accounts(k) & "/" & id
+	t.login account, "gj83dj4"
+	t.del account, id
+	t.create id
 	t.choose
 	
 	t.trans	'¶i¤J¶ÇÂI
@@ -82,7 +82,6 @@ For k = 10 To UBound(accounts)
 			Set monster = t.getMonster		
 		End If
 	Wend
-	
 	t.go 20, 69
 	t.talkNPC &H1902, array(1,array(2,30))'´c¤^¤¢	 
 	t.trans	'*¤J¤s¬}¶ÇÂI
