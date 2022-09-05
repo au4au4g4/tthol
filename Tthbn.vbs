@@ -96,10 +96,14 @@ Class Tthbn
 		gRange = dm.ReadIni(team, "gRange", ".\tthbn.ini")	
 	End Function
 	Public Function skillLv(no,name)
-		dim str,addr
-		str =  dm.IntToData(no,0) & dm.StringToData(name,0)
-		addr = dm.FindData(hwnd, "0-FFFFFFFF", str)
-		skillLv = dm.ReadInt(hwnd, addr & "+14", 0)
+		dim i,learnedSkill
+		i=0
+		learnedSkill = dm.readint(hwnd,HEX(tthbn+&H1082A0+36*i),0)
+		while (learnedSkill<>0) * (no<>cstr(learnedSkill))
+			i=i+1
+			learnedSkill = dm.readint(hwnd,HEX(tthbn+&H1082A0+36*i),0)
+		Wend
+		skillLv = dm.readint(hwnd,HEX(tthbn+&H1082A0+36*i+20),0)
 	End Function
 	
 	Public Function getMsg()
@@ -129,7 +133,7 @@ Class Tthbn
 	End Function
 	
 	Public Function getItemCnt(name)
-		dim items
+		dim item,items
 		getItemCnt = 0
 		items = getBag(array(name))
 		for each item in items

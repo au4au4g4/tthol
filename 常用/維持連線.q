@@ -98,7 +98,7 @@ Function train()
 		all = addr("point", "all")
 		For Each p In all
 			parm = addr("point", p)
-			If (parm(0) > t.point(p)) + (parm(1)>rnd()) Then 
+			If (parm(0) - t.point(p) > 0) * (parm(1) - rnd() > 0) Then 
 				t.addpoint (p)
 				t.addpoint (p)
 			End If
@@ -107,7 +107,7 @@ Function train()
 		'學技能
 		learnLVs = addr("learn", "all")
 		For Each learnLV In learnLVs
-			If LV >= learnLV Then 
+			If LV - learnLV >= 0 Then 
 				lLV = learnLV
 			End If
 		Next
@@ -117,7 +117,7 @@ Function train()
 			lLV=-1
 			While lLV < t.skillLv(learn(0), learn(1))
 				lLV = t.skillLv(learn(0),learn(1))
-				If lLV < learn(2) Then 
+				If lLV - learn(2) < 0 Then 
 					t.learn (array(learn(0), lLV + 1, lLV + 1))
 				End If
 			Wend
@@ -126,7 +126,7 @@ Function train()
 		'用技能
 		skillLVs = addr("skill", "all")
 		For Each skillLV In skillLVs
-			If LV >= skillLV Then 
+			If LV - cint(skillLV) >= 0 Then 
 				sLV = skillLV
 			End If
 		Next
@@ -136,13 +136,15 @@ Function train()
 		'道具
 		items = addr("item", LV)
 		For Each item In items
-			t.apply item
+			While t.getItemCnt(item) <> 0
+				t.apply item
+			Wend
 		Next
 		
 		'裝備
 		weapons = addr("weapon", LV)
 		For Each weapon In weapons
-			t.wear weapon
+			t.wear array(weapon)
 		Next
 		
 		'地圖
