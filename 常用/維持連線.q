@@ -131,7 +131,7 @@ Function train()
 			End If
 		Next
 		skill = addr("skill", sLV)
-		t.useSkill(skill)
+		t.useSkill(skill(0))
 		
 		'道具
 		items = addr("item", LV)
@@ -149,7 +149,7 @@ Function train()
 		
 		'地圖
 		map = addr("map", LV)
-		t.map(map)
+		t.map(map(0))
 	Next	
 End Function
 
