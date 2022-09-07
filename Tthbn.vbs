@@ -380,6 +380,7 @@ Class Tthbn
 				offset=5
 		End Select
 		simpleCall hwnd, ttha + &H3EBB0 + offset*16, array()
+		delay 2000
 	End Function
 	
 	Public Function wear(names)

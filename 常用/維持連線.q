@@ -98,10 +98,11 @@ Function train()
 		all = addr("point", "all")
 		For Each p In all
 			parm = addr("point", p)
-			If (parm(0) - t.point(p) > 0) * (parm(1) - rnd() > 0) Then 
+			point = - 1 
+			While (parm(0) - t.point(p) > 0) * (parm(1) - rnd() > 0) * (point <> t.point(p))
+				point = t.point(p)
 				t.addpoint (p)
-				t.addpoint (p)
-			End If
+			Wend
 		Next
 		
 		'學技能
@@ -149,7 +150,7 @@ Function train()
 		
 		'地圖
 		map = addr("map", LV)
-		t.map(map)
+		t.map(map(0))
 	Next	
 End Function
 
