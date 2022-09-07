@@ -183,7 +183,7 @@ Class Tthol
 	' 移動
 	Public Function go(x,y)
 		dim xy : xy = getXY()
-		while (x<>xy(0))+(y<>xy(1))
+		while ((x-xy(0))<2)+((y-xy(1))<2)
 			dm.AsmClear 
 			dm.AsmAdd "mov eax,0"+HEX(getMainAddr)
 			dm.AsmAdd "mov ebx,0"+Hex(x * 40)
@@ -191,7 +191,7 @@ Class Tthol
 			dm.AsmAdd "push 00000001"
 			dm.AsmAdd "call 0" & addr("go")
 			dm.AsmCall hwnd,1
-			delay 1000
+			delay 2000
 			xy = getXY()
 		wend
 	End Function
@@ -352,6 +352,7 @@ Class Tthol
 		dm.AsmAdd "mov edi,0"& HEX(dm.ReadInt(hwnd, "[" + addr("shop") + "]+10", 0))
 		dm.AsmAdd "call 0" + addr("shopping")
 		dm.AsmCall hwnd, 1
+		delay 1000
 	end Function
 	
 	' 煉化
@@ -507,6 +508,15 @@ Class Tthol
 		'data = array(0,"BF020000000000F6FEFFFFFFC8FC19005FD67175B06DFD000C2A6B7777D67175B0FC1900240000")
 		't.send1 "8", &H27, data
 		Delay 2000
+	End Function
+	' ------------------------------破解------------------------------
+	'讓所有畫面動
+	Public Function freeWindow()
+		Call dm.WriteData(hwnd, addr("freeWindow"), "9090")
+	End Function
+	
+	Public Function freeWindowLimit()
+		Call dm.WriteData(hwnd, addr("freeWindowLimit"), "909090909090")
 	End Function
 	
 	' ------------------------------記憶體------------------------------

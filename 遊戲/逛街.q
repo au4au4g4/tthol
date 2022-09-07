@@ -41,28 +41,25 @@ u.post "市集", datas
 
 Function readShop(list)
 	mainAddr = t.getMainAddr()
-	btnAddr = dm.FindData(hwnd, "12000000-30000000", "BC 44 5E 00")
+	btnAddr = dm.FindData(hwnd, "0-FFFFFFFF", dm.ReadData(hwnd, "[[<tthola.dat>+003F099C]+10]+8", 4) & " 78 07 00 00")
 	For Each addr In split(btnAddr, "|")
-		If dm.readint(hwnd, HEX(CLNG("&H" & addr) + 8), 0) = &H778 Then // 是商店按鈕
-			t.shopping(addr)
-			Delay 1000
-			
-			// 將商品存入文檔
-			boss = dm.ReadString(hwnd, "[" & addr & "+D4]+1E4", 0, 16)
-			If instr(list, boss) = 0 Then 
-				list = list & " " & boss
-				cnt = dm.ReadInt(hwnd, HEX(mainAddr + &H3D0), 0)
-				For i = 0 To cnt - 1
-					base = "[[" & HEX(mainAddr + &H3D4) & "]+" & HEX(i * 4) & "]"
-					id = dm.ReadInt(hwnd, base & "+4", 0) / &H100
-					price = dm.ReadInt(hwnd, base & "+114", 0)
-					'amount = dm.ReadInt(hwnd, base & "+10", 0)
-					'product = dm.ReadString(hwnd, base & "+14", 0, 16)
-					ReDim Preserve datas(j) : datas(j) = array(id,boss,price)
-					j = j+ 1
-				Next
-			End If
-		End If	
+		t.shopping(addr)
+		// 將商品存入文檔
+		boss = dm.ReadString(hwnd, "[" & addr & "+D0]+1E4", 0, 16)
+		TracePrint boss
+		If instr(list, boss) = 0 Then 
+			list = list & " " & boss
+			cnt = dm.ReadInt(hwnd, HEX(mainAddr + &H3D0), 0)
+			For i = 0 To cnt - 1
+				base = "[[" & HEX(mainAddr + &H3D4) & "]+" & HEX(i * 4) & "]"
+				id = dm.ReadInt(hwnd, base & "+4", 0) / &H100
+				price = dm.ReadInt(hwnd, base & "+114", 0)
+				'amount = dm.ReadInt(hwnd, base & "+10", 0)
+				'product = dm.ReadString(hwnd, base & "+14", 0, 16)
+				ReDim Preserve datas(j) : datas(j) = array(id,boss,price)
+				j = j+ 1
+			Next
+		End If
 	Next
 	readShop = list
 End Function
