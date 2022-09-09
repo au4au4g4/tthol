@@ -38,5 +38,6 @@ For each hwnd in hwnds
 //	t.atkrange(2)
 //	t.fixbank 
 //	t.fullsupport
-	t.crackall 100, 230, 2
+	setting = t.addr(t.id)
+	t.crackAll setting(1), setting(2), setting(3)
 Next
