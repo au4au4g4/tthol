@@ -65,9 +65,9 @@ For Each task In tasks
     		Case "b"
     			If params(1) = "¦Ê¸U©x¹ô" Then 
     				params(2) = int(t.cash / 10 ^ 6)
-    				t.reset
     			End If
 				t.buy params(0), params(1), params(2)
+				t.reset
     		Case "s"
 				t.sell params(0), params(1)
 		End Select
