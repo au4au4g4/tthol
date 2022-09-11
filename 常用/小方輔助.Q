@@ -1,6 +1,6 @@
 [General]
 SyntaxVersion=2
-BeginHotkey=97
+BeginHotkey=49
 BeginHotkeyMod=2
 PauseHotkey=0
 PauseHotkeyMod=0
@@ -11,7 +11,7 @@ EnableWindow=
 MacroID=30f7364a-18a2-47f5-9cae-b716b9751a8a
 Description=¤p¤è»²§U
 Enable=1
-AutoRun=0
+AutoRun=1
 [Repeat]
 Type=0
 Number=1

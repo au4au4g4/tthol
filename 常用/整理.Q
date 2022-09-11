@@ -1,11 +1,11 @@
 [General]
 SyntaxVersion=2
-BeginHotkey=102
+BeginHotkey=54
 BeginHotkeyMod=2
 PauseHotkey=0
 PauseHotkeyMod=0
-StopHotkey=102
-StopHotkeyMod=4
+StopHotkey=123
+StopHotkeyMod=0
 RunOnce=1
 EnableWindow=
 MacroID=0e8977bb-a552-405d-8d8d-608e4cf1529b
