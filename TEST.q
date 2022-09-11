@@ -1,7 +1,7 @@
 [General]
 SyntaxVersion=2
-BeginHotkey=121
-BeginHotkeyMod=0
+BeginHotkey=49
+BeginHotkeyMod=2
 PauseHotkey=0
 PauseHotkeyMod=0
 StopHotkey=123
@@ -23,30 +23,24 @@ SetupOCXFile=
 [Comment]
 
 [UIPackage]
-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
+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
 
 
 [Script]
-//Set dm = createobject("dm.dmsoft")
+Set dm = createobject("dm.dmsoft")
 //Import "QMScript/Tthol.vbs" : Set t = New Tthol : t.init
 //hwnd = dm.FindWindow("_UJONLINE_", "Tthol")
 //dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
 //
-Set dm = createobject("dm.dmsoft")
-hwnd = dm.FindWindow("", "絕代方程式")
-Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
+//Set dm = createobject("dm.dmsoft")
+//hwnd = dm.FindWindow("", "絕代方程式")
+//Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 //t.init hwnd
 
-hwnds = t.getAllHwnds()
-For each hwnd in hwnds
-	t.init hwnd
-	t.reLoginMin(4)
-Next
-
-//result = dm.FindData(hwnd, "00000000-FFFFFFFF", "51 E8 C2 BD")
-//TracePrint result
+MsgBox 1
 
 
+//TracePrint dm.FindData(hwnd, "00400000-00600000", "74 13 8B 06 8B CE FF 50 70")
 //Set addrs = CreateObject("Scripting.Dictionary")
 //addrs.Add "login", "8B C3 6B C0 3C"
 //addrs.Add "send", "80 3D 34 C8 7E 00 01 75 6A 8B 44 24 08 56 50 51 E8 3B"
@@ -55,9 +49,24 @@ Next
 //addrs.Add "atk", "83 EC 08 53 8B 5C 24 10 8B"
 //addrs.Add "learnSkill", "51 53 6A 04 51 8D 5C 24  0C B9 3C"
 //addrs.Add "speed", "7D 05 B9 64"
+//addrs.Add "logout", "6A FF 68 7F 2A"
+//addrs.Add "wear2", "53 55 56 8B D8 57 8D"
+//addrs.Add "shopping", "83 EC 0C 53 8D 88"
+//addrs.Add "freeWindow", "74 13 8B 06 8B CE FF 50 70"
+//addrs.Add "freeWindowLimit", "0F 84 81 04 00 00 E8"
+//For Each key In addrs.Keys
+//	result = dm.FindData(hwnd, "00400000-00600000", addrs.item(key))
+//	dm.WriteIni "addr", key, CLNG("&H" & result), ".\QMScript\tthol.ini"
+//Next
+//
+//Set addrs = CreateObject("Scripting.Dictionary")
+//addrs.Add "location", "4B 20 8B 0D"
+//addrs.Add "shop", "53 75 15 A1"
 //For Each key In addrs.Keys
 //	result = dm.FindData(hwnd, "00400000-00500000", addrs.item(key))
-//	dm.WriteIni "addr", key, CLNG("&H" & result), ".\QMScript\tthbn.ini"
+//	l = Len(Replace(addrs.item(key), " ", "", 1, - 1 )) / 2
+//	result = dm.ReadInt(hwnd, HEX(CLNG("&H" & result) + l), 0)
+//	dm.WriteIni "addr", key, result, ".\QMScript\tthol.ini"
 //Next
 
 //arr = split(dm.EnumWindow(0, "挂機路線", "Static", 1 + 2), ",")

@@ -1,10 +1,10 @@
 [General]
 SyntaxVersion=2
-BeginHotkey=98
+BeginHotkey=50
 BeginHotkeyMod=2
 PauseHotkey=0
 PauseHotkeyMod=0
-StopHotkey=98
+StopHotkey=50
 StopHotkeyMod=4
 RunOnce=1
 EnableWindow=
