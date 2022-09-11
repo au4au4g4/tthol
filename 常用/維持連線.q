@@ -34,7 +34,7 @@ maps = array(array(1,62),array(15,22),array(19,99),array(23,21),array(27,76),arr
 
 hwnds = t.getAllHwnds()
 While True
-	min = Minute(Now)
+	min = hour(now) * 60 + Minute(Now)
 	If (min mod 1) = 0 Then 
 		call disconnect()
 	End If
@@ -42,8 +42,11 @@ While True
 		call connect()
 	End If
 	If (min mod 60) = 0 Then 
-		Call record()
+		Call alarm()
 		'Call train()
+	End If
+	If (min mod 12 * 60) = 0 Then 
+		Call record()
 	End If
 	Delay 60 * 1000
 Wend
@@ -75,7 +78,7 @@ Function lClick(xy)
 	Delay 100
 End Function
 
-Function record()
+Function alarm()
 	str = ""
 	For Each hwnd In hwnds
 		t.init (hwnd)
@@ -86,6 +89,16 @@ Function record()
 		expp(hwnd) = expp(hwnd) + earn
 	Next
 	u.pushMsg str
+End Function
+
+Function record()
+	Dim datas : datas = array()
+	For Each hwnd In hwnds
+		t.init(hwnd)
+		Redim Preserve datas(ubound(datas) + 1)
+		datas(ubound(datas)) = array(t.id, t.level, t.place, t.period, t.monster, t.expp, t.money, t.cash + t.getItemCnt("百萬官幣") * 10 ^ 6, t.getItemCnt("特貢令"))
+	Next
+	u.post "掛機", datas
 End Function
 
 Function train()
