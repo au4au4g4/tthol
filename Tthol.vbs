@@ -183,7 +183,8 @@ Class Tthol
 	' ≤æ∞ 
 	Public Function go(x,y)
 		dim xy : xy = getXY()
-		while ((x-xy(0))<2)+((y-xy(1))<2)
+		While (x - xy(0)) ^ 2 + (y - xy(1)) ^ 2 > 2
+			TracePrint xy(0) &"="&xy(1)
 			dm.AsmClear 
 			dm.AsmAdd "mov eax,0"+HEX(getMainAddr)
 			dm.AsmAdd "mov ebx,0"+Hex(x * 40)
@@ -194,6 +195,7 @@ Class Tthol
 			delay 2000
 			xy = getXY()
 		wend
+		TracePrint 88
 	End Function
 
 	' •hß‰NPC
