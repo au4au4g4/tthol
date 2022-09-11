@@ -1,11 +1,11 @@
 [General]
 SyntaxVersion=2
-BeginHotkey=102
+BeginHotkey=54
 BeginHotkeyMod=2
 PauseHotkey=0
 PauseHotkeyMod=0
-StopHotkey=102
-StopHotkeyMod=4
+StopHotkey=123
+StopHotkeyMod=0
 RunOnce=1
 EnableWindow=
 MacroID=0e8977bb-a552-405d-8d8d-608e4cf1529b
@@ -67,6 +67,7 @@ For Each task In tasks
     				params(2) = int(t.cash / 10 ^ 6)
     			End If
 				t.buy params(0), params(1), params(2)
+				t.reset
     		Case "s"
 				t.sell params(0), params(1)
 		End Select

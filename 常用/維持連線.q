@@ -1,10 +1,10 @@
 [General]
 SyntaxVersion=2
-BeginHotkey=98
+BeginHotkey=50
 BeginHotkeyMod=2
 PauseHotkey=0
 PauseHotkeyMod=0
-StopHotkey=98
+StopHotkey=50
 StopHotkeyMod=4
 RunOnce=1
 EnableWindow=
@@ -89,38 +89,71 @@ Function record()
 End Function
 
 Function train()
+	Randomize
 	For Each hwnd In hwnds
 		t.init (hwnd)
-		lv = t.level
+		LV = t.level
+		
 		'配點
-		For 2
-			t.addpoint
+		all = addr("point", "all")
+		For Each p In all
+			parm = addr("point", p)
+			point = - 1 
+			While (parm(0) - t.point(p) > 0) * (parm(1) - rnd() > 0) * (point <> t.point(p))
+				point = t.point(p)
+				t.addpoint (p)
+			Wend
 		Next
-		'技能
-		For Each skill In skills
-			slv = t.skillLv(skill(1),skill(2))
-			If (lv >= skill(0)) * (slv < skill(3)) Then 
-				t.learn (array(skill(1), slv + 1, slv + 1))
+		
+		'學技能
+		learnLVs = addr("learn", "all")
+		For Each learnLV In learnLVs
+			If LV - learnLV >= 0 Then 
+				lLV = learnLV
 			End If
 		Next
-		'寶箱
-		For Each box In boxes
-			If (lv >= box(0)) * (lv < box(0) + 2) Then 
-				TracePrint box(1)
-				t.apply box(1)
-				Delay 2000
-				t.apply box(1)
-				Delay 2000
-				t.wear(array("刀","刃"))
+		learns = addr("learn", lLV)
+		For Each learn In learns
+			learn = split(learn, "|")
+			lLV=-1
+			While lLV < t.skillLv(learn(0), learn(1))
+				lLV = t.skillLv(learn(0),learn(1))
+				If lLV - learn(2) < 0 Then 
+					t.learn (array(learn(0), lLV + 1, lLV + 1))
+				End If
+			Wend
+		Next
+		
+		'用技能
+		skillLVs = addr("skill", "all")
+		For Each skillLV In skillLVs
+			If LV - cint(skillLV) >= 0 Then 
+				sLV = skillLV
 			End If
 		Next
+		skill = addr("skill", sLV)
+		t.useSkill(skill)
+		
+		'道具
+		items = addr("item", LV)
+		For Each item In items
+			While t.getItemCnt(item) <> 0
+				t.apply item
+			Wend
+		Next
+		
+		'裝備
+		weapons = addr("weapon", LV)
+		For Each weapon In weapons
+			t.wear array(weapon)
+		Next
+		
 		'地圖
-		For Each map In maps
-			If lv < map(0) Then 
-				Exit For
-			End If
-			mapID = map(1)	
-		Next
-		t.map (mapID)
+		map = addr("map", LV)
+		t.map(map(0))
 	Next	
+End Function
+
+Function addr(section, key)
+	addr = split(dm.readini(section, key, ".\QMScript\train.ini"), ",")
 End Function
