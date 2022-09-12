@@ -296,6 +296,7 @@ Class Tthbn
 		dim npc : Set npc = findNPC(npcName)
 		dim itemId : itemId = itemCode(itemName)(0)
 		simpleCall hwnd, tthbn + &H24E90, array(cnt, itemId, npc.item("sn"), npc.item("id"))
+		delay 1000
 	End Function
 	
 	Public Function sell(npcName, itemName)

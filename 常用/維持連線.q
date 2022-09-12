@@ -92,7 +92,7 @@ Function alarm()
 End Function
 
 Function record()
-	Dim datas : datas = array()
+	datas = array()
 	For Each hwnd In hwnds
 		t.init(hwnd)
 		Redim Preserve datas(ubound(datas) + 1)
