@@ -28,10 +28,6 @@ Import "QMScript/Util.vbs" : Set u = New Util
 Set dm = createobject("dm.dmsoft")
 Set expp = CreateObject("Scripting.Dictionary")
 
-skills = array(array(9,190,"±j¤O¨ëÀ»",8),array(25,511,"¥©¹Ü¤o»Ø",3),array(30,750,"ÁëÅé­×·Ò",10),array(30,756,"·Ò¤ß­×·Ò",1),array(34,751,"¼CÀú¤d¬î",3),array(40,753,"¸U¼C«ß¥O",15),array(36,761,"¦BÁ÷¯Pª¢¬Ş",5),array(45,762,"¤K¨ö¯«ªZ°}",5),array(80,11,"´c·N±ş»ù",10),array(80,12,"«¡©ï»ù®æ",10),array(80,18,"ÃÄ¤ı¸g",10),array(80,193,"ÃÃÅÚ¦å«´",5),array(80,194,"µéµ·ÆF«´",5),array(80,359,"¯ğ´Æ¦å«´",5),array(80,360,"°­µ·ÆF«´",20))
-boxes = array(array(1,"»î¦^"),array(1,"·s¤â"),array(10,"ªì¶¥"),array(20,"¤¤¶¥"),array(30,"°ª¶¥"),array(45,"ªì¶¥"),array(55,"¤¤¶¥"),array(65,"°ª¶¥"),array(70,"ªì¶¥"),array(80,"¤¤¶¥"))
-maps = array(array(1,62),array(15,22),array(19,99),array(23,21),array(27,76),array(31,77),array(35,188),array(38,215),array(43,214),array(47,37),array(51,86),array(55,87),array(62,89),array(65,49),array(69,90),array(74,91),array(77,39),array(80,83),array(84,211),array(90,210))
-
 hwnds = t.getAllHwnds()
 While True
 	min = hour(now) * 60 + Minute(Now)
@@ -84,7 +80,7 @@ Function alarm()
 		t.init (hwnd)
 		earn = t.cash - expp.item(hwnd)
 		If earn = 0 Then 
-			str = str + t.id + + "/" + cstr(earn) + "-"
+			str = str + t.id + t.addr("teams") + "/"
 		End If
 		expp(hwnd) = expp(hwnd) + earn
 	Next
