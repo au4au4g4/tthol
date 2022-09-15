@@ -364,18 +364,21 @@ Class Tthol
 		dm.AsmClear 
 		dm.AsmAdd "mov eax,01"
 		dm.AsmAdd "mov esi,0"& HEX(dm.ReadInt(hwnd, "[" & addr("shop") & "]+10", 0))
-		dm.AsmAdd "call 004E7D80"
+		dm.AsmAdd "call 004EA79A"
 		dm.AsmCall hwnd, 1
 	End Function
 	
 	' ทาคฦ
-	Public Function compound0(cid,item)
-		dim no,id,sn
-		no = item.item("no")
-		id = item.item("id")
-		sn = item.item("sn")
-		send "44","F",array(cid,0,0,0,1),array(4,4,4,2,1)
-		send "45","32",array(no,id,0,sn,0,0,0,0,0,0,0,0,0,0),array(2,2,2,2,4,4,4,4,4,4,4,4,4,4)
+	Public Function compound0(cid,item1,item2)
+		dim no1,id1,sn1,no2,id2,sn2
+		no1 = item1.item("no")
+		id1 = item1.item("id")
+		sn1 = item1.item("sn")
+		no2 = item2.item("no")
+		id2 = item2.item("id")
+		sn2 = item2.item("sn")
+		send "44","F",array(cid,no2,id2,0,sn2,0,1),array(4,2,2,2,2,2,1)
+		send "45","32",array(no1,id1,0,sn1,0,0,0,0,0,0,0,0,0,0),array(2,2,2,2,4,4,4,4,4,4,4,4,4,4)
 		send "AD","1E",array(0,0,0,0,0,0,0,0),array(4,4,4,4,4,4,4,4)
 		send "49","0",array(),array()
 	End Function
