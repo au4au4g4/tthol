@@ -79,6 +79,9 @@ For each team in teams
 	KeyUp "Win", 1
 	KeyUp "Ctrl", 1
 Next
+KeyDown "Ctrl", 1
+KeyPress "2", 1
+KeyUp "Ctrl", 1
 
 Function del(cnt)
 	Dim i
