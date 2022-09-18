@@ -78,9 +78,9 @@ Function alarm()
 	str = ""
 	For Each hwnd In hwnds
 		t.init (hwnd)
-		earn = t.cash - expp.item(hwnd)
+		earn = t.monster - expp.item(hwnd)
 		If earn = 0 Then 
-			str = str + t.id + t.addr("teams") + "/"
+			str = str + t.id + join(t.addr("teams")) + "/"
 		End If
 		expp(hwnd) = expp(hwnd) + earn
 	Next
