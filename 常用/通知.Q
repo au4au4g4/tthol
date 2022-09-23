@@ -29,7 +29,7 @@ Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 Import "QMScript/Util.vbs" : Set u = New Util
 
 Set re = New RegExp 
-re.Pattern= "密你：|幣"
+re.Pattern= "密你：|收幣|買幣|收官|買官"
 
 hwnd = t.getHwnd()
 t.init(hwnd)
