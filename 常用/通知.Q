@@ -28,11 +28,14 @@ Set http = createObject("winhttp.winhttprequest.5.1")
 Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 Import "QMScript/Util.vbs" : Set u = New Util
 
+Set re = New RegExp 
+re.Pattern= "密你：|收幣|買幣|收官|買官"
+
 hwnd = t.getHwnd()
 t.init(hwnd)
 While true
 	str = t.getMsg()
-	If (last <> str) * instr(str, " 密你：") Then 
+	If (last <> str) * re.Test(str) Then 
 		TracePrint str
 		u.pushMsg str
 		last = str
