@@ -20,22 +20,24 @@ Class Tthbn
    	End function
 
 	'flag
-	Public Function isOffLine()
-		isOffLine = (dm.ReadInt(hwnd, "[<tthbn.bin>+8A64]", 0) = 0)
+	'已斷開
+	Public Function isDisConnect()
+		isDisConnect = (dm.ReadInt(hwnd, "<tthbn.bin>+111F44", 0) = 0)
 	End Function
 	Public Function isStart()
 		isStart = (dm.ReadInt(hwnd, "[<tthbn.bin>+C520]", 0) = 1)
 	End Function
-	Public Function isDisConnect()
-		isDisConnect = (dm.ReadInt(hwnd, "<tthbn.bin>+111E40", 0) = 0)
+	'已斷線
+	Public Function isOffLine()
+		isOffLine = (id="")
 	End Function
 	
 	'read
 	Public Function id()
-		id = dm.ReadString(hwnd, "<tthbn.bin>+109ED0", 0, 16)
+		id = dm.ReadString(hwnd, "<tthbn.bin>+10AC6E", 0, 16)
 	End Function
 	Public Function account()
-		account = dm.ReadString(hwnd, "<tthbn.bin>+10CD58", 0, 16)
+		account = dm.ReadString(hwnd, "<tthbn.bin>+10CE38", 0, 16)
 	End Function
 	Public Function level()
 		level = dm.ReadInt(hwnd, "[<tthbn.bin>+AE3C]", 1)
@@ -311,11 +313,11 @@ Class Tthbn
 
 	Public Function login()
 		dm.AsmClear 
-		dm.AsmAdd "mov ecx,0" + HEX(ttha + &H4EF82C)
+		dm.AsmAdd "mov ecx,0" + HEX(ttha + &H4F185C)
 		dm.AsmAdd "mov ecx,[ecx]"
 		dm.AsmAdd "push 0"
 		dm.AsmAdd "push 03EC"
-		dm.AsmAdd "call 0" + HEX(ttha + &H8B0A0)
+		dm.AsmAdd "call 0" + addr("login",0)
 		dm.AsmCall hwnd, 1	
 	End Function	
 	
@@ -518,9 +520,7 @@ Class Tthbn
 		crack()
 		moveSpeed atk,move
 		atkRange(range)
-		reLoginMin(4)
 		fixBank()
-		'freeFrame(10)
 		if range=7 then
 			fullSupport()
 		end if
@@ -528,26 +528,24 @@ Class Tthbn
 	
 	Public Function crack()
 		Call dm.WriteData(hwnd, "<tthbn.bin>+ACD08", "E1E7FDB784ACEDB4E1EBA09CA9FBEDEDB68BB100")
-		reDim codes(0) : codes(0) = "jmp 0" + HEX(ttha + &H3B1E0)
-		Call asm("ttha.bin+3B162", codes)	
+		Call dm.WriteData(hwnd,addr("crack",0),"EB")
 	End Function
 
 	'280
 	Public Function moveSpeed(atk,move)
-		Call dm.WriteInt(hwnd,"<ttha.bin>+3FD3D",0,atk)
-		Call dm.WriteInt(hwnd,"<ttha.bin>+3FD53",0,move)
+		Call dm.WriteInt(hwnd,addr("moveSpeedAtk",0),0,atk)
+		Call dm.WriteInt(hwnd,addr("moveSpeed",0),0,move)
 	End Function
 
 	Public Function atkRange(range)
-		result = findAddr("03 D1 89 54 24 04 DB 44 24 04 D9 FA E8 1F")
 		reDim codes(5)
 		codes(0) = "mov eax,0" & HEX(range ^ 2)
 		codes(1) = "cmp edx,eax"
-		codes(2) = "jg 0" + HEX(result+30)
+		codes(2) = "jg 0" + addr("atkRange",30)
 		codes(3) = "cmp ecx,eax"
-		codes(4) = "jg 0" + HEX(result+30)
-		codes(5) = "jmp 0" + HEX(result+35)
-		Call asm(HEX(result), codes)
+		codes(4) = "jg 0" + addr("atkRange",30)
+		codes(5) = "jmp 0" + addr("atkRange",35)
+		Call asm(addr("atkRange",0) , codes)
 	End Function
 	
 	Public Function reLoginMin(min)
@@ -557,20 +555,19 @@ Class Tthbn
 	End Function
 
 	Public function fixBank()
-		Call dm.WriteData(hwnd, HEX(findAddr("02 81 E2 FF FF")), "10")	'距離
+		Call dm.WriteData(hwnd, addr("distance",0), "10")	'距離
 		
-		result = findAddr("E8 50 3F 02")
 		reDim codes(8)
 		codes(0) = "mov ecx,[esp+20]"
 		codes(1) = "push 0"
 		codes(2) = "push ecx"
 		codes(3) = "lea ecx,[esp+20]"
-		codes(4) = "call 0" + HEX(dm.ReadInt(hwnd, HEX(result - 4), 0) + result - 4 + 4)
-		codes(5) = "call 0" + HEX(dm.ReadInt(hwnd, HEX(result + 1), 0) + result + 1 + 4)
+		codes(4) = "call 0" + addr("fixbank",12 + dm.ReadInt(hwnd, addr("fixbank",8), 0))
+		codes(5) = "call 0" + addr("fixbank",17 + dm.ReadInt(hwnd, addr("fixbank",13), 0))
 		codes(6) = "test eax,eax"
-		codes(7) = "je 0" + HEX(result+18)
-		codes(8) = "jmp 0" + HEX(result+9)
-		Call inAsm(HEX(result), codes)
+		codes(7) = "je 0" + addr("fixbank",30)
+		codes(8) = "jmp 0" + addr("fixbank",21)
+		Call inAsm(addr("fixbank",12), codes)
 		
 		result = findAddr("81 FA E8 18")
 		reDim codes(10)
@@ -613,7 +610,7 @@ Class Tthbn
 	
 	' 完全補給
 	Public Function fullSupport()
-		Call dm.WriteData(hwnd, HEX(findAddr("75 29 3B C7")),"EB")
+		Call dm.WriteData(hwnd, addr("fullSupport",0),"EB")
 	End Function
 
 	Public Function atkSpeed(speed)
@@ -795,7 +792,28 @@ Class Tthbn
 		findAddr = CLNG("&H" & addrs.Item(code))
 	end function
 	
-	public function addr(key)
-		addr = split(dm.ReadIni("addr", key, ".\QMScript\tthbn.ini"),",")
+	public function accountSetting(key)
+		accountSetting = split(dm.ReadIni("account", key, ".\QMScript\tthbn.ini"),",")
 	end function
+
+	public function addr(key,offset)
+		addr = HEX(dm.ReadIni("addr", key, ".\QMScript\tthbn.ini")+offset)
+	end function
+
+	Public Function updateAddr()
+		Set addrs = CreateObject("Scripting.Dictionary")
+		addrs.Add "login", "55 8B EC 83 EC 2C 8B 45 08 53"
+		addrs.Add "crack", "74 7C 83 E8 02 74 1F 48"
+		addrs.Add "moveSpeedAtk", "18 01 00 00 6A 02 50"
+		addrs.Add "moveSpeed", "18 01 00 00 6A 02 51"
+		addrs.Add "atkRange", "03 D1 89 54 24 04 DB 44 24 04 D9 FA E8"
+		addrs.Add "fixbank", "6A 10 51 8D 4C 24 20"
+		addrs.Add "distance", "02 81 E2 FF FF"
+		addrs.Add "fullSupport", "75 29 3B C7"
+		For Each key In addrs.Keys
+			result = dm.FindData(hwnd, "00000000-00F00000", addrs.item(key))
+			result = split(result,"|")(0)
+			dm.WriteIni "addr", key, CLNG("&H" & result), ".\QMScript\tthbn.ini"
+		Next
+	End Function
 End Class
