@@ -36,9 +36,9 @@ While True
 	End If
 	If (min mod 4) = 0 Then 
 		call connect()
+		Call alarm()
 	End If
 	If (min mod 60) = 0 Then 
-		Call alarm()
 		'Call train()
 	End If
 	If (min mod 12 * 60) = 0 Then 
@@ -47,40 +47,38 @@ While True
 	Delay 60 * 1000
 Wend
 
+// 主動斷線(已斷線)
 Function disconnect()
 	For Each hwnd In hwnds
 		t.init (hwnd)
-		If (t.x < 10) * (t.locationNo = 229) * t.isStart + t.isDisConnect Then
+		If t.isOffLine Then
 			dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
 			Call lClick(array(92, 14))
 		End If
 	Next	
 End Function
 
+// 主動連線(已斷開)
 Function connect()
 	For Each hwnd In hwnds
 		t.init(hwnd)
-		If t.isOffLine() Then 
+		If t.isDisConnect Then 
 			dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
 			Call lClick(array(37, 14))
 		End If
 	Next	
 End Function
 
-Function lClick(xy)
-	dm.moveto xy(0), xy(1)
-	Delay 10
-	dm.leftclick 
-	Delay 100
-End Function
-
+// LINE通知(沒打怪)
 Function alarm()
 	str = ""
 	For Each hwnd In hwnds
 		t.init (hwnd)
 		earn = t.monster - expp.item(hwnd)
-		If earn = 0 Then 
+		If earn < 1 Then 
 			str = str + t.id + join(t.addr("teams")) + "/"
+			dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
+			Call lClick(array(92, 14))
 		End If
 		expp(hwnd) = expp(hwnd) + earn
 	Next
@@ -165,4 +163,11 @@ End Function
 
 Function addr(section, key)
 	addr = split(dm.readini(section, key, ".\QMScript\train.ini"), ",")
+End Function
+
+Function lClick(xy)
+	dm.moveto xy(0), xy(1)
+	Delay 10
+	dm.leftclick 
+	Delay 100
 End Function
