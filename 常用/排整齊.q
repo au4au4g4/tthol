@@ -38,12 +38,7 @@ For each hwnd in hwnds
     dm.MoveWindow hwnd, x, y
 Next
 
-//For each hwnd in hwnds
-//    dm_ret = dm.SetWindowSize(hwnd, w + 14, h + 7)
-//    dm_ret = dm.GetWindowRect(hwnd, x1, y1, x2, y2)
-//    cx = (x1 + x2) / 2
-//    cy = (y1 + y2) / 2
-//    x = ((cx + 7) \ w) * w - 7
-//    y = (cy \ h) * h
-//    dm.MoveWindow hwnd, x, y
-//Next
+hwnds = split( dm.EnumWindow(0,"虛擬機器連線","",1+4),",")
+for each hwnd in hwnds
+	dm.MoveWindow hwnd, -7, 0
+next
