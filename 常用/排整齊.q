@@ -32,7 +32,7 @@ hwnds = t.getAllHwnds()
 For each hwnd in hwnds
     dm_ret = dm.SetWindowSize(hwnd, w + 14, h + 7)
     t.init hwnd
-	i = t.addr(t.account)(0)
+	i = t.accountSetting(t.account)(0)
     x = (i mod 5) * w - 7
     y = (i \ 5) * h
     dm.MoveWindow hwnd, x, y
