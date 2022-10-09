@@ -31,13 +31,13 @@ h = dm.getscreenheight() - 40
 c = 5
 r = 2
 
-teams = t.addr("teams")
+teams = t.accountSetting("teams")
 
 windowCnt = UBound(t.getAllHwnds())
 For each team in teams
-	team = t.addr(team)
+	team = t.accountSetting(team)
 	For Each id In team
-		setting = t.addr(id)
+		setting = t.accountSetting(id)
 		dm_ret = dm.UnBindWindow()
 		dm.moveto 120, 1060
 		dm.leftclick 
@@ -64,7 +64,7 @@ For each team in teams
 		dm_ret = dm.BindWindow(login, "normal", "windows", "windows", 0)
 		dm.SendString comboBoxs(0), "飛雁山莊(花)"
 		dm.SendString comboBoxs(1), "1"
-		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4EF82C]+98]+E4A4", 0, 0)
+		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4F185C]+98]+E4C4", 0, 0)
 		
 		// 破解
 		t.init hwnd
