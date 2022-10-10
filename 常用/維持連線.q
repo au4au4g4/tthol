@@ -76,7 +76,7 @@ Function alarm()
 		t.init (hwnd)
 		earn = t.monster - expp.item(hwnd)
 		If earn < 1 Then 
-			str = str + t.id + join(t.addr("teams")) + "/"
+			str = str + t.id + join(t.teams) + "/"
 			//dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
 			//Call lClick(array(92, 14))
 		End If

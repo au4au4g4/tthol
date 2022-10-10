@@ -31,13 +31,14 @@ h = dm.getscreenheight() - 40
 c = 5
 r = 2
 
-teams = t.accountSetting("teams")
+teamIDs = t.teamIDs
 
 windowCnt = UBound(t.getAllHwnds())
-For each team in teams
-	team = t.accountSetting(team)
-	For Each id In team
-		setting = t.accountSetting(id)
+For each teamID in teamIDs
+	IDs = t.IDs(teamID)
+	teamSt = t.teamST(teamID)
+	For Each ID In IDs
+		memberST = t.memberST(ID)
 		dm_ret = dm.UnBindWindow()
 		dm.moveto 120, 1060
 		dm.leftclick 
@@ -49,8 +50,8 @@ For each team in teams
 		// 調整位置
 		hwnd = dm.FindWindow("", "絕代方程式")
 		dm_ret = dm.SetClientSize(hwnd, w / c - 2, h / r - 32)
-		x = (setting(0) mod 5) * w / c - 7
-		y = (setting(0) \ 5) * h / r
+		x = (memberST(0) mod 5) * w / c - 7
+		y = (memberST(0) \ 5) * h / r
 		dm.MoveWindow hwnd, x, y
 		
 		// 輸入帳密
@@ -58,7 +59,7 @@ For each team in teams
 		edits = split(dm.EnumWindow(login, "", "Edit", 2 + 4), ",")
 		dm_ret = dm.BindWindow(edits(0), "normal", "windows", "windows", 0)
 		call del(15)
-		dm.SendString edits(0), id
+		dm.SendString edits(0), ID
 		dm.SendString edits(1), "gj83dj4"
 		comboBoxs = split(dm.EnumWindow(login, "", "ComboBox", 2 + 4), ",")
 		dm_ret = dm.BindWindow(login, "normal", "windows", "windows", 0)
@@ -68,7 +69,7 @@ For each team in teams
 		
 		// 破解
 		t.init hwnd
-		t.crackAll setting(1), setting(2), setting(3)
+		t.crackAll teamSt(0), teamSt(1), teamSt(2)
 		t.login
 	Next
 	

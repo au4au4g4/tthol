@@ -792,14 +792,6 @@ Class Tthbn
 		findAddr = CLNG("&H" & addrs.Item(code))
 	end function
 	
-	public function accountSetting(key)
-		accountSetting = split(dm.ReadIni("account", key, ".\QMScript\tthbn.ini"),",")
-	end function
-
-	public function addr(key,offset)
-		addr = HEX(dm.ReadIni("addr", key, ".\QMScript\tthbn.ini")+offset)
-	end function
-
 	Public Function updateAddr()
 		Set addrs = CreateObject("Scripting.Dictionary")
 		addrs.Add "login", "55 8B EC 83 EC 2C 8B 45 08 53"
@@ -816,4 +808,20 @@ Class Tthbn
 			dm.WriteIni "addr", key, CLNG("&H" & result), ".\QMScript\tthbn.ini"
 		Next
 	End Function
+	
+	Public Function IDs(key)
+		IDs = split(dm.ReadIni("IDs",key,".\QMScript\tthbn.ini"),",")
+	End Function
+	Public Function teamST(key)
+		teamST = split(dm.ReadIni("teamST",key,".\QMScript\tthbn.ini"),",")
+	End Function
+	Public Function memberST(key)
+		memberST = split(dm.ReadIni("memberST",key,".\QMScript\tthbn.ini"),",")
+	End Function
+	Public function addr(key,offset)
+		addr = HEX(dm.ReadIni("addr", key, ".\QMScript\tthbn.ini")+offset)
+	End function
+	Public function teamIDs()
+		teamIDs = split(dm.ReadIni("setting","teamIDs",".\QMScript\local.ini"),",")
+	End function
 End Class

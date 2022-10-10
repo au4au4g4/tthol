@@ -23,21 +23,13 @@ SetupOCXFile=
 [Comment]
 
 [Script]
-Private Declare Function GetDesktopWindow Lib "user32" () As Long
-Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal Hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
 Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
-Set re = New RegExp
-Set dm = createobject("dm.dmsoft")
 
 hwnds = array(t.getHwnd())
 //hwnds = t.getAllHwnds()
 For each hwnd in hwnds
 	t.init hwnd
-//	t.crack
-//	t.moveSpeed 100,230
-//	t.atkrange(2)
-//	t.fixbank 
-//	t.fullsupport
-	setting = t.addr(t.account)
-	t.crackAll setting(1), setting(2), setting(3)
+	teamID = t.memberST(t.account)(4)
+	teamSt = t.teamSt(teamID)
+	t.crackAll teamSt(0), teamSt(1), teamSt(2)
 Next
