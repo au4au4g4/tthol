@@ -24,7 +24,11 @@ SetupOCXFile=
 
 [Script]
 Set dm = createobject("dm.dmsoft")
-RunApp "cmd.exe /c cd QMScript && git pull"
+KeyDown 18, 1
+KeyPress 50, 1
+KeyUp 18, 1
+
+RunApp "cmd.exe /c cd QMScript && git reset --hard && git pull"
 Delay 2000
 While dm.findwindow("ConsoleWindowClass", "") <> 0
 	Delay 1000
@@ -33,3 +37,8 @@ hwnd = split(dm.EnumWindow(0,"","Afx:ToolBar",2),",")(3)
 dm_ret = dm.BindWindow(hwnd, "normal", "windows", "windows", 0)
 dm.moveto 80,15
 dm.leftclick
+Delay 2000
+
+KeyDown "Ctrl", 1
+KeyPress "2", 1
+KeyUp "Ctrl", 1
