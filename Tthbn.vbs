@@ -72,15 +72,12 @@ Class Tthbn
 		period = period / 60 / 60 / 1000
 	End Function
 	Public Function monster()
-		sum = 0 : monId = 1 : cnt = 1 : i = 0
-		While monId > 0
-			base = tthbn + &HAEBE0 + 28 * i
-			monId = dm.ReadInt(hwnd, HEX(base - 4), 0) / 10 ^ 4
-			cnt = dm.ReadInt(hwnd, HEX(base), 0) / 10 ^ 4
-			sum = sum + cnt
+		cnt = 1 : i = 0
+		While cnt > 0
+			cnt = dm.ReadInt(hwnd, addr("monster", tthbn + 28 * i), 0)
+			monster = monster + cnt
 			i=i+1
 		Wend
-		monster = sum
 	End Function
 	Public Function cash ()
 		cash = dm.ReadInt(hwnd, "[<tthbn.bin>+F188]", 0) 
@@ -803,9 +800,18 @@ Class Tthbn
 		addrs.Add "distance", "02 81 E2 FF FF"
 		addrs.Add "fullSupport", "75 29 3B C7"
 		For Each key In addrs.Keys
-			result = dm.FindData(hwnd, "00000000-00F00000", addrs.item(key))
+			result = dm.FindData(hwnd, "00000000-F0000000", addrs.item(key))
 			result = split(result,"|")(0)
 			dm.WriteIni "addr", key, CLNG("&H" & result), ".\QMScript\tthbn.ini"
+		Next
+		
+		Set addrs = CreateObject("Scripting.Dictionary")
+		addrs.Add "monster", "00 8B 4D FC 6B C9 1C C7 81"
+		For Each key In addrs.Keys
+			result = dm.FindData(hwnd, "00000000-F0000000", addrs.item(key))
+			l = Len(Replace(addrs.item(key), " ", "", 1, - 1 )) / 2
+			result = dm.ReadInt(hwnd, HEX(CLNG("&H" & result) + l), 0) - tthbn
+			dm.WriteIni "addr", key, result, ".\QMScript\tthbn.ini"
 		Next
 	End Function
 	
@@ -819,7 +825,7 @@ Class Tthbn
 		memberST = split(dm.ReadIni("memberST",key,".\QMScript\tthbn.ini"),",")
 	End Function
 	Public function addr(key,offset)
-		addr = HEX(dm.ReadIni("addr", key, ".\QMScript\tthbn.ini")+offset)
+		addr = HEX(dm.ReadIni("addr", key, ".\QMScript\tthbn.ini") + offset)
 	End function
 	Public function teamIDs()
 		teamIDs = split(dm.ReadIni("setting","teamIDs",".\QMScript\local.ini"),",")
