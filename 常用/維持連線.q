@@ -36,6 +36,8 @@ While True
 	End If
 	If (min mod 4) = 0 Then 
 		call connect()
+	End If
+	If (min mod 10) = 0 Then 
 		Call alarm()
 	End If
 	If (min mod 60) = 0 Then 
