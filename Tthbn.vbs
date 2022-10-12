@@ -58,9 +58,7 @@ Class Tthbn
 		location = dm.ReadString(hwnd, "<tthbn.bin>+1099E4", 0, 16)
 	End Function
 	Public Function place()
-		dim num
-		num = dm.Readint(hwnd, "[[<ttha.bin>+4EF82C]+98]+11C", 0)
-		place = dm.ReadIni("name", num, ".\QMScript\map.ini")
+		place = memberST(id)(2)
 	End Function
 	Public Function period()
 		dim start
