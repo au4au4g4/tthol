@@ -34,7 +34,7 @@ Class Tthbn
 	
 	'read
 	Public Function id()
-		id = dm.ReadString(hwnd, "<tthbn.bin>+10AC6E", 0, 16)
+		id = memberST(id)(1)
 	End Function
 	Public Function account()
 		account = dm.ReadString(hwnd, "<tthbn.bin>+10CE38", 0, 16)
@@ -58,7 +58,7 @@ Class Tthbn
 		location = dm.ReadString(hwnd, "<tthbn.bin>+1099E4", 0, 16)
 	End Function
 	Public Function place()
-		place = memberST(id)(2)
+		place = memberST(account)(2)
 	End Function
 	Public Function period()
 		dim start
