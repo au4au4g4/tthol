@@ -34,7 +34,7 @@ Class Tthbn
 	
 	'read
 	Public Function id()
-		id = memberST(id)(1)
+		id = memberST(account)(1)
 	End Function
 	Public Function account()
 		account = dm.ReadString(hwnd, "<tthbn.bin>+10CE38", 0, 16)
