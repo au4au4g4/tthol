@@ -515,13 +515,57 @@ Class Tthol
 		Delay 2000
 	End Function
 	' ------------------------------破解------------------------------
-	'讓所有畫面動
-	Public Function freeWindow()
-		Call dm.WriteData(hwnd, addr("freeWindow"), "9090")
+	'更新addr
+	Public Function updateAddr()
+		Set addrs = CreateObject("Scripting.Dictionary")
+		addrs.Add "login", "8B C3 6B C0 3C"
+		addrs.Add "send", "80 3D 34 C8 7E 00 01 75 6A 8B 44 24 08 56 50 51 E8 3B"
+		addrs.Add "send1", "80 3D 34 C8 7E 00 01 75 6A 8B 44 24 08 56 50 51 E8 4B"
+		addrs.Add "go", "56 8B F0 8B 86 04 03 00  00 85 C0 74"
+		addrs.Add "atk", "83 EC 08 53 8B 5C 24 10 8B"
+		addrs.Add "learnSkill", "51 53 6A 04 51 8D 5C 24  0C B9 3C"
+		addrs.Add "speed", "7D 05 B9 64"
+		addrs.Add "logout", "6A FF 68 7F 2B"
+		addrs.Add "wear2", "53 55 56 8B D8 57 8D"
+		addrs.Add "shopping", "83 EC 0C 53 8D 88"
+		For Each key In addrs.Keys
+			TracePrint key
+			result = dm.FindData(hwnd, "00400000-00600000", addrs.item(key))
+			dm.WriteIni "addr", key, CLNG("&H" & result), ".\QMScript\tthol.ini"
+		Next
+
+		Set addrs = CreateObject("Scripting.Dictionary")
+		addrs.Add "location", "4B 20 8B 0D"
+		addrs.Add "shop", "53 75 15 A1"
+		For Each key In addrs.Keys
+			result = dm.FindData(hwnd, "00400000-00500000", addrs.item(key))
+			l = Len(Replace(addrs.item(key), " ", "", 1, - 1 )) / 2
+			result = dm.ReadInt(hwnd, HEX(CLNG("&H" & result) + l), 0)
+			dm.WriteIni "addr", key, result, ".\QMScript\tthol.ini"
+		Next
 	End Function
 	
-	Public Function freeWindowLimit()
-		Call dm.WriteData(hwnd, addr("freeWindowLimit"), "909090909090")
+	'更新主程式
+	Public Function updateDat()	
+		Set stream = CreateObject("ADODB.Stream")
+		stream.Open
+		stream.Type = 1
+		stream.LoadFromFile("C:\UserJoy\武林同萌傳Online\tthola.dat")
+		stream.SaveToFile "C:\UserJoy\武林同萌傳Online\tthola0.dat",2
+		bytes = stream.Read
+		stream.Close
+
+		Set xmldoc = CreateObject("Msxml2.DOMDocument")
+		Set node = xmldoc.CreateElement("binary")
+		node.DataType = "bin.hex"
+		node.NodeTypedValue = bytes
+		node.Text = Replace(node.Text, LCase("74138B068BCEFF5070"), LCase("74008B068BCEFF5070"))
+		node.Text = Replace(node.Text, LCase("0F8481040000E8"), LCase("909090909090E8"))
+
+		stream.Open
+		stream.write node.NodeTypedValue
+		stream.SaveToFile "C:\UserJoy\武林同萌傳Online\tthola.dat",2
+		stream.Close 
 	End Function
 	
 	' ------------------------------記憶體------------------------------
@@ -637,3 +681,4 @@ Class Tthol
 		addr = HEX(dm.ReadIni("addr", key, ".\QMScript\tthol.ini"))
 	end Function
 End Class
+	

@@ -34,7 +34,7 @@ dic.Add "飛雁", 5
 dic.Add "天師", 4
 dic.Add "少林", 6
 
-accounts = split(dm.ReadIni("addr", "g", ".\QMScript\tthbn.ini"),",")
+accounts = t.IDs("t1")
 For i = 0 To UBound(accounts)
 	TracePrint i & "/" & accounts(i)
 	t.login accounts(i), "gj83dj4"
