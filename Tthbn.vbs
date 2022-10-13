@@ -29,7 +29,7 @@ Class Tthbn
 	End Function
 	'¤wÂ_½u
 	Public Function isOffLine()
-		isOffLine = (id="")
+		isOffLine = (dm.ReadString(hwnd, "<tthbn.bin>+10AC6E", 0, 16)="")
 	End Function
 	
 	'read
