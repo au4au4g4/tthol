@@ -217,7 +217,7 @@ Class Tthbn
 	End Function	
 	
 	Public Function trade(bHwnd, item, cnt)	
-		dim addr,sAddr,bAddr,sID,bID,sn,iID,bTthbn
+		dim sID,bID,sn,iID,bTthbn
 		if hwnd - bHwnd = 0 then
 			exit Function
 		end if
@@ -738,11 +738,18 @@ Class Tthbn
 	private Function simpleCall(hwnd,addr,parameters)
 		dm.AsmClear 
 		For Each p In parameters
-			dm.AsmAdd "push 0" & HEX(p)
+			dm.AsmAdd "push 0" & toHEX(p)
 		Next
-		dm.AsmAdd "call 0" + HEX(addr)
+		dm.AsmAdd "call 0" + toHEX(addr)
 		dm.AsmCall hwnd, 1
 		Delay 100
+	End Function
+	
+	Private Function toHEX(data)
+		If TypeName(data) <> "String" Then 
+			data = HEX(data)
+		End If
+		toHEX = data
 	End Function
 	
 	private Function getObjs(addr, cntAddr, length, conds, keys)
