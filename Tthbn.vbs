@@ -72,7 +72,7 @@ Class Tthbn
 	Public Function monster()
 		cnt = 1 : i = 0
 		While cnt > 0
-			cnt = dm.ReadInt(hwnd, addr("monster", tthbn + 28 * i), 0)
+			cnt = dm.ReadInt(hwnd, addr("monster", 28 * i), 0)
 			monster = monster + cnt
 			i=i+1
 		Wend
@@ -199,50 +199,50 @@ Class Tthbn
 		delay 2000
 	End Function
 	
-	Public Function trades(buyer, keywords, ByVal cnt)
+	Public Function trades(bHwnd, keywords, ByVal cnt)
 		dim bag : bag = getBag(keywords)
 		For i = 0 To UBound(bag)
 			Set item = bag(i)
 			itemCnt = item.item("cnt") 
 			if cnt = -1 Then
-				trade buyer, item, itemCnt
+				trade bHwnd, item, itemCnt
 			elseif itemCnt - cnt >= 0 then
-				trade buyer, item, cnt
+				trade bHwnd, item, cnt
 				exit for
 			else
-				trade buyer, item, itemCnt
+				trade bHwnd, item, itemCnt
 				cnt = cnt - itemCnt
 			end if
 		Next
 	End Function	
 	
-	Public Function trade(buyer, item, cnt)	
+	Public Function trade(bHwnd, item, cnt)	
 		dim addr,sAddr,bAddr,sID,bID,sn,iID,bTthbn
-		if hwnd - buyer = 0 then
+		if hwnd - bHwnd = 0 then
 			exit Function
 		end if
-		addr = dm.ReadInt(buyer, "<tthbn.bin>+18278", 0)
-		sAddr = clng("&H" & dm.FindString(buyer, HEX(addr) & "-" & HEX(addr + &H7850), id, 0)) - 16
-		sID = dm.ReadInt(buyer, HEX(sAddr), 0)
 		
-		bName = dm.ReadString(buyer, "[<tthbn.bin>+16AE8]", 0, 16)
-		addr = dm.ReadInt(hwnd, "<tthbn.bin>+18278", 0)
-		bAddr = clng("&H" & dm.FindString(hwnd, HEX(addr) & "-" & HEX(addr + &H7850), bName, 0)) - 16
-		bID = dm.ReadInt(hwnd, HEX(bAddr), 0)
-		
+		bName = dm.ReadString(bHwnd, "<tthbn.bin>+10AC6E", 0, 16)
+		bID = getIdByName(hwnd, bName)
+		sID = getIdByName(bHwnd, id)
 		sn = item.item("sn")
 		iID = item.item("id")
 
-		bTthbn = dm.GetModuleBaseAddr(buyer, "tthbn.bin")
-		simpleCall hwnd, tthbn + &H27030, array(bID, &HEA64)	' 邀請	
-		simpleCall buyer, bTthbn + &H27200, array(sID, &HEA64)	' 接受	
-		simpleCall hwnd, tthbn + &H273D0, array(cnt, sn, iID)	' 交付	
-		simpleCall hwnd, tthbn + &H27BC0, array()	' 確定1
-		simpleCall buyer, bTthbn + &H27BC0, array()
-		simpleCall hwnd, tthbn + &H27CF0, array()	' 確定2
-		simpleCall buyer, bTthbn + &H27CF0, array()
-		simpleCall buyer, bTthbn + &H27CF0, array()
+		bTthbn = dm.GetModuleBaseAddr(bHwnd, "tthbn.bin")
+		simpleCall hwnd, addr("invite", 0), array(bID, &HEA64)	' 邀請	
+		simpleCall bHwnd, addr("accept", bTthbn - tthbn), array(sID, &HEA64)' 接受	
+		simpleCall hwnd, addr("give", 0), array(cnt, sn, iID)	' 交付	
+		simpleCall hwnd, addr("comfirm1", 0), array()			' 確定1
+		simpleCall bHwnd, addr("comfirm1", bTthbn), array()
+		simpleCall hwnd, addr("comfirm2", 0), array()			' 確定2
+		simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
+		simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
 	End Function
+	
+	Public Function getIdByName(name)
+		dim addrs : addrs = dm.FindString(hwnd,addr("getIdByName",0)&"-FFFFFFFF",name,0)
+		getIdByName = split(addrs,"|")(0)
+	End Function	
 	
 	Public Function openShop()
 		simpleCall hwnd, tthbn + &H29C40, array()
@@ -788,28 +788,38 @@ Class Tthbn
 	end function
 	
 	Public Function updateAddr()
+		dim code
+		
 		Set addrs = CreateObject("Scripting.Dictionary")
-		addrs.Add "login", "55 8B EC 83 EC 2C 8B 45 08 53"
-		addrs.Add "crack", "74 7C 83 E8 02 74 1F 48"
-		addrs.Add "moveSpeedAtk", "18 01 00 00 6A 02 50"
-		addrs.Add "moveSpeed", "18 01 00 00 6A 02 51"
-		addrs.Add "atkRange", "03 D1 89 54 24 04 DB 44 24 04 D9 FA E8"
-		addrs.Add "fixbank", "6A 10 51 8D 4C 24 20"
-		addrs.Add "distance", "02 81 E2 FF FF"
-		addrs.Add "fullSupport", "75 29 3B C7"
+		addrs.Add "monster", "tthbn,00 8B 4D FC 6B C9 1C C7 81"
+		addrs.Add "getIdByName", "tthbn,E0 69 C9 68 02 00 00 C7 81"
 		For Each key In addrs.Keys
-			result = dm.FindData(hwnd, "00000000-F0000000", addrs.item(key))
-			result = split(result,"|")(0)
-			dm.WriteIni "addr", key, CLNG("&H" & result), ".\QMScript\tthbn.ini"
+			code = split(addrs.item(key),",")
+			result = dm.FindData(hwnd, "00000000-F0000000", code(1))
+			l = Len(Replace(code(1), " ", "", 1, - 1 )) / 2
+			result = dm.ReadInt(hwnd, HEX(CLNG("&H" & result) + l), 0) - eval(code(0))
+			dm.WriteIni "addr", key, code(0) & "," & result, ".\QMScript\tthbn.ini"
 		Next
 		
 		Set addrs = CreateObject("Scripting.Dictionary")
-		addrs.Add "monster", "00 8B 4D FC 6B C9 1C C7 81"
+		addrs.Add "login", "ttha,55 8B EC 83 EC 2C 8B 45 08 53"
+		addrs.Add "crack", "ttha,74 7C 83 E8 02 74 1F 48"
+		addrs.Add "moveSpeedAtk", "ttha,18 01 00 00 6A 02 50"
+		addrs.Add "moveSpeed", "ttha,18 01 00 00 6A 02 51"
+		addrs.Add "atkRange", "ttha,03 D1 89 54 24 04 DB 44 24 04 D9 FA E8"
+		addrs.Add "fixbank", "ttha,6A 10 51 8D 4C 24 20"
+		addrs.Add "distance", "ttha,02 81 E2 FF FF"
+		addrs.Add "fullSupport", "ttha,75 29 3B C7"
+		addrs.Add "invite", "tthbn,55 8B EC 83 EC 68 53 56 57 8D 7D 98 B9 1A 00 00 00 B8 CC CC CC CC F3 AB 66 C7 45 F4 0F 00 C6 45 E4 0D C6 45 E5 00 C6 45 E6 FF C6 45 E7 04 C6 45 E8 2C"
+		addrs.Add "accept", "tthbn,55 8B EC 83 EC 68 53 56 57 8D 7D 98 B9 1A 00 00 00 B8 CC CC CC CC F3 AB 66 C7 45 F4 0F 00 C6 45 E4 0D C6 45 E5 00 C6 45 E6 FF C6 45 E7 04 C6 45 E8 2D"
+		addrs.Add "give", "tthbn,55 8B EC 83 EC 6C 53 56 57 8D 7D 94 B9 1B 00 00 00 B8 CC CC CC CC F3 AB 66 C7 45 F4 13 00"
+		addrs.Add "comfirm1", "tthbn,55 8B EC 83 EC 58 53 56 57 8D 7D A8 B9 16 00 00 00 B8 CC CC CC CC F3 AB 66 C7 45 FC 05 00 C6 45 F4 03 C6 45 F5 00 C6 45 F6 FF C6 45 F7 04 C6 45 F8 30"
+		addrs.Add "comfirm2", "tthbn,55 8B EC 83 EC 58 53 56 57 8D 7D A8 B9 16 00 00 00 B8 CC CC CC CC F3 AB 66 C7 45 FC 05 00 C6 45 F4 03 C6 45 F5 00 C6 45 F6 FF C6 45 F7 04 C6 45 F8 2B"
 		For Each key In addrs.Keys
-			result = dm.FindData(hwnd, "00000000-F0000000", addrs.item(key))
-			l = Len(Replace(addrs.item(key), " ", "", 1, - 1 )) / 2
-			result = dm.ReadInt(hwnd, HEX(CLNG("&H" & result) + l), 0) - tthbn
-			dm.WriteIni "addr", key, result, ".\QMScript\tthbn.ini"
+			code = split(addrs.item(key),",")
+			result = dm.FindData(hwnd, "00000000-F0000000", code(1))
+			result = split(result,"|")(0)
+			dm.WriteIni "addr", key, code(0) & "," & CLNG("&H" & result) - eval(code(0)), ".\QMScript\tthbn.ini"
 		Next
 	End Function
 	
@@ -823,9 +833,13 @@ Class Tthbn
 		memberST = split(dm.ReadIni("memberST",key,".\QMScript\tthbn.ini"),",")
 	End Function
 	Public function addr(key,offset)
-		addr = HEX(dm.ReadIni("addr", key, ".\QMScript\tthbn.ini") + offset)
+		dim data : data = split(dm.ReadIni("addr", key, ".\QMScript\tthbn.ini"),",")
+		addr = HEX(eval(data(0)) + Clng(data(1)) + offset)
 	End function
 	Public function teamIDs()
 		teamIDs = split(dm.ReadIni("setting","teamIDs",".\QMScript\local.ini"),",")
+	End function
+	Public function test()
+		test = eval("tthbn")
 	End function
 End Class
