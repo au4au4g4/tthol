@@ -233,15 +233,16 @@ Class Tthbn
 		simpleCall bHwnd, addr("accept", bTthbn - tthbn), array(sID, &HEA64)' 接受	
 		simpleCall hwnd, addr("give", 0), array(cnt, sn, iID)	' 交付	
 		simpleCall hwnd, addr("comfirm1", 0), array()			' 確定1
-		simpleCall bHwnd, addr("comfirm1", bTthbn), array()
+		simpleCall bHwnd, addr("comfirm1", bTthbn - tthbn), array()
 		simpleCall hwnd, addr("comfirm2", 0), array()			' 確定2
 		simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
 		simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
 	End Function
 	
-	Public Function getIdByName(hwnd, name)
-		dim addrs : addrs = dm.FindString(hwnd,addr("getIdByName",0)&"-FFFFFFFF",name,0)
-		getIdByName = split(addrs,"|")(0)
+	Public Function getIdByName(hwndd, name)
+		tthbnn = dm.GetModuleBaseAddr(hwndd, "tthbn.bin")
+		dim addrs : addrs = dm.FindString(hwndd,addr("getIdByName",tthbnn-tthbn)&"-FFFFFFFF",name,0)
+		getIdByName = dm.readInt(hwndd,HEX(clng("&H"&split(addrs,"|")(0))-16),0)
 	End Function	
 	
 	Public Function openShop()
@@ -735,13 +736,13 @@ Class Tthbn
 	End Function
 	
 	'util
-	private Function simpleCall(hwnd,addr,parameters)
+	private Function simpleCall(hwndd,addr,parameters)
 		dm.AsmClear 
 		For Each p In parameters
 			dm.AsmAdd "push 0" & toHEX(p)
 		Next
 		dm.AsmAdd "call 0" + toHEX(addr)
-		dm.AsmCall hwnd, 1
+		dm.AsmCall hwndd, 1
 		Delay 100
 	End Function
 	
