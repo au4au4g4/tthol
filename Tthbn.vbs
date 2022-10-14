@@ -239,7 +239,7 @@ Class Tthbn
 		simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
 	End Function
 	
-	Public Function getIdByName(name)
+	Public Function getIdByName(hwnd, name)
 		dim addrs : addrs = dm.FindString(hwnd,addr("getIdByName",0)&"-FFFFFFFF",name,0)
 		getIdByName = split(addrs,"|")(0)
 	End Function	
