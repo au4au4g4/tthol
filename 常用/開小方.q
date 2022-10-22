@@ -26,14 +26,28 @@ SetupOCXFile=
 Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 Set dm = createobject("dm.dmsoft")
 
-w = dm.getscreenwidth()
-h = dm.getscreenheight() - 40
-c = 5
-r = 2
+// 更新小方
+RunApp "cmd.exe /c cd ..\JD_FCS21.60 && git reset --hard && git pull"
+Delay 2000
+While dm.findwindow("ConsoleWindowClass", "") <> 0
+	Delay 1000
+Wend
 
-teamIDs = t.teamIDs
+// 更新script
+RunApp "cmd.exe /c cd QMScript && git reset --hard && git pull"
+Delay 2000
+While dm.findwindow("ConsoleWindowClass", "") <> 0
+	Delay 1000
+Wend
+hwnd = split(dm.EnumWindow(0,"","Afx:ToolBar",2),",")(3)
+dm_ret = dm.BindWindow(hwnd, "normal", "windows", "windows", 0)
+dm.moveto 80,15
+dm.leftclick
 
+// 開小方
+w = dm.getscreenwidth() : h = dm.getscreenheight() - 40 : c = 5 : r = 2
 windowCnt = UBound(t.getAllHwnds())
+teamIDs = t.teamIDs
 For each teamID in teamIDs
 	IDs = t.IDs(teamID)
 	teamSt = t.teamST(teamID)
@@ -80,6 +94,8 @@ For each teamID in teamIDs
 	KeyUp "Win", 1
 	KeyUp "Ctrl", 1
 Next
+
+// 開維持連線
 KeyDown "Ctrl", 1
 KeyPress "2", 1
 KeyUp "Ctrl", 1
