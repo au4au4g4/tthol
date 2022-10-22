@@ -37,7 +37,7 @@ Class Tthbn
 		id = memberST(account)(1)
 	End Function
 	Public Function account()
-		account = dm.ReadString(hwnd, "<tthbn.bin>+10CE38", 0, 16)
+		account = dm.ReadString(hwnd, addr("account",0), 0, 16)
 	End Function
 	Public Function level()
 		level = dm.ReadInt(hwnd, "[<tthbn.bin>+AE3C]", 1)
@@ -801,6 +801,7 @@ Class Tthbn
 		Set addrs = CreateObject("Scripting.Dictionary")
 		addrs.Add "monster", "tthbn,00 8B 4D FC 6B C9 1C C7 81"
 		addrs.Add "getIdByName", "tthbn,E0 69 C9 68 02 00 00 C7 81"
+		addrs.Add "account", "tthbn,C4 6A 32 6A 00 68"
 		For Each key In addrs.Keys
 			code = split(addrs.item(key),",")
 			result = dm.FindData(hwnd, "00000000-F0000000", code(1))

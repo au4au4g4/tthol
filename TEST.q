@@ -23,22 +23,21 @@ SetupOCXFile=
 [Comment]
 
 [UIPackage]
-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
+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
 
 
 [Script]
-Set dm = createobject("dm.dmsoft")
+//Set dm = createobject("dm.dmsoft")
 //Import "QMScript/Tthol.vbs" : Set t = New Tthol : t.init
 //hwnd = dm.FindWindow("_UJONLINE_", "Tthol")
 //dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
 //
-//Set dm = createobject("dm.dmsoft")
-//hwnd = dm.FindWindow("", "絕代方程式")
-//Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
-//t.init hwnd
+Set dm = createobject("dm.dmsoft")
+hwnd = dm.FindWindow("", "絕代方程式")
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
+t.init hwnd
 
-MsgBox 1
-
+TracePrint t.account
 
 //TracePrint dm.FindData(hwnd, "00400000-00600000", "74 13 8B 06 8B CE FF 50 70")
 //Set addrs = CreateObject("Scripting.Dictionary")
