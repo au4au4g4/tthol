@@ -29,7 +29,7 @@ Class Tthbn
 	End Function
 	'¤wÂ_½u
 	Public Function isOffLine()
-		isOffLine = (dm.ReadString(hwnd, "<tthbn.bin>+10AC6E", 0, 16)="")
+		isOffLine = (dm.ReadString(hwnd, addr("name",0), 0, 16)="")
 	End Function
 	
 	'read
@@ -802,9 +802,11 @@ Class Tthbn
 		addrs.Add "monster", "tthbn,00 8B 4D FC 6B C9 1C C7 81"
 		addrs.Add "getIdByName", "tthbn,E0 69 C9 68 02 00 00 C7 81"
 		addrs.Add "account", "tthbn,C4 6A 32 6A 00 68"
+		addrs.Add "name", "tthbn,6B D2 4A 81 C2"
 		For Each key In addrs.Keys
 			code = split(addrs.item(key),",")
 			result = dm.FindData(hwnd, "00000000-F0000000", code(1))
+			result = split(result,"|")(0)
 			l = Len(Replace(code(1), " ", "", 1, - 1 )) / 2
 			result = dm.ReadInt(hwnd, HEX(CLNG("&H" & result) + l), 0) - eval(code(0))
 			dm.WriteIni "addr", key, code(0) & "," & result, ".\QMScript\tthbn.ini"
