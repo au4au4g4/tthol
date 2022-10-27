@@ -22,7 +22,7 @@ Class Tthbn
 	'flag
 	'¤wÂ_¶}
 	Public Function isDisConnect()
-		isDisConnect = (dm.ReadInt(hwnd, "<tthbn.bin>+111F44", 0) = 0)
+		isDisConnect = (dm.ReadInt(hwnd, addr("isDisConnect",0), 0) = 0)
 	End Function
 	Public Function isStart()
 		isStart = (dm.ReadInt(hwnd, "[<tthbn.bin>+C520]", 0) = 1)
@@ -803,6 +803,7 @@ Class Tthbn
 		addrs.Add "getIdByName", "tthbn,E0 69 C9 68 02 00 00 C7 81"
 		addrs.Add "account", "tthbn,C4 6A 32 6A 00 68"
 		addrs.Add "name", "tthbn,6B D2 4A 81 C2"
+		addrs.Add "isDisConnect", "tthbn,75 4D 83 3D"		
 		For Each key In addrs.Keys
 			code = split(addrs.item(key),",")
 			result = dm.FindData(hwnd, "00000000-F0000000", code(1))
