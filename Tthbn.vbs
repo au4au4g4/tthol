@@ -118,15 +118,12 @@ Class Tthbn
 	private Function getRecords(offset)
 		Dim keys
 		keys = array(array("name", 8), array("id", 0), array("cnt", 4))
-		getRecords = getObjs(tthbn + offset, null, 28, array(""), keys)
+		getRecords = getObjs(HEX(tthbn + offset), null, 28, array(""), keys)
 	End Function
 	
 	Public Function findNPC(name)
-		Dim keys,addr,cntAddr
-		keys = array(array("name", 12),array("id", 4), array("sn", 0))
-		addr = dm.ReadInt(hwnd, "<tthbn.bin>+208C0", 0)
-		cntAddr = dm.ReadInt(hwnd, "<tthbn.bin>+208F1", 0)
-		set findNPC = getObjs(addr, cntAddr, 32, array(name), keys)(0)
+		Dim keys : keys = array(array("name", 12),array("id", 4), array("sn", 0))
+		set findNPC = getObjs(addr("npc",0), addr("npcCnt",0), 32, array(name), keys)(0)
 	End Function
 	
 	Public Function getItemCnt(name)
@@ -139,17 +136,11 @@ Class Tthbn
 	End Function
 	
 	Public Function getBag(names)
-		dim addr, cntAddr
-		addr = dm.ReadInt(hwnd, "<tthbn.bin>+B050", 0)
-		cntAddr = dm.ReadInt(hwnd, "<tthbn.bin>+B0FC", 0)
-		getBag = getItems(addr, cntAddr, names)
+		getBag = getItems(addr("bag",0), addr("bagCnt",0), names)
 	End Function
 	
 	Public Function getBank(names)
-		dim addr, cntAddr
-		addr = dm.ReadInt(hwnd, "<tthbn.bin>+41588", 0)
-		cntAddr = dm.ReadInt(hwnd, "<tthbn.bin>+415F4", 0)
-		getBank = getItems(addr, cntAddr, names)
+		getBank = getItems(addr("bank",0), addr("bankCnt",0), names)
 	End Function
 	
 	private Function getItems(addr, cntAddr, names)
@@ -754,11 +745,12 @@ Class Tthbn
 	
 	private Function getObjs(addr, cntAddr, length, conds, keys)
 		Dim i,cnt,obj,key,objs,j,target
+		addr = clng("&H"+addr)
 		j = 0 : objs = array()
 		if cntAddr = null Then
 			cnt = 199
 		else
-			cnt = dm.ReadInt(hwnd, HEX(cntAddr), 0) - 1
+			cnt = dm.ReadInt(hwnd, cntAddr, 0) - 1
 		end if
 		For i = 0 to cnt
 			' 製作物件
@@ -802,7 +794,13 @@ Class Tthbn
 		addrs.Add "getIdByName", "tthbn,E0 69 C9 68 02 00 00 C7 81"
 		addrs.Add "account", "tthbn,C4 6A 32 6A 00 68"
 		addrs.Add "name", "tthbn,6B D2 4A 81 C2"
-		addrs.Add "isDisConnect", "tthbn,75 4D 83 3D"		
+		addrs.Add "isDisConnect", "tthbn,75 4D 83 3D"
+		addrs.Add "bagCnt", "tthbn,F3 AB C7 05"
+		addrs.Add "bag", "tthbn,E0 69 C0 18 01 00 00 8B 88"
+		addrs.Add "bankCnt", "tthbn,54 FA FF FF A3"
+		addrs.Add "bank", "tthbn,FA FF FF 69 C9 18 01 00 00 8B 91"
+		addrs.Add "npcCnt", "tthbn,74 FF FF FF 3B 15"
+		addrs.Add "npc", "tthbn,E1 05 8B 91"
 		For Each key In addrs.Keys
 			code = split(addrs.item(key),",")
 			result = dm.FindData(hwnd, "00000000-F0000000", code(1))
