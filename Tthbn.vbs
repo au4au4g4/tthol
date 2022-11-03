@@ -222,7 +222,7 @@ Class Tthbn
 			exit Function
 		end if
 		
-		bName = dm.ReadString(bHwnd, "<tthbn.bin>+10AC6E", 0, 16)
+		bName = dm.ReadString(bHwnd, addrStr("name",0), 0, 16)
 		bID = getIdByName(hwnd, bName)
 		sID = getIdByName(bHwnd, id)
 		sn = item.item("sn")
@@ -847,6 +847,10 @@ Class Tthbn
 	Public function addr(key,offset)
 		dim data : data = split(dm.ReadIni("addr", key, ".\QMScript\tthbn.ini"),",")
 		addr = HEX(eval(data(0)) + Clng(data(1)) + offset)
+	End function
+	Public function addrStr(key,offset)
+		dim data : data = split(dm.ReadIni("addr", key, ".\QMScript\tthbn.ini"),",")
+		addrStr = "<" + data(0) + ".bin>+" + HEX(Clng(data(1)) + offset)
 	End function
 	Public function teamIDs()
 		teamIDs = split(dm.ReadIni("setting","teamIDs",".\QMScript\local.ini"),",")
