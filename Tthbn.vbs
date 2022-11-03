@@ -580,22 +580,21 @@ Class Tthbn
 		codes(10) = "jmp 0" + HEX(result+50)
 		Call inAsm(HEX(result), codes)
 		
-		result = findAddr("51 E8 C2 BD")
 		reDim codes(12)
 		codes(0) = "push ecx"
-		codes(1) = "call 0" + HEX(dm.ReadInt(hwnd, HEX(result + 2), 0) + result + 2 + 4)
+		codes(1) = "call 0" + addr("fixbank2",dm.ReadInt(hwnd, addr("fixbank2",-4), 0))
 		codes(2) = "mov ecx,[ebp+08]"
 		codes(3) = "and ecx,0000FFFF"
 		codes(4) = "cmp ecx,00001851"
-		codes(5) = "jne 0" + HEX(result+6)
+		codes(5) = "jne 0" + addr("fixbank2",0)
 		codes(6) = "mov eax,[ebp+0C]"
 		codes(7) = "push eax"
 		codes(8) = "mov cx,[ebp+08]"
 		codes(9) = "push ecx"
 		codes(10) = "push 05"
-		codes(11) = "call 0" + HEX(dm.ReadInt(hwnd, HEX(result - 31), 0) + result - 31 + 4)
-		codes(12) = "jmp 0" + HEX(result+6)
-		Call inAsm(HEX(result), codes)
+		codes(11) = "call 0" + addr("fixbank2",dm.ReadInt(hwnd, addr("fixbank2",-37), 0)-33)
+		codes(12) = "jmp 0" + addr("fixbank2",0)
+		Call inAsm(addr("fixbank2",-6), codes)
 	End Function
 	
 	' 解開打怪範圍最小限制
@@ -820,6 +819,7 @@ Class Tthbn
 		addrs.Add "moveSpeed", "ttha,18 01 00 00 6A 02 51"
 		addrs.Add "atkRange", "ttha,03 D1 89 54 24 04 DB 44 24 04 D9 FA E8"
 		addrs.Add "fixbank", "ttha,6A 10 51 8D 4C 24 20"
+		addrs.Add "fixbank2", "tthbn,66 C7 45 F0 1B"
 		addrs.Add "distance", "ttha,02 81 E2 FF FF"
 		addrs.Add "fullSupport", "ttha,75 29 3B C7"
 		addrs.Add "invite", "tthbn,55 8B EC 83 EC 68 53 56 57 8D 7D 98 B9 1A 00 00 00 B8 CC CC CC CC F3 AB 66 C7 45 F4 0F 00 C6 45 E4 0D C6 45 E5 00 C6 45 E6 FF C6 45 E7 04 C6 45 E8 2C"
