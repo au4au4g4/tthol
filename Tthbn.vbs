@@ -423,7 +423,7 @@ Class Tthbn
 	Public function apply(name)
 		dim item
 		set item = getBag(array(name))(0)
-		simpleCall hwnd, tthbn + &H23C60, array(-01,item.item("sn"),item.item("id"))
+		simpleCall hwnd, addr("apply"), array(-01,item.item("sn"),item.item("id"))
 		delay 2000
 	End Function
 	
@@ -825,6 +825,7 @@ Class Tthbn
 		addrs.Add "give", "tthbn,55 8B EC 83 EC 6C 53 56 57 8D 7D 94 B9 1B 00 00 00 B8 CC CC CC CC F3 AB 66 C7 45 F4 13 00"
 		addrs.Add "comfirm1", "tthbn,55 8B EC 83 EC 58 53 56 57 8D 7D A8 B9 16 00 00 00 B8 CC CC CC CC F3 AB 66 C7 45 FC 05 00 C6 45 F4 03 C6 45 F5 00 C6 45 F6 FF C6 45 F7 04 C6 45 F8 30"
 		addrs.Add "comfirm2", "tthbn,55 8B EC 83 EC 58 53 56 57 8D 7D A8 B9 16 00 00 00 B8 CC CC CC CC F3 AB 66 C7 45 FC 05 00 C6 45 F4 03 C6 45 F5 00 C6 45 F6 FF C6 45 F7 04 C6 45 F8 2B"
+		addrs.Add "apply", "tthbn,55 8B EC 83 EC 74 53 56 57 "
 		For Each key In addrs.Keys
 			code = split(addrs.item(key),",")
 			result = dm.FindData(hwnd, "00000000-F0000000", code(1))
