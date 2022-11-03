@@ -104,7 +104,7 @@ Class Tthbn
 	End Function
 	
 	Public Function getMsg()
-		getMsg = dm.ReadString(hwnd, "[<tthbn.bin>+A0C9]", 0, 115)
+		getMsg = dm.ReadString(hwnd, addr("getMsg",0), 0, 115)
 	End Function
 	
 	Public Function getMonster()
@@ -801,6 +801,7 @@ Class Tthbn
 		addrs.Add "bank", "tthbn,FA FF FF 69 C9 18 01 00 00 8B 91"
 		addrs.Add "npcCnt", "tthbn,74 FF FF FF 3B 15"
 		addrs.Add "npc", "tthbn,E1 05 8B 91"
+		addrs.Add "getMsg", "tthbn,6A 78 68"
 		For Each key In addrs.Keys
 			code = split(addrs.item(key),",")
 			result = dm.FindData(hwnd, "00000000-F0000000", code(1))
