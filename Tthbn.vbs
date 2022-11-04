@@ -78,7 +78,7 @@ Class Tthbn
 		Wend
 	End Function
 	Public Function cash ()
-		cash = dm.ReadInt(hwnd, "[<tthbn.bin>+F188]", 0) 
+		cash = dm.ReadInt(hwnd, addr("cash",0), 0) 
 	End Function
 	Public Function deposit()
 		deposit = dm.ReadInt(hwnd, "[<tthbn.bin>+E5FC]", 0)
@@ -802,6 +802,7 @@ Class Tthbn
 		addrs.Add "npcCnt", "tthbn,74 FF FF FF 3B 15"
 		addrs.Add "npc", "tthbn,E1 05 8B 91"
 		addrs.Add "getMsg", "tthbn,6A 78 68"
+		addrs.Add "cash", "tthbn,89 45 98 8B 15"
 		For Each key In addrs.Keys
 			code = split(addrs.item(key),",")
 			result = dm.FindData(hwnd, "00000000-F0000000", code(1))
