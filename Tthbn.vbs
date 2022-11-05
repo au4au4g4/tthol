@@ -263,7 +263,7 @@ Class Tthbn
 		openBank()
 		items = getBank(names)
 		for each item in items
-			simpleCall hwnd, tthbn + &H259B0, array(0,item.item("cnt"),item.item("sn"),item.item("id"))
+			simpleCall hwnd, addr("pop",-106), array(0,item.item("cnt"),item.item("sn"),item.item("id"))
 		Next
 	End Function
 	
@@ -272,19 +272,19 @@ Class Tthbn
 		openBank()
 		items = getBag(names)
 		for each item in items
-			simpleCall hwnd, tthbn + &H259B0, array(1,item.item("cnt"),item.item("sn"),item.item("id"))
+			simpleCall hwnd, addr("pop",-106), array(1,item.item("cnt"),item.item("sn"),item.item("id"))
 		Next
 	End Function
 	
 	Public Function openBank()
 		dim npc : Set npc = findNPC("¥ë­p")
-		simpleCall hwnd, tthbn + &H24470, array(npc.item("sn"),npc.item("id"))
+		simpleCall hwnd, addr("openBank",0), array(npc.item("sn"),npc.item("id"))
 	End Function
 	
 	Public Function buy(npcName, itemName, cnt)
 		dim npc : Set npc = findNPC(npcName)
 		dim itemId : itemId = itemCode(itemName)(0)
-		simpleCall hwnd, tthbn + &H24E90, array(cnt, itemId, npc.item("sn"), npc.item("id"))
+		simpleCall hwnd, addr("buy",0), array(cnt, itemId, npc.item("sn"), npc.item("id"))
 		delay 1000
 	End Function
 	
@@ -828,6 +828,9 @@ Class Tthbn
 		addrs.Add "comfirm1", "tthbn,55 8B EC 83 EC 58 53 56 57 8D 7D A8 B9 16 00 00 00 B8 CC CC CC CC F3 AB 66 C7 45 FC 05 00 C6 45 F4 03 C6 45 F5 00 C6 45 F6 FF C6 45 F7 04 C6 45 F8 30"
 		addrs.Add "comfirm2", "tthbn,55 8B EC 83 EC 58 53 56 57 8D 7D A8 B9 16 00 00 00 B8 CC CC CC CC F3 AB 66 C7 45 FC 05 00 C6 45 F4 03 C6 45 F5 00 C6 45 F6 FF C6 45 F7 04 C6 45 F8 2B"
 		addrs.Add "apply", "tthbn,55 8B EC 83 EC 74 53 56 57 "
+		addrs.Add "pop", "tthbn,C6 45 E8 34"
+		addrs.Add "openBank", "tthbn,55 8B EC 83 EC 78 53 56 57 8D 7D 88 B9 1E 00 00 00 B8 CC CC CC CC F3 AB C7 45 EC"
+		addrs.Add "buy", "tthbn,55 8B EC 83 EC 74 53 56 57 8D 7D 8C B9 1D 00 00 00 B8 CC CC CC CC F3 AB 8B 45"
 		For Each key In addrs.Keys
 			code = split(addrs.item(key),",")
 			result = dm.FindData(hwnd, "00000000-F0000000", code(1))
