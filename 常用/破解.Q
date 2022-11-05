@@ -26,10 +26,13 @@ SetupOCXFile=
 Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 
 hwnds = array(t.getHwnd())
-//hwnds = t.getAllHwnds()
-For each hwnd in hwnds
-	t.init hwnd
+t.init hwnd
+memberST = t.memberST(t.account)
+If UBound(memberST) > - 1  Then 
 	teamID = t.memberST(t.account)(4)
 	teamSt = t.teamSt(teamID)
 	t.crackAll teamSt(0), teamSt(1), teamSt(2)
-Next
+Else 
+	t.crack
+End If
+
