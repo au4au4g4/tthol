@@ -213,7 +213,7 @@ Class Tthbn
 			exit Function
 		end if
 		
-		bName = dm.ReadString(bHwnd, addrStr("name",0), 0, 16)
+		bName = dm.ReadString(bHwnd, addrStr("name",0), 0, 20)
 		bID = getIdByName(hwnd, bName)
 		sID = getIdByName(bHwnd, id)
 		sn = item.item("sn")
