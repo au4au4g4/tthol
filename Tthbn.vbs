@@ -793,7 +793,7 @@ Class Tthbn
 		addrs.Add "monster", "tthbn,00 8B 4D FC 6B C9 1C C7 81"
 		addrs.Add "getIdByName", "tthbn,E0 69 C9 68 02 00 00 C7 81"
 		addrs.Add "account", "tthbn,C4 6A 32 6A 00 68"
-		addrs.Add "name", "tthbn,6B D2 4A 81 C2"
+		addrs.Add "name", "tthbn,68 88 0C 00 00 6A 00 68"
 		addrs.Add "isDisConnect", "tthbn,75 4D 83 3D"
 		addrs.Add "bagCnt", "tthbn,F3 AB C7 05"
 		addrs.Add "bag", "tthbn,E0 69 C0 18 01 00 00 8B 88"
