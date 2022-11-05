@@ -32,9 +32,9 @@ For Each task In tasks
 	order = split(task, "-")
 	params = split(order(1), " ")
 	
-	If instr("ou",order(0)) > 0 Then 
+	If instr("",order(0)) > 0 Then 
 		sellers = array(t.getHwnd)
-	Elseif instr("itg",order(0)) > 0 then
+	Elseif instr("itgou",order(0)) > 0 then
 		sellers = t.getAllHwnds()
 	Else 
 		sellers = t.getPartHwnds()
