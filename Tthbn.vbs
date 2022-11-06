@@ -29,7 +29,7 @@ Class Tthbn
 	End Function
 	'¤wÂ_½u
 	Public Function isOffLine()
-		isOffLine = (dm.ReadString(hwnd, addr("name",0), 0, 16)="")
+		isOffLine = (dm.ReadString(hwnd, addr("isOffLine",0), 0, 16)="")
 	End Function
 	
 	'read
@@ -803,6 +803,7 @@ Class Tthbn
 		addrs.Add "npc", "tthbn,E1 05 8B 91"
 		addrs.Add "getMsg", "tthbn,6A 78 68"
 		addrs.Add "cash", "tthbn,89 45 98 8B 15"
+		addrs.Add "isOffLine", "tthbn,6B D2 4A 81 C2"
 		For Each key In addrs.Keys
 			code = split(addrs.item(key),",")
 			result = dm.FindData(hwnd, "00000000-F0000000", code(1))
