@@ -40,7 +40,7 @@ Class Tthbn
 		account = dm.ReadString(hwnd, addr("account",0), 0, 16)
 	End Function
 	Public Function level()
-		level = dm.ReadInt(hwnd, "[<tthbn.bin>+AE3C]", 1)
+		level = dm.ReadInt(hwnd, addr("level",0), 1)
 	End Function
 	Public Function money()
 		money = dm.ReadInt(hwnd, "<tthbn.bin>+ACD24", 0)
@@ -804,6 +804,7 @@ Class Tthbn
 		addrs.Add "getMsg", "tthbn,6A 78 68"
 		addrs.Add "cash", "tthbn,89 45 98 8B 15"
 		addrs.Add "isOffLine", "tthbn,6B D2 4A 81 C2"
+		addrs.Add "level", "tthbn,25 33 C0 A0"
 		For Each key In addrs.Keys
 			code = split(addrs.item(key),",")
 			result = dm.FindData(hwnd, "00000000-F0000000", code(1))
