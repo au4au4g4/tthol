@@ -25,8 +25,7 @@ SetupOCXFile=
 [Script]
 Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 
-hwnds = array(t.getHwnd())
-t.init hwnd
+t.init t.getHwnd()
 memberST = t.memberST(t.account)
 If UBound(memberST) > - 1  Then 
 	teamID = t.memberST(t.account)(4)
