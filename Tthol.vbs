@@ -680,5 +680,8 @@ Class Tthol
 	Private Function addr(key)
 		addr = HEX(dm.ReadIni("addr", key, ".\QMScript\tthol.ini"))
 	end Function
+	Public Function IDs(key)
+		IDs = split(dm.ReadIni("IDs",key,".\QMScript\tthbn.ini"),",")
+	End Function
 End Class
 	
