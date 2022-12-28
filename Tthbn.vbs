@@ -291,7 +291,7 @@ Class Tthbn
 	Public Function sell(npcName, itemName)
 		dim npc : Set npc = findNPC(npcName)
 		dim item : set item = getBag(array(itemName))(0)
-		simpleCall hwnd, tthbn + &H251A0, array(item.item("cnt"),item.item("sn"),item.item("id"),npc.item("sn"),npc.item("id"))
+		simpleCall hwnd, addr("sell",0), array(item.item("cnt"),item.item("sn"),item.item("id"),npc.item("sn"),npc.item("id"))
 	End Function
 	
 	Public Function kill(x,y,sn,id,skill)
@@ -833,6 +833,7 @@ Class Tthbn
 		addrs.Add "pop", "tthbn,C6 45 E8 34"
 		addrs.Add "openBank", "tthbn,55 8B EC 83 EC 78 53 56 57 8D 7D 88 B9 1E 00 00 00 B8 CC CC CC CC F3 AB C7 45 EC"
 		addrs.Add "buy", "tthbn,55 8B EC 83 EC 74 53 56 57 8D 7D 8C B9 1D 00 00 00 B8 CC CC CC CC F3 AB 8B 45"
+		addrs.Add "sell", "tthbn,55 8B EC 83 EC 78 53 56 57 8D 7D 88 B9 1E 00 00 00 B8 CC CC CC CC F3 AB C7 45 F4"
 		addrs.Add "reset", "tthbn,00 00 00 00 8B F4 FF 15"
 		For Each key In addrs.Keys
 			code = split(addrs.item(key),",")
