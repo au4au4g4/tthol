@@ -290,8 +290,11 @@ Class Tthbn
 	
 	Public Function sell(npcName, itemName)
 		dim npc : Set npc = findNPC(npcName)
-		dim item : set item = getBag(array(itemName))(0)
-		simpleCall hwnd, addr("sell",0), array(item.item("cnt"),item.item("sn"),item.item("id"),npc.item("sn"),npc.item("id"))
+		dim items :items = getBag(array(itemName))
+		for each item in items
+			simpleCall hwnd, addr("sell",0), array(item.item("cnt"),item.item("sn"),item.item("id"),npc.item("sn"),npc.item("id"))
+			delay 300
+		Next
 	End Function
 	
 	Public Function kill(x,y,sn,id,skill)
