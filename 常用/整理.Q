@@ -48,10 +48,10 @@ For Each task In tasks
     		Case "u"
         		t.push params
     		Case "t"
-				t.trades hwnd, params, -1
+				t.trade hwnd, params, 100000
 			Case "g"
 				t.init hwnd
-				t.trades seller, array(params(0)), params(1)
+				t.trade seller, array(params(0)), params(1)
 			Case "a"
         		t.apply params(0)
 			Case "l"
@@ -72,4 +72,8 @@ For Each task In tasks
 				t.sell params(0), params(1)
 		End Select
 	Next  
+Next
+
+For 10
+	
 Next

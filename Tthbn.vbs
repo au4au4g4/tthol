@@ -207,22 +207,44 @@ Class Tthbn
 		Next
 	End Function	
 	
-	Public Function trade(bHwnd, item, cnt)	
-		dim sID,bID,sn,iID,bTthbn
-		if hwnd - bHwnd = 0 then
+	' 蒐集物品
+	Public Function trade(bHwnd, keywords, cnt)	
+		dim sID,bID,sn,iID,bTthbn,bag,tableCnt,bName
+		bag = getBag(keywords)
+		if hwnd - bHwnd = 0 or UBound(bag) = 39 then
 			exit Function
 		end if
 		
+		' 開啟交易
 		bName = dm.ReadString(bHwnd, addrStr("name",0), 0, 20)
 		bID = getIdByName(hwnd, bName)
 		sID = getIdByName(bHwnd, id)
-		sn = item.item("sn")
-		iID = item.item("id")
-
 		bTthbn = dm.GetModuleBaseAddr(bHwnd, "tthbn.bin")
 		simpleCall hwnd, addr("invite", 0), array(bID, &HEA64)	' 邀請	
-		simpleCall bHwnd, addr("accept", bTthbn - tthbn), array(sID, &HEA64)' 接受	
-		simpleCall hwnd, addr("give", 0), array(cnt, sn, iID)	' 交付	
+		simpleCall bHwnd, addr("accept", bTthbn - tthbn), array(sID, &HEA64)' 接受
+		
+		'放物品
+		tableCnt = 0
+		For i = 0 To UBound(bag)
+			If cnt = 0  or tableCnt = 10 Then
+				Exit For
+			End If
+			
+			Set item = bag(i)
+			sn = item.item("sn")
+			iID = item.item("id")
+			itemCnt = item.item("cnt") 
+			
+			if itemCnt - cnt >= 0 then
+				itemCnt = cnt
+			end if
+
+			simpleCall hwnd, addr("give", 0), array(itemCnt, sn, iID)	' 交付
+			cnt = cnt - itemCnt
+			tableCnt = tableCnt + 1			
+		next
+		
+		' 完成交易
 		simpleCall hwnd, addr("comfirm1", 0), array()			' 確定1
 		simpleCall bHwnd, addr("comfirm1", bTthbn - tthbn), array()
 		simpleCall hwnd, addr("comfirm2", 0), array()			' 確定2
