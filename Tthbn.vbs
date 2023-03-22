@@ -209,12 +209,17 @@ Class Tthbn
 	
 	' 蒐集物品
 	Public Function trade(bHwnd, keywords, cnt)	
-		dim sID,bID,sn,iID,bTthbn,bag,tableCnt,bName
-		bag = getBag(keywords)
-		if hwnd - bHwnd = 0 or UBound(bag) = 39 then
+		dim sID,bID,sn,iID,bTthbn,bag,tableCnt,bName,items
+		temp = hwnd
+		Init(bHwnd)
+		bag = getBag(array(".*"))
+		Init(temp)
+		items = getBag(keywords)
+
+		if hwnd - bHwnd = 0 or UBound(bag) = 39 or UBound(items) = 0 then
 			exit Function
 		end if
-		
+
 		' 開啟交易
 		bName = dm.ReadString(bHwnd, addrStr("name",0), 0, 20)
 		bID = getIdByName(hwnd, bName)
@@ -222,15 +227,16 @@ Class Tthbn
 		bTthbn = dm.GetModuleBaseAddr(bHwnd, "tthbn.bin")
 		simpleCall hwnd, addr("invite", 0), array(bID, &HEA64)	' 邀請	
 		simpleCall bHwnd, addr("accept", bTthbn - tthbn), array(sID, &HEA64)' 接受
-		
+
 		'放物品
 		tableCnt = 0
-		For i = 0 To UBound(bag)
-			If cnt = 0  or tableCnt = 10 Then
+		
+		For i = 0 To UBound(items)
+			If cnt = 0  or tableCnt = 10 or tableCnt + UBound(bag) = 39 Then
 				Exit For
 			End If
 			
-			Set item = bag(i)
+			Set item = items(i)
 			sn = item.item("sn")
 			iID = item.item("id")
 			itemCnt = item.item("cnt") 
@@ -243,7 +249,7 @@ Class Tthbn
 			cnt = cnt - itemCnt
 			tableCnt = tableCnt + 1			
 		next
-		
+
 		' 完成交易
 		simpleCall hwnd, addr("comfirm1", 0), array()			' 確定1
 		simpleCall bHwnd, addr("comfirm1", bTthbn - tthbn), array()
@@ -795,7 +801,8 @@ Class Tthbn
 			' 決定要不要放入
 			target = obj(keys(0)(0))
 			for each cond in conds
-				If typename(cond) = "Integer" and (target = cond) or typename(cond) = "String" and instr(target,cond)>0 Then 
+				re.Pattern = cond
+				If typename(cond) = "Integer" and (target = cond) or typename(cond) = "String" and re.Test(target) Then 
 					Redim Preserve objs(j) : Set objs(j) = obj : j = j + 1
 					exit for
 				End If				
