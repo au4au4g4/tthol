@@ -70,8 +70,8 @@ Class Tthol
 	'mov*4]
 	Public Function getMainAddr()
 		Dim edx, eax
-		edx = read("[[[<tthola.dat>+3F099C]+10]+C]+8")
-		eax = read("[[<tthola.dat>+3F099C]+10]+CC4") and "&HFFFF"
+		edx = read("[[[[<tthola.dat>+3EC7F0]+124]+8]+C]+8")
+		eax = read("[[[<tthola.dat>+3EC7F0]+124]+8]+CC4") and "&HFFFF"
 		getMainAddr = read(edx + eax * 4)
 	End Function
 	
@@ -122,7 +122,7 @@ Class Tthol
 
 	Public Function getBagInfo(place)
 		If place = "bank" Then 
-			getBagInfo = read("[[<tthola.dat>+003F099C]+10]+2318") + &H1A8
+			getBagInfo = read("[[[<tthola.dat>+3EC7F0]+124]+8]+2618") + &H1A8
 		Else 
 			Dim eax,esi
 			If place = "bag" Then 
@@ -518,20 +518,23 @@ Class Tthol
 	'§ó·saddr
 	Public Function updateAddr()
 		Set addrs = CreateObject("Scripting.Dictionary")
-		addrs.Add "login", "8B C3 6B C0 3C"
-		addrs.Add "send", "80 3D 34 C8 7E 00 01 75 6A 8B 44 24 08 56 50 51 E8 3B"
-		addrs.Add "send1", "80 3D 34 C8 7E 00 01 75 6A 8B 44 24 08 56 50 51 E8 4B"
-		addrs.Add "go", "56 8B F0 8B 86 04 03 00  00 85 C0 74"
-		addrs.Add "atk", "83 EC 08 53 8B 5C 24 10 8B"
-		addrs.Add "learnSkill", "51 53 6A 04 51 8D 5C 24  0C B9 3C"
-		addrs.Add "speed", "7D 05 B9 64"
-		addrs.Add "logout", "6A FF 68 7F 2B"
-		addrs.Add "wear2", "53 55 56 8B D8 57 8D"
-		addrs.Add "shopping", "83 EC 0C 53 8D 88"
+		addrs.Add "login", "8B C3 6B C0 3C,0"
+		addrs.Add "send", "80 3D 34 C8 7E 00 01 75 6A 8B 44 24 08 56 50 51 E8 3B,0"
+		addrs.Add "send1", "80 3D 34 C8 7E 00 01 75 6A 8B 44 24 08 56 50 51 E8 4B,0"
+		addrs.Add "go", "56 8B F0 8B 86 04 03 00  00 85 C0 74,0"
+		addrs.Add "atk", "83 EC 08 53 8B 5C 24 10 8B,0"
+		addrs.Add "learnSkill", "51 53 6A 04 51 8D 5C 24  0C B9 3C,0"
+		addrs.Add "speed", "7D 05 B9 64,0"
+		addrs.Add "logout", "EC 88 0A 00 00 A1,-22"
+		addrs.Add "wear2", "53 55 56 8B D8 57 8D,0"
+		addrs.Add "shopping", "83 EC 0C 53 8D 88,0"
 		For Each key In addrs.Keys
-			TracePrint key
-			result = dm.FindData(hwnd, "00400000-00600000", addrs.item(key))
-			dm.WriteIni "addr", key, CLNG("&H" & result), ".\QMScript\tthol.ini"
+			arr = split(addrs.item(key),",")
+			btyes = arr(0)
+			offset = arr(1)
+			TracePrint btyes
+			result = dm.FindData(hwnd, "00400000-00600000", btyes)
+			dm.WriteIni "addr", key, CLNG("&H" & result) + offset, ".\QMScript\tthol.ini"
 		Next
 
 		Set addrs = CreateObject("Scripting.Dictionary")
