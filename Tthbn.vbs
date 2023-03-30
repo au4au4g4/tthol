@@ -191,8 +191,9 @@ Class Tthbn
 	End Function
 	
 	' 蒐集物品
-	Public Function trade(bHwnd, keywords, cnt)	
-		dim sID,bID,sn,iID,bTthbn,bag,tableCnt,bName,items
+	Public Function trade(bHwnd, keywords, cntt)	
+		dim sID,bID,sn,iID,bTthbn,bag,tableCnt,bName,items,cnt
+		cnt = cntt
 		temp = hwnd
 		Init(bHwnd)
 		bag = getBag(array(".*"))
@@ -213,7 +214,6 @@ Class Tthbn
 
 		'放物品
 		tableCnt = 0
-		
 		For i = 0 To UBound(items)
 			If cnt = 0  or tableCnt = 10 or tableCnt + UBound(bag) = 39 Then
 				Exit For
