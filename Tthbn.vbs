@@ -190,23 +190,6 @@ Class Tthbn
 		delay 2000
 	End Function
 	
-	Public Function trades(bHwnd, keywords, ByVal cnt)
-		dim bag : bag = getBag(keywords)
-		For i = 0 To UBound(bag)
-			Set item = bag(i)
-			itemCnt = item.item("cnt") 
-			if cnt = -1 Then
-				trade bHwnd, item, itemCnt
-			elseif itemCnt - cnt >= 0 then
-				trade bHwnd, item, cnt
-				exit for
-			else
-				trade bHwnd, item, itemCnt
-				cnt = cnt - itemCnt
-			end if
-		Next
-	End Function	
-	
 	' »`¶°ª««~
 	Public Function trade(bHwnd, keywords, cnt)	
 		dim sID,bID,sn,iID,bTthbn,bag,tableCnt,bName,items
@@ -216,7 +199,7 @@ Class Tthbn
 		Init(temp)
 		items = getBag(keywords)
 
-		if hwnd - bHwnd = 0 or UBound(bag) = 39 or UBound(items) = 0 then
+		if hwnd - bHwnd = 0 or UBound(bag) = 39 or UBound(items) = -1 then
 			exit Function
 		end if
 
