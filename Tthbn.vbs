@@ -438,7 +438,7 @@ Class Tthbn
 		dim item
 		set item = getBag(array(name))(0)
 		simpleCall hwnd, addr("apply",0), array(-01,item.item("sn"),item.item("id"))
-		delay 2000
+		delay 500
 	End Function
 	
 	Public function map(mapID)
