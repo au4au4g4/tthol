@@ -79,7 +79,7 @@ For each teamID in teamIDs
 		dm_ret = dm.BindWindow(login, "normal", "windows", "windows", 0)
 		dm.SendString comboBoxs(0), "飛雁山莊(花)"
 		dm.SendString comboBoxs(1), "1"
-		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4F185C]+98]+E4CC", 0, 0)
+		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4F27CC]+98]+E4CC", 0, 0)
 		
 		// 破解
 		t.init hwnd
