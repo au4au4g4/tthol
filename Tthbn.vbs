@@ -314,11 +314,9 @@ Class Tthbn
 
 	Public Function login()
 		dm.AsmClear 
-		dm.AsmAdd "mov ecx,0" + HEX(ttha + &H4F185C)
+		dm.AsmAdd "mov ecx,0" + HEX(ttha + &H4F27CC)
 		dm.AsmAdd "mov ecx,[ecx]"
-		dm.AsmAdd "push 0"
-		dm.AsmAdd "push 03EC"
-		dm.AsmAdd "call 0" + addr("login",0)
+		dm.AsmAdd "call 0" + addr("login",-29)
 		dm.AsmCall hwnd, 1	
 	End Function	
 	
@@ -830,7 +828,7 @@ Class Tthbn
 		Next
 		
 		Set addrs = CreateObject("Scripting.Dictionary")
-		addrs.Add "login", "ttha,55 8B EC 83 EC 2C 8B 45 08 53"
+		addrs.Add "login", "ttha,53 56 57 8B F1 89 44 24 10"
 		addrs.Add "crack", "ttha,74 7C 83 E8 02 74 1F 48"
 		addrs.Add "moveSpeedAtk", "ttha,18 01 00 00 6A 02 50"
 		addrs.Add "moveSpeed", "ttha,18 01 00 00 6A 02 51"
