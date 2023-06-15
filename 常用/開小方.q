@@ -54,8 +54,7 @@ For each teamID in teamIDs
 	For Each ID In IDs
 		memberST = t.memberST(ID)
 		dm_ret = dm.UnBindWindow()
-		dm.moveto 120, 1060
-		dm.leftclick 
+		zmRunApp "C:\Users\god\Desktop\JD_FCS21.60\tthfcs.exe"
 		While windowCnt >= UBound(t.getAllHwnds())	
 			Delay 500
 		Wend
@@ -107,3 +106,13 @@ Function del(cnt)
 		dm.KeyPress 46
 	Next
 End Function
+
+Private Declare Function GetDesktopWindow Lib "user32" () As Long
+Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal Hwnd As Long, ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Sub zmRunApp(path)
+    Dim p, DirPath, FileName
+    p = InStrRev(path, "\")
+    DirPath = Left(path, p)
+    FileName = Right(path, Len(path) - p)
+    ShellExecute GetDesktopWindow, "open", FileName, vbNullString, DirPath, 5
+End Sub
