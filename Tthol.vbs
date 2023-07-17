@@ -322,6 +322,34 @@ Class Tthol
 		End If
 	End Function
 	
+	' 戰鬥木偶打人
+	Public Function aktPlayer()
+		' 開木偶
+		Call dm.WriteData(hwnd, "<tthola.dat>+8AA2B", "00")
+		Call dm.WriteData(hwnd, "<tthola.dat>+20BDB", "EB")
+		Call dm.WriteData(hwnd, "<tthola.dat>+1350B5", "EB")
+		' 打人
+		Call dm.WriteData(hwnd, "<tthola.dat>+13794A", "85")
+		Call dm.WriteData(hwnd, "<tthola.dat>+13797F", "00")
+		Call dm.WriteData(hwnd, "<tthola.dat>+13799B", "85")
+		Call dm.WriteData(hwnd, "<tthola.dat>+6029F", "00")
+		Call dm.WriteData(hwnd, "<tthola.dat>+60233", "00")
+		' 取消移動
+		Call dm.WriteData(hwnd, "<tthola.dat>+137CC3", "90909090909090")
+	End Function
+	
+	' 恢復戰鬥木偶打人
+	Public Function reAktPlayer()
+		' 打人
+		Call dm.WriteData(hwnd, "<tthola.dat>+13794A", "84")
+		Call dm.WriteData(hwnd, "<tthola.dat>+13797F", "02")
+		Call dm.WriteData(hwnd, "<tthola.dat>+13799B", "84")
+		Call dm.WriteData(hwnd, "<tthola.dat>+6029F", "02")
+		Call dm.WriteData(hwnd, "<tthola.dat>+60233", "01")
+		' 取消移動
+		Call dm.WriteData(hwnd, "<tthola.dat>+137CC3", "6A00E816F8ECFF")
+	End Function
+	
 	'學技能
 	Public Function  learnSkills(codes)
 		For Each code In codes
@@ -573,11 +601,11 @@ Class Tthol
 	
 	' ------------------------------記憶體------------------------------
 
-	Private Function read(addrs)
+	Public Function read(addrs)
 		read = dm.ReadInt(hwnd, getScript(addrs), 0)
 	End Function
 
-	Private Function readString(addrs,len)
+	Public Function readString(addrs,len)
 		readString = dm.ReadString(hwnd,getScript(addrs),0,len)
 	End Function
 
