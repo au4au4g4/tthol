@@ -1,6 +1,6 @@
 Class Tthbn
 
-	Private dm,dw,re,hwnd,ttha,tthbn,tthsj,addrs
+	Private dm,dw,re,hwnd,ttha,tthbn,tthsj,addrs,timegettime
 	
 	Public Sub Class_Initialize()
 		Set dm = createobject("dm.dmsoft")
@@ -9,6 +9,7 @@ Class Tthbn
 		dw.Register "kernel32.dll", "OpenProcess", "i=uuu", "r=h" 
 		dw.Register "kernel32.dll", "VirtualAllocEx", "i=lllll", "r=l"
 		dw.Register "WINMM.DLL", "timeGetTime", "r=l", "f=s"
+		timegettime = dw.timeGetTime()
     End Sub
 	
    	Public default function Init(p_hwnd)
@@ -527,7 +528,7 @@ Class Tthbn
 	
 	Public Function crack()
 		Call dm.WriteData(hwnd, "<tthbn.bin>+ACD08", "E1E6F4B784ACEDB5E0E2A09CA9FBECE4B68BB10")
-		Call dm.WriteInt(hwnd, "<tthbn.bin>+ACD20", 0,dw.timeGetTime())
+		Call dm.WriteInt(hwnd, "<tthbn.bin>+ACD20", 0, timegettime)
 		Call dm.WriteData(hwnd,addr("crack",0),"EB")
 	End Function
 
