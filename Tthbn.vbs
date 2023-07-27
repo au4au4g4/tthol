@@ -527,7 +527,7 @@ Class Tthbn
 	End Function
 	
 	Public Function crack()
-		Call dm.WriteData(hwnd, "<tthbn.bin>+ACD08", "E1E6F4B784ACEDB5E0E2A09CA9FBECE4B68BB10")
+		Call dm.WriteData(hwnd, "<tthbn.bin>+ACD08", "E1E6F4B784ACEDB5E0E2A09CA9FBECE4B68BB1")
 		Call dm.WriteInt(hwnd, "<tthbn.bin>+ACD20", 0, timegettime)
 		Call dm.WriteData(hwnd,addr("crack",0),"EB")
 	End Function
@@ -555,8 +555,8 @@ Class Tthbn
 		call dm.WriteInt(hwnd, "<ttha.bin>+3C334", 0, min * 60000)
 	End Function
 
-	Public function fixBank()
 		Call dm.WriteData(hwnd, addr("distance",0), "10")	'¶ZÂ÷
+	Public function fixBank()
 		
 		reDim codes(8)
 		codes(0) = "mov ecx,[esp+20]"
