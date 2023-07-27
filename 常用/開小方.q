@@ -23,6 +23,8 @@ SetupOCXFile=
 [Comment]
 
 [Script]
+Set dm = createobject("dm.dmsoft")
+
 // 更新小方
 RunApp "cmd.exe /c cd ..\JD_FCS21.60 && git reset --hard && git pull"
 Delay 2000
@@ -41,10 +43,8 @@ dm_ret = dm.BindWindow(hwnd, "normal", "windows", "windows", 0)
 dm.moveto 80,15
 dm.leftclick
 
-Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
-Set dm = createobject("dm.dmsoft")
-
 // 開小方
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 w = dm.getscreenwidth() : h = dm.getscreenheight() - 40 : c = 5 : r = 2
 windowCnt = UBound(t.getAllHwnds())
 teamIDs = t.teamIDs
