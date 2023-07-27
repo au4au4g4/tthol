@@ -527,6 +527,7 @@ Class Tthbn
 	
 	Public Function crack()
 		Call dm.WriteData(hwnd, "<tthbn.bin>+ACD08", "E1E6F4B784ACEDB5E0E2A09CA9FBECE4B68BB10")
+		Call dm.WriteInt(hwnd, "<tthbn.bin>+ACD20", 0,dw.timeGetTime())
 		Call dm.WriteData(hwnd,addr("crack",0),"EB")
 	End Function
 
