@@ -555,9 +555,8 @@ Class Tthbn
 		call dm.WriteInt(hwnd, "<ttha.bin>+3C334", 0, min * 60000)
 	End Function
 
-		Call dm.WriteData(hwnd, addr("distance",0), "10")	'¶ZÂ÷
 	Public function fixBank()
-		
+		Call dm.WriteData(hwnd, addr("distance",0), "10")	'¶ZÂ÷
 		reDim codes(8)
 		codes(0) = "mov ecx,[esp+20]"
 		codes(1) = "push 0"
