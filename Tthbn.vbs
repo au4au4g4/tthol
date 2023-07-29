@@ -569,20 +569,20 @@ Class Tthbn
 		codes(8) = "jmp 0" + addr("fixbank",21)
 		Call inAsm(addr("fixbank",12), codes)
 		
-		result = findAddr("81 FA E8 18")
-		reDim codes(10)
-		codes(0) = "cmp edx,000018E8"
-		codes(1) = "je 0" + HEX(result+8)
-		codes(2) = "cmp edx,00001851"
-		codes(3) = "jne 0" + HEX(result+50)
-		codes(4) = "mov edx,[ebp+0C]"
-		codes(5) = "push edx"
-		codes(6) = "mov ax,[ebp+08]"
-		codes(7) = "push eax"
-		codes(8) = "push 05"
-		codes(9) = "call 0" + HEX(dm.ReadInt(hwnd, HEX(result + 34), 0) + result + 34 + 4)
-		codes(10) = "jmp 0" + HEX(result+50)
-		Call inAsm(HEX(result), codes)
+		'result = findAddr("81 FA E8 18")
+		'reDim codes(10)
+		'codes(0) = "cmp edx,000018E8"
+		'codes(1) = "je 0" + HEX(result+8)
+		'codes(2) = "cmp edx,00001851"
+		'codes(3) = "jne 0" + HEX(result+50)
+		'codes(4) = "mov edx,[ebp+0C]"
+		'codes(5) = "push edx"
+		'codes(6) = "mov ax,[ebp+08]"
+		'codes(7) = "push eax"
+		'codes(8) = "push 05"
+		'codes(9) = "call 0" + HEX(dm.ReadInt(hwnd, HEX(result + 34), 0) + result + 34 + 4)
+		'codes(10) = "jmp 0" + HEX(result+50)
+		'Call inAsm(HEX(result), codes)
 		
 		reDim codes(12)
 		codes(0) = "push ecx"
