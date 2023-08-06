@@ -6,12 +6,12 @@ PauseHotkey=0
 PauseHotkeyMod=0
 StopHotkey=123
 StopHotkeyMod=0
-RunOnce=1
+RunOnce=0
 EnableWindow=
 MacroID=3781a671-1216-431f-be63-fdde4c1be28d
 Description=ถ}คpค่
 Enable=1
-AutoRun=1
+AutoRun=0
 [Repeat]
 Type=0
 Number=1
@@ -54,7 +54,7 @@ For each teamID in teamIDs
 	For Each ID In IDs
 		memberST = t.memberST(ID)
 		dm_ret = dm.UnBindWindow()
-		zmRunApp "C:\Users\god\Desktop\JD_FCS21.60\tthfcs.exe"
+		zmRunApp "..\JD_FCS21.60\tthfcs.exe"
 		While windowCnt >= UBound(t.getAllHwnds())	
 			Delay 500
 		Wend
