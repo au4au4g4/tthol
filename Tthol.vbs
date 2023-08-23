@@ -325,29 +325,29 @@ Class Tthol
 	' 戰鬥木偶打人
 	Public Function aktPlayer()
 		' 開木偶
-		Call dm.WriteData(hwnd, "<tthola.dat>+8AA2B", "00")
-		Call dm.WriteData(hwnd, "<tthola.dat>+20BDB", "EB")
-		Call dm.WriteData(hwnd, "<tthola.dat>+1350B5", "EB")
+		'Call dm.WriteData(hwnd, "<tthola.dat>+8AA4B", "00")'登入顯示木偶
+		Call dm.WriteData(hwnd, addr("robot1"), "00") '點木偶開視窗
+		Call dm.WriteData(hwnd, addr("robot2"), "EB") '執行時驗證
 		' 打人
-		Call dm.WriteData(hwnd, "<tthola.dat>+13794A", "85")
-		Call dm.WriteData(hwnd, "<tthola.dat>+13797F", "00")
-		Call dm.WriteData(hwnd, "<tthola.dat>+13799B", "85")
-		Call dm.WriteData(hwnd, "<tthola.dat>+6029F", "00")
-		Call dm.WriteData(hwnd, "<tthola.dat>+60233", "00")
+		Call dm.WriteData(hwnd, addr("aktPlayer1"), "85")
+		Call dm.WriteData(hwnd, addr("aktPlayer2"), "00")
+		Call dm.WriteData(hwnd, addr("aktPlayer3"), "85")
+		Call dm.WriteData(hwnd, addr("skillPlayer2"), "00")'技能
+		Call dm.WriteData(hwnd, addr("skillPlayer1"), "00")'技能
 		' 取消移動
-		Call dm.WriteData(hwnd, "<tthola.dat>+137CC3", "90909090909090")
+		Call dm.WriteData(hwnd, addr("freeze"), "EB05")
 	End Function
 	
 	' 恢復戰鬥木偶打人
 	Public Function reAktPlayer()
 		' 打人
-		Call dm.WriteData(hwnd, "<tthola.dat>+13794A", "84")
-		Call dm.WriteData(hwnd, "<tthola.dat>+13797F", "02")
-		Call dm.WriteData(hwnd, "<tthola.dat>+13799B", "84")
-		Call dm.WriteData(hwnd, "<tthola.dat>+6029F", "02")
-		Call dm.WriteData(hwnd, "<tthola.dat>+60233", "01")
+		Call dm.WriteData(hwnd, addr("aktPlayer1"), "84")
+		Call dm.WriteData(hwnd, addr("aktPlayer2"), "02")
+		Call dm.WriteData(hwnd, addr("aktPlayer3"), "84")
+		Call dm.WriteData(hwnd, addr("skillPlayer2"), "02")
+		Call dm.WriteData(hwnd, addr("skillPlayer1"), "01")
 		' 取消移動
-		Call dm.WriteData(hwnd, "<tthola.dat>+137CC3", "6A00E816F8ECFF")
+		Call dm.WriteData(hwnd, addr("freeze"), "6A00")
 	End Function
 	
 	'學技能
@@ -556,12 +556,21 @@ Class Tthol
 		addrs.Add "logout", "EC 88 0A 00 00 A1,-22"
 		addrs.Add "wear2", "53 55 56 8B D8 57 8D,0"
 		addrs.Add "shopping", "83 EC 0C 53 8D 88,0"
+		addrs.Add "robot1", "6B E8 8B E7,0"
+		addrs.Add "robot2", "75 18 83 C5,0" 
+		addrs.Add "aktPlayer1", "84 12 01 00 00 8A 8D,0"
+		addrs.Add "aktPlayer2", "84 12 01 00 00 8A 8D,53"
+		addrs.Add "aktPlayer3", "84 12 01 00 00 8A 8D,81"
+		addrs.Add "skillPlayer1", "24 01 C3 32,1"
+		addrs.Add "skillPlayer2", "24 01 C3 32,109"
+		addrs.Add "freeze", "EB 28 6A 00 E8,2"
 		For Each key In addrs.Keys
 			arr = split(addrs.item(key),",")
 			btyes = arr(0)
 			offset = arr(1)
-			TracePrint btyes
+			TracePrint key
 			result = dm.FindData(hwnd, "00400000-00600000", btyes)
+			result = split(result,"|")(0)
 			dm.WriteIni "addr", key, CLNG("&H" & result) + offset, ".\QMScript\tthol.ini"
 		Next
 
