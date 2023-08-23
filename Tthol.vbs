@@ -556,7 +556,7 @@ Class Tthol
 		addrs.Add "logout", "EC 88 0A 00 00 A1,-22"
 		addrs.Add "wear2", "53 55 56 8B D8 57 8D,0"
 		addrs.Add "shopping", "83 EC 0C 53 8D 88,0"
-		addrs.Add "robot1", "6B E8 8B E7,0"
+		addrs.Add "robot1", "74 6B E8,-1"
 		addrs.Add "robot2", "75 18 83 C5,0" 
 		addrs.Add "aktPlayer1", "84 12 01 00 00 8A 8D,0"
 		addrs.Add "aktPlayer2", "84 12 01 00 00 8A 8D,53"
