@@ -82,7 +82,7 @@ Class Tthbn
 		cash = dm.ReadInt(hwnd, addr("cash",0), 0) 
 	End Function
 	Public Function deposit()
-		deposit = dm.ReadInt(hwnd, "[<tthbn.bin>+E5FC]", 0)
+		deposit = dm.ReadInt(hwnd, addr("deposit",0), 0)
 	End Function
 	Public Function team()
 		team = dm.ReadIni("team", id, ".\tthbn.ini")
@@ -262,12 +262,12 @@ Class Tthbn
 	
 	Public Function withdrawal(amount)	
 		openBank()
-		simpleCall hwnd, tthbn + &H26000, array(0,amount)		
+		simpleCall hwnd, addr("withdrawal",-24), array(0,amount)		
 	End Function
 	
 	Public Function save(amount)
 		openBank()
-		simpleCall hwnd, tthbn + &H26000, array(1,amount)
+		simpleCall hwnd, addr("withdrawal",-24), array(1,amount)
 	End Function
 	
 	Public Function pop(names)
@@ -817,6 +817,7 @@ Class Tthbn
 		addrs.Add "npc", "tthbn,E1 05 8B 91"
 		addrs.Add "getMsg", "tthbn,6A 78 68"
 		addrs.Add "cash", "tthbn,89 45 98 8B 15"
+		addrs.Add "deposit", "tthbn,06 88 55 FF 8B 45 FC A3"
 		addrs.Add "isOffLine", "tthbn,6B D2 4A 81 C2"
 		addrs.Add "level", "tthbn,25 33 C0 A0"
 		For Each key In addrs.Keys
@@ -829,6 +830,7 @@ Class Tthbn
 		Next
 		
 		Set addrs = CreateObject("Scripting.Dictionary")
+		addrs.Add "withdrawal", "tthbn,66 C7 45 F8 09 00"
 		addrs.Add "login", "ttha,53 56 57 8B F1 89 44 24 10"
 		addrs.Add "crack", "ttha,74 7C 83 E8 02 74 1F 48"
 		addrs.Add "moveSpeedAtk", "ttha,18 01 00 00 6A 02 50"
@@ -848,9 +850,10 @@ Class Tthbn
 		addrs.Add "openBank", "tthbn,55 8B EC 83 EC 78 53 56 57 8D 7D 88 B9 1E 00 00 00 B8 CC CC CC CC F3 AB C7 45 EC"
 		addrs.Add "buy", "tthbn,55 8B EC 83 EC 74 53 56 57 8D 7D 8C B9 1D 00 00 00 B8 CC CC CC CC F3 AB 8B 45"
 		addrs.Add "sell", "tthbn,55 8B EC 83 EC 78 53 56 57 8D 7D 88 B9 1E 00 00 00 B8 CC CC CC CC F3 AB C7 45 F4"
-		addrs.Add "reset", "tthbn,00 00 00 00 8B F4 FF 15"
+		addrs.Add "reset", "tthbn,00 00 00 00 8B F4 FF 15"	
 		For Each key In addrs.Keys
 			code = split(addrs.item(key),",")
+			TracePrint code(0)
 			result = dm.FindData(hwnd, "00000000-F0000000", code(1))
 			result = split(result,"|")(0)
 			dm.WriteIni "addr", key, code(0) & "," & CLNG("&H" & result) - eval(code(0)), ".\QMScript\tthbn.ini"

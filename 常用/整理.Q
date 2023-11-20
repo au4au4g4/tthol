@@ -67,7 +67,13 @@ For Each task In tasks
     				params(2) = int(t.cash / 10 ^ 6)
     			End If
 				t.buy params(0), params(1), params(2)
-				t.reset
+				t.reset 
+			Case "c"
+				For (t.deposit + t.cash) > 2000000
+					t.withdrawal (9999999 - t.cash)
+					t.buy "歡喜商人", "百萬官幣", int(t.cash / 10 ^ 6)
+					t.reset
+				Next
     		Case "s"
 				t.sell params(0), params(1)
 		End Select
