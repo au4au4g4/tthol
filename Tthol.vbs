@@ -38,7 +38,7 @@ Class Tthol
 		talkWnd = (read("[[[[<tthola.dat>+3EABBC]+10]+8]+104]+20") = 3)
 	End Function
 	
-	public Function  selectWnd()
+	public Function selectWnd()
 		selectWnd = (read("<tthola.dat>+1FAE84") = 0)
 	end Function
 
@@ -327,7 +327,7 @@ Class Tthol
 	Public Function aktPlayer()
 		' 開木偶
 		'Call dm.WriteData(hwnd, "<tthola.dat>+8AA4B", "00")'登入顯示木偶
-		Call dm.WriteData(hwnd, addr("robot1"), "00") '點木偶開視窗
+		Call dm.WriteData(hwnd, addr("robot1"), "9090") '點木偶開視窗
 		Call dm.WriteData(hwnd, addr("robot2"), "EB") '執行時驗證
 		' 打人
 		Call dm.WriteData(hwnd, addr("aktPlayer1"), "85")
@@ -559,7 +559,7 @@ Class Tthol
 		addrs.Add "logout", "EC 88 0A 00 00 A1,-22"
 		addrs.Add "wear2", "53 55 56 8B D8 57 8D,0"
 		addrs.Add "shopping", "83 EC 0C 53 8D 88,0"
-		addrs.Add "robot1", "74 6B E8,-1"
+		addrs.Add "robot1", "74 6B E8,0"
 		addrs.Add "robot2", "75 18 83 C5,0" 
 		addrs.Add "aktPlayer1", "84 12 01 00 00 8A 8D,0"
 		addrs.Add "aktPlayer2", "84 12 01 00 00 8A 8D,53"
