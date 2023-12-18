@@ -110,6 +110,7 @@ Class Tthol
 			item.Add "no", dm.ReadInt(hwnd,HEX(itemAddr + 3), 1)
 			item.Add "id", read(itemAddr + 5)
 			item.Add "sn", read(itemAddr + 9)
+			item.Add "ty", read(itemAddr + 11) '不確定這個參數代表什麼
 			item.Add "amount", read(itemAddr + 16)
 			item.Add "name", readString(itemAddr + 20, 12)
 			While bag.ContainsKey(id)
@@ -455,8 +456,9 @@ Class Tthol
 		id = item.item("id")
 		no = item.item("no")
 		sn = item.item("sn")
+		ty = item.item("ty")
 		amount = item.item("amount")
-		send "34","B",array(no,id,0,sn,0,amount),array(2,2,2,2,8,2)
+		send "34","B",array(no,id,0,sn,ty,amount),array(2,2,2,2,2,2)
 	End Function
 
 	'存入
@@ -465,8 +467,9 @@ Class Tthol
 		id = item.item("id")
 		no = item.item("no")
 		sn = item.item("sn")
+		ty = item.item("ty")
 		amount = item.item("amount")
-		send "32","B",array(no,id,0,sn,0,amount),array(2,2,2,2,8,2)
+		send "32","B",array(no,id,0,sn,ty,amount),array(2,2,2,2,2,2)
 	End Function
 	
 	Public Function ad(str)
