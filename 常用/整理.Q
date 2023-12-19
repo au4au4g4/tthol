@@ -48,7 +48,7 @@ For Each task In tasks
     		Case "u"
         		t.push params
     		Case "t"
-				t.trade hwnd, params, 100000
+				t.monopoly hwnd, params
 			Case "g"
 				t.init hwnd
 				t.trade seller, array(params(0)), params(1)

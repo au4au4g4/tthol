@@ -192,54 +192,101 @@ Class Tthbn
 	End Function
 	
 	' 蒐集物品
-	Public Function trade(bHwnd, keywords, cntt)	
-		dim sID,bID,sn,iID,bTthbn,bag,tableCnt,bName,items,cnt
-		cnt = cntt
+	'Public Function trade(bHwnd, keywords)	
+	'	dim sID,bID,sn,iID,bTthbn,bag,tableCnt,bName,items
+	'	temp = hwnd
+	'	Init(bHwnd)
+	'	bag = getBag(array(".*"))
+	'	Init(temp)
+	'	items = getBag(keywords)
+	'
+	'	if hwnd - bHwnd = 0 or UBound(bag) = 39 or UBound(items) = -1 then
+	'		exit Function
+	'	end if
+	'
+	'	' 開啟交易
+	'	bName = dm.ReadString(bHwnd, addrStr("name",0), 0, 20)
+	'	bID = getIdByName(hwnd, bName)
+	'	sID = getIdByName(bHwnd, id)
+	'	bTthbn = dm.GetModuleBaseAddr(bHwnd, "tthbn.bin")
+	'	simpleCall hwnd, addr("invite", 0), array(bID, &HEA64)	' 邀請	
+	'	simpleCall bHwnd, addr("accept", bTthbn - tthbn), array(sID, &HEA64)' 接受
+	'
+	'	'放物品
+	'	tableCnt = 0
+	'	For i = 0 To UBound(items)
+	'		If tableCnt = 10 or tableCnt + UBound(bag) = 39 Then
+	'			Exit For
+	'		End If
+	'		
+	'		Set item = items(i)
+	'		sn = item.item("sn")
+	'		iID = item.item("id")
+	'
+	'		simpleCall hwnd, addr("give", 0), array(itemCnt, sn, iID)	' 交付
+	'		tableCnt = tableCnt + 1			
+	'	next
+	'
+	'	' 完成交易
+	'	simpleCall hwnd, addr("comfirm1", 0), array()			' 確定1
+	'	simpleCall bHwnd, addr("comfirm1", bTthbn - tthbn), array()
+	'	simpleCall hwnd, addr("comfirm2", 0), array()			' 確定2
+	'	simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
+	'	simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
+	'End Function
+	
+	Public Function monopoly(bHwnd, keywords)
+		dim success : success = true
+		while success and hwnd - bHwnd <> 0
+			pop(keywords)
+			success = trade(bHwnd, keywords)
+			temp = hwnd
+			Init(bHwnd)
+			push(keywords)
+			Init(temp)
+		Wend
+	End Function
+	
+	Public Function trade(bHwnd, keywords)
+		dim sID,bID,sn,iID,bTthbn,bag,tableCnt,bName,items,temp,cnt,itemCnt
 		temp = hwnd
 		Init(bHwnd)
 		bag = getBag(array(".*"))
 		Init(temp)
 		items = getBag(keywords)
-
-		if hwnd - bHwnd = 0 or UBound(bag) = 39 or UBound(items) = -1 then
-			exit Function
+		cnt = min(UBound(items)+1,39 - UBound(bag))
+		trade = cnt > 0
+		while cnt > 0
+			' 開啟交易
+			bName = dm.ReadString(bHwnd, addrStr("name",0), 0, 20)
+			bID = getIdByName(hwnd, bName)
+			sID = getIdByName(bHwnd, id)
+			bTthbn = dm.GetModuleBaseAddr(bHwnd, "tthbn.bin")
+			simpleCall hwnd, addr("invite", 0), array(bID, &HEA64)	' 邀請	
+			simpleCall bHwnd, addr("accept", bTthbn - tthbn), array(sID, &HEA64)' 接受
+			For i = 1 To min(cnt,10)
+				Set item = items(cnt-1)
+				sn = item.item("sn")
+				iID = item.item("id")
+				itemCnt = item.item("cnt")
+				simpleCall hwnd, addr("give", 0), array(itemCnt, sn, iID)	' 交付
+				cnt = cnt-1
+			next
+			' 完成交易
+			simpleCall hwnd, addr("comfirm1", 0), array()			' 確定1
+			simpleCall bHwnd, addr("comfirm1", bTthbn - tthbn), array()
+			simpleCall hwnd, addr("comfirm2", 0), array()			' 確定2
+			simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
+			simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()			
+		Wend
+	End Function
+	
+	Public Function min(a, b)
+		if a < b then
+			min = a
+		else
+			min = b
 		end if
-
-		' 開啟交易
-		bName = dm.ReadString(bHwnd, addrStr("name",0), 0, 20)
-		bID = getIdByName(hwnd, bName)
-		sID = getIdByName(bHwnd, id)
-		bTthbn = dm.GetModuleBaseAddr(bHwnd, "tthbn.bin")
-		simpleCall hwnd, addr("invite", 0), array(bID, &HEA64)	' 邀請	
-		simpleCall bHwnd, addr("accept", bTthbn - tthbn), array(sID, &HEA64)' 接受
-
-		'放物品
-		tableCnt = 0
-		For i = 0 To UBound(items)
-			If cnt = 0  or tableCnt = 10 or tableCnt + UBound(bag) = 39 Then
-				Exit For
-			End If
-			
-			Set item = items(i)
-			sn = item.item("sn")
-			iID = item.item("id")
-			itemCnt = item.item("cnt") 
-			
-			if itemCnt - cnt >= 0 then
-				itemCnt = cnt
-			end if
-
-			simpleCall hwnd, addr("give", 0), array(itemCnt, sn, iID)	' 交付
-			cnt = cnt - itemCnt
-			tableCnt = tableCnt + 1			
-		next
-
-		' 完成交易
-		simpleCall hwnd, addr("comfirm1", 0), array()			' 確定1
-		simpleCall bHwnd, addr("comfirm1", bTthbn - tthbn), array()
-		simpleCall hwnd, addr("comfirm2", 0), array()			' 確定2
-		simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
-		simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
 	End Function
 	
 	Public Function getIdByName(hwndd, name)
