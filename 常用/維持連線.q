@@ -40,12 +40,12 @@ While True
 	If (min mod 10) = 0 Then 
 		Call alarm()
 	End If
-	If (min mod 60) = 0 Then 
-		'Call train()
-	End If
-	If (min mod 12 * 60) = 0 Then 
-		Call record()
-	End If
+//	If (min mod 60) = 0 Then 
+//		Call train()
+//	End If
+//	If (min mod 12 * 60) = 0 Then 
+//		Call record()
+//	End If
 	Delay 60 * 1000
 Wend
 
