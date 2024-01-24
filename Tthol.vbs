@@ -12,6 +12,12 @@ Class Tthol
 
 	' ------------------------------ram flag------------------------------
 
+	Public Function setHwnd(hwndd)
+		hwnd = hwndd
+		dm_ret = dm.BindWindow(hwnd,"normal","normal","normal",0)
+		Call dm.WriteInt(hwnd, "<tthola.dat>+36B3FC", 0, 150)
+	End Function
+
 	Public Function getUsingBuff()
 		Dim headAddr,lenAddr
 		lenAddr = "[[<tthola.dat>+3ED978]+10]+2138"
@@ -26,6 +32,13 @@ Class Tthol
 		getXY = array(x,y)
 	End Function
 
+	Public Function getMXY()
+		dim x,y,xy
+		x = read(addr("mouseX"))+read("["&addr("mapXY")&"]+2C0C")
+		y = read("["&addr("mapXY")&"]+2AF4")-read(addr("mouseY"))-read("["&addr("mapXY")&"]+2C10")-1
+		getMXY = array(x,y)
+	End Function
+	
 	Public Function getSkill(code)
 		getSkill = read(array("[<tthola.dat>+3EABBC]+10", &H3050 + (code - 1) * 8))
 	End Function
@@ -146,7 +159,7 @@ Class Tthol
 			for each cond in conds
 				pass = pass and (read(addr + cond(0)) = cond(1))
 			next
-			pass = pass * (dm.ReadInt(hwnd, HEX(addr + &H10C8), 2) = 0)
+			'pass = pass * (dm.ReadInt(hwnd, HEX(addr + &H10C8), 2) = 0)
 			if pass Then
 				npc.Add "addr", HEX(addr)
 				npc.Add "no", dm.ReadInt(hwnd, HEX(addr + 300), 1)
@@ -183,20 +196,13 @@ Class Tthol
 
 	' 移動
 	Public Function go(x,y)
-		dim xy : xy = getXY()
-		While (x - xy(0)) ^ 2 + (y - xy(1)) ^ 2 > 2
-			TracePrint xy(0) &"="&xy(1)
-			dm.AsmClear 
-			dm.AsmAdd "mov eax,0"+HEX(getMainAddr)
-			dm.AsmAdd "mov ebx,0"+Hex(x * 40)
-			dm.AsmAdd "mov edi,0"+Hex(y * 40)
-			dm.AsmAdd "push 00000001"
-			dm.AsmAdd "call 0" & addr("go")
-			dm.AsmCall hwnd,1
-			delay 2000
-			xy = getXY()
-		wend
-		TracePrint 88
+		dm.AsmClear 
+		dm.AsmAdd "mov eax,0"+HEX(getMainAddr)
+		dm.AsmAdd "mov ebx,0"+Hex(x * 40)
+		dm.AsmAdd "mov edi,0"+Hex(y * 40)
+		dm.AsmAdd "push 00000001"
+		dm.AsmAdd "call 0" & addr("go")
+		dm.AsmCall hwnd,1
 	End Function
 
 	' 去找NPC
@@ -330,6 +336,7 @@ Class Tthol
 		Call dm.WriteData(hwnd, addr("robot1"), "9090") '點木偶開視窗
 		Call dm.WriteData(hwnd, addr("robot2"), "EB") '執行時驗證
 		' 打人
+		Call dm.WriteData(hwnd, addr("mish"), "E9A0040000") '不打迷香
 		Call dm.WriteData(hwnd, addr("aktPlayer1"), "85")
 		Call dm.WriteData(hwnd, addr("aktPlayer2"), "00")
 		Call dm.WriteData(hwnd, addr("aktPlayer3"), "85")
@@ -342,6 +349,7 @@ Class Tthol
 	' 恢復戰鬥木偶打人
 	Public Function reAktPlayer()
 		' 打人
+		Call dm.WriteData(hwnd, addr("mish"), "EB038D4900") '不打迷香
 		Call dm.WriteData(hwnd, addr("aktPlayer1"), "84")
 		Call dm.WriteData(hwnd, addr("aktPlayer2"), "02")
 		Call dm.WriteData(hwnd, addr("aktPlayer3"), "84")
@@ -550,17 +558,18 @@ Class Tthol
 	Public Function updateAddr()
 		Set addrs = CreateObject("Scripting.Dictionary")
 		addrs.Add "login", "8B C3 6B C0 3C,0"
-		addrs.Add "send", "80 3D 34 C8 7E 00 01 75 6A 8B 44 24 08 56 50 51 E8 3B,0"
-		addrs.Add "send1", "80 3D 34 C8 7E 00 01 75 6A 8B 44 24 08 56 50 51 E8 4B,0"
+		addrs.Add "send", "01 75 6A 8B 44 24 08 56 50 51 E8 3B,-6"
+		addrs.Add "send1", "01 75 6A 8B 44 24 08 56 50 51 E8 4B,-6"
 		addrs.Add "go", "56 8B F0 8B 86 04 03 00  00 85 C0 74,0"
 		addrs.Add "atk", "83 EC 08 53 8B 5C 24 10 8B,0"
 		addrs.Add "learnSkill", "51 53 6A 04 51 8D 5C 24  0C B9 3C,0"
 		addrs.Add "speed", "7D 05 B9 64,0"
-		addrs.Add "logout", "EC 88 0A 00 00 A1,-22"
+		'addrs.Add "logout", "EC 88 0A 00 00 A1,-22"
 		addrs.Add "wear2", "53 55 56 8B D8 57 8D,0"
 		addrs.Add "shopping", "83 EC 0C 53 8D 88,0"
 		addrs.Add "robot1", "74 6B E8,0"
 		addrs.Add "robot2", "75 18 83 C5,0" 
+		addrs.Add "mish", "EB 03 8D 49 00 8B 54 24 68,0"
 		addrs.Add "aktPlayer1", "84 12 01 00 00 8A 8D,0"
 		addrs.Add "aktPlayer2", "84 12 01 00 00 8A 8D,53"
 		addrs.Add "aktPlayer3", "84 12 01 00 00 8A 8D,81"
@@ -580,6 +589,9 @@ Class Tthol
 		Set addrs = CreateObject("Scripting.Dictionary")
 		addrs.Add "location", "4B 20 8B 0D"
 		addrs.Add "shop", "53 75 15 A1"
+		addrs.Add "mapXY", "2C C2 10 00 A1"
+		addrs.Add "mouseX", "8B 54 24 28 A1"
+		addrs.Add "mouseY", "D0 75 27 3B 35"
 		For Each key In addrs.Keys
 			result = dm.FindData(hwnd, "00400000-00500000", addrs.item(key))
 			l = Len(Replace(addrs.item(key), " ", "", 1, - 1 )) / 2
