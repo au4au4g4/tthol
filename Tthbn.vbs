@@ -280,6 +280,39 @@ Class Tthbn
 			simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()			
 		Wend
 	End Function
+		
+	Public Function trade2()
+		'dim sID,bID,sn,iID,bTthbn,bag,tableCnt,bName,items,temp,cnt,itemCnt
+		'temp = hwnd
+		'Init(bHwnd)
+		'bag = getBag(array(".*"))
+		'Init(temp)
+		items = getBag(array("百萬"))
+		'cnt = min(UBound(items)+1,39 - UBound(bag))
+		'trade = cnt > 0
+		'while cnt > 0
+		'	' 開啟交易
+		'	bName = dm.ReadString(bHwnd, addrStr("name",0), 0, 20)
+		'	bID = getIdByName(hwnd, bName)
+		'	sID = getIdByName(bHwnd, id)
+		'	bTthbn = dm.GetModuleBaseAddr(bHwnd, "tthbn.bin")
+		'	simpleCall hwnd, addr("invite", 0), array(bID, &HEA64)	' 邀請	
+		'	simpleCall bHwnd, addr("accept", bTthbn - tthbn), array(sID, &HEA64)' 接受
+			For i = 0 To 9
+				Set item = items(i)
+				sn = item.item("sn")
+				iID = item.item("id")
+				itemCnt = item.item("cnt")
+				simpleCall hwnd, addr("give", 0), array(itemCnt, sn, iID)	' 交付
+			next
+		'	' 完成交易
+			simpleCall hwnd, addr("comfirm1", 0), array()			' 確定1
+		'	simpleCall bHwnd, addr("comfirm1", bTthbn - tthbn), array()
+		'	simpleCall hwnd, addr("comfirm2", 0), array()			' 確定2
+		'	simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
+		'	simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()			
+		'Wend
+	End Function
 	
 	Public Function min(a, b)
 		if a < b then
@@ -574,7 +607,8 @@ Class Tthbn
 	End Function
 	
 	Public Function crack()
-		Call dm.WriteData(hwnd, "<tthbn.bin>+ACD08", "E1E6F4B784ACEDB5E0E2A09CA9FBECE4B68BB1")
+		Call dm.WriteData(hwnd, "<tthbn.bin>+ACD08", "E1E7F1B784ACEDB4E1E7A09CA9FBEDE1B68BB1")
+		                                              
 		Call dm.WriteInt(hwnd, "<tthbn.bin>+ACD20", 0, timegettime)
 		Call dm.WriteData(hwnd,addr("crack",0),"EB")
 	End Function
