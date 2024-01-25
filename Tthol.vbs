@@ -75,6 +75,10 @@ Class Tthol
 		chat = readString("[[[[[<tthola.dat>+3F099C]+10]+3C]+2B4]+8]",40)
 	End Function
 	
+	Public Function getMain()
+		getMain = "[[[" + addr("main") + "]+124]+8]"
+	End Function
+	
 	'mov*0000*
 	'mov
 	'mov
@@ -83,8 +87,8 @@ Class Tthol
 	'mov*4]
 	Public Function getMainAddr()
 		Dim edx, eax
-		edx = read("[[[[<tthola.dat>+3EC7F0]+124]+8]+C]+8")
-		eax = read("[[[<tthola.dat>+3EC7F0]+124]+8]+CC4") and "&HFFFF"
+		edx = read("[" + getMain() + "+C]+8")
+		eax = read(getMain() + "+CC4") and "&HFFFF"
 		getMainAddr = read(edx + eax * 4)
 	End Function
 	
@@ -136,7 +140,7 @@ Class Tthol
 
 	Public Function getBagInfo(place)
 		If place = "bank" Then 
-			getBagInfo = read("[[[<tthola.dat>+3EC7F0]+124]+8]+2618") + &H1A8
+			getBagInfo = read(getMain + "+" + addr("bank")) + &H1A8
 		Else 
 			Dim eax,esi
 			If place = "bag" Then 
@@ -586,12 +590,15 @@ Class Tthol
 			dm.WriteIni "addr", key, CLNG("&H" & result) + offset, ".\QMScript\tthol.ini"
 		Next
 
+		'地址前面的code
 		Set addrs = CreateObject("Scripting.Dictionary")
 		addrs.Add "location", "4B 20 8B 0D"
 		addrs.Add "shop", "53 75 15 A1"
 		addrs.Add "mapXY", "2C C2 10 00 A1"
 		addrs.Add "mouseX", "8B 54 24 28 A1"
 		addrs.Add "mouseY", "D0 75 27 3B 35"
+		addrs.Add "main", "01 74 32 A1"
+		addrs.Add "bank", "C0 74 4A 8B 86"
 		For Each key In addrs.Keys
 			result = dm.FindData(hwnd, "00400000-00500000", addrs.item(key))
 			l = Len(Replace(addrs.item(key), " ", "", 1, - 1 )) / 2
