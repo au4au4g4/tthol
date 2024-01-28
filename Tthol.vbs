@@ -491,8 +491,8 @@ Class Tthol
 	
 	Public Function login(id,ps)
 		call dm.writeData(hwnd, addr("login"), "B83C000000") 'Âê¦øªA¾¹
-		dm_ret = dm.WriteString(hwnd, "[[[[<tthola.dat>+3EC7F0]+128]+28]+124]", 0, id)
-		dm_ret = dm.WriteString(hwnd, "[[[[<tthola.dat>+3EC7F0]+128]+24]+124]", 0, ps)
+		dm_ret = dm.WriteString(hwnd, "[[[[" + addr("main") + "]+128]+28]+124]", 0, id)
+		dm_ret = dm.WriteString(hwnd, "[[[[" + addr("main") + "]+128]+24]+124]", 0, ps)
 		dm.MoveTo 543, 555
 		delay 100
 		dm.LeftClick
@@ -505,7 +505,7 @@ Class Tthol
 		dm.AsmAdd "push 0"
 		dm.AsmAdd "push 011E"
 		dm.AsmAdd "push 0" 
-		dm.AsmAdd "mov ecx,0" & HEX(read("[<tthola.dat>+003F099C]+10"))
+		dm.AsmAdd "mov ecx,0" & HEX(read("[" + addr("logout1") + "]+10"))
 		dm.AsmAdd "call 0" & addr("logout")
 		dm.AsmCall hwnd, 1
 		Delay 1000		
@@ -568,7 +568,7 @@ Class Tthol
 		addrs.Add "atk", "83 EC 08 53 8B 5C 24 10 8B,0"
 		addrs.Add "learnSkill", "51 53 6A 04 51 8D 5C 24  0C B9 3C,0"
 		addrs.Add "speed", "7D 05 B9 64,0"
-		'addrs.Add "logout", "EC 88 0A 00 00 A1,-22"
+		addrs.Add "logout", "55 8B E9 8B 4D,-42"
 		addrs.Add "wear2", "53 55 56 8B D8 57 8D,0"
 		addrs.Add "shopping", "83 EC 0C 53 8D 88,0"
 		addrs.Add "robot1", "74 6B E8,0"
@@ -599,6 +599,7 @@ Class Tthol
 		addrs.Add "mouseY", "D0 75 27 3B 35"
 		addrs.Add "main", "01 74 32 A1"
 		addrs.Add "bank", "C0 74 4A 8B 86"
+		addrs.Add "logout1", "75 47 8A 45 20 84 C0 74 13 A1"
 		For Each key In addrs.Keys
 			result = dm.FindData(hwnd, "00400000-00500000", addrs.item(key))
 			l = Len(Replace(addrs.item(key), " ", "", 1, - 1 )) / 2
@@ -621,8 +622,8 @@ Class Tthol
 		Set node = xmldoc.CreateElement("binary")
 		node.DataType = "bin.hex"
 		node.NodeTypedValue = bytes
-		node.Text = Replace(node.Text, LCase("74138B068BCEFF5070"), LCase("74008B068BCEFF5070"))
-		node.Text = Replace(node.Text, LCase("0F8481040000E8"), LCase("909090909090E8"))
+		node.Text = Replace(node.Text, LCase("74138B068BCEFF50"), LCase("74008B068BCEFF50"))
+		node.Text = Replace(node.Text, LCase("0F84810400008B"), LCase("9090909090908B"))
 
 		stream.Open
 		stream.write node.NodeTypedValue
