@@ -622,8 +622,8 @@ Class Tthol
 		Set node = xmldoc.CreateElement("binary")
 		node.DataType = "bin.hex"
 		node.NodeTypedValue = bytes
-		node.Text = Replace(node.Text, LCase("74138B068BCEFF50"), LCase("74008B068BCEFF50"))
-		node.Text = Replace(node.Text, LCase("0F84810400008B"), LCase("9090909090908B"))
+		node.Text = Replace(node.Text, LCase("C074138B06"), LCase("C074008B06"))
+		node.Text = Replace(node.Text, LCase("0F8481040000E8"), LCase("0F8881040000E8"))
 
 		stream.Open
 		stream.write node.NodeTypedValue
