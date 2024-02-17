@@ -190,56 +190,12 @@ Class Tthbn
 		Next
 		delay 2000
 	End Function
-	
-	' 蒐集物品
-	'Public Function trade(bHwnd, keywords)	
-	'	dim sID,bID,sn,iID,bTthbn,bag,tableCnt,bName,items
-	'	temp = hwnd
-	'	Init(bHwnd)
-	'	bag = getBag(array(".*"))
-	'	Init(temp)
-	'	items = getBag(keywords)
-	'
-	'	if hwnd - bHwnd = 0 or UBound(bag) = 39 or UBound(items) = -1 then
-	'		exit Function
-	'	end if
-	'
-	'	' 開啟交易
-	'	bName = dm.ReadString(bHwnd, addrStr("name",0), 0, 20)
-	'	bID = getIdByName(hwnd, bName)
-	'	sID = getIdByName(bHwnd, id)
-	'	bTthbn = dm.GetModuleBaseAddr(bHwnd, "tthbn.bin")
-	'	simpleCall hwnd, addr("invite", 0), array(bID, &HEA64)	' 邀請	
-	'	simpleCall bHwnd, addr("accept", bTthbn - tthbn), array(sID, &HEA64)' 接受
-	'
-	'	'放物品
-	'	tableCnt = 0
-	'	For i = 0 To UBound(items)
-	'		If tableCnt = 10 or tableCnt + UBound(bag) = 39 Then
-	'			Exit For
-	'		End If
-	'		
-	'		Set item = items(i)
-	'		sn = item.item("sn")
-	'		iID = item.item("id")
-	'
-	'		simpleCall hwnd, addr("give", 0), array(itemCnt, sn, iID)	' 交付
-	'		tableCnt = tableCnt + 1			
-	'	next
-	'
-	'	' 完成交易
-	'	simpleCall hwnd, addr("comfirm1", 0), array()			' 確定1
-	'	simpleCall bHwnd, addr("comfirm1", bTthbn - tthbn), array()
-	'	simpleCall hwnd, addr("comfirm2", 0), array()			' 確定2
-	'	simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
-	'	simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
-	'End Function
-	
+
 	Public Function monopoly(bHwnd, keywords)
 		dim success : success = true
 		while success and hwnd - bHwnd <> 0
 			pop(keywords)
-			success = trade(bHwnd, keywords)
+			success = tradeByKey(bHwnd, keywords, 2000)
 			temp = hwnd
 			Init(bHwnd)
 			push(keywords)
@@ -247,16 +203,33 @@ Class Tthbn
 		Wend
 	End Function
 	
-	Public Function trade(bHwnd, keywords)
-		dim sID,bID,sn,iID,bTthbn,bag,tableCnt,bName,items,temp,cnt,itemCnt
+	Public Function tradeByKey(bHwnd, keywords, cnt)
+		dim items : items = getBag(keywords)
+		dim i : i = 0
+		While cnt > 0 or i > UBound(items)
+			Set item = items(i)
+			cnt = cnt - item.item("cnt")
+			if cnt <= 0 
+				item.item("cnt") = item.item("cnt") + cnt
+				ReDim Preserve items(i)
+			end if
+			i = i + 1
+		Wend		
+		tradeByKey = trade(bHwnd, items)
+	End Function
+	
+	Public Function trade(bHwnd, items)
+		dim sID,bID,sn,iID,bTthbn,bag,bName,temp,space,itemCnt
+		
+		' 取得背包空位數
 		temp = hwnd
 		Init(bHwnd)
 		bag = getBag(array(".*"))
 		Init(temp)
-		items = getBag(keywords)
-		cnt = min(UBound(items)+1,39 - UBound(bag))
-		trade = cnt > 0
-		while cnt > 0
+		space = min(UBound(items)+1, 39 - UBound(bag))
+		trade = space > 0
+		
+		while space > 0
 			' 開啟交易
 			bName = dm.ReadString(bHwnd, addrStr("name",0), 0, 20)
 			bID = getIdByName(hwnd, bName)
@@ -264,14 +237,17 @@ Class Tthbn
 			bTthbn = dm.GetModuleBaseAddr(bHwnd, "tthbn.bin")
 			simpleCall hwnd, addr("invite", 0), array(bID, &HEA64)	' 邀請	
 			simpleCall bHwnd, addr("accept", bTthbn - tthbn), array(sID, &HEA64)' 接受
-			For i = 1 To min(cnt,10)
-				Set item = items(cnt-1)
+			
+			' 放物品
+			For i = 1 To min(space,10)
+				Set item = items(space-1)
 				sn = item.item("sn")
 				iID = item.item("id")
 				itemCnt = item.item("cnt")
 				simpleCall hwnd, addr("give", 0), array(itemCnt, sn, iID)	' 交付
-				cnt = cnt-1
+				space = space-1
 			next
+			
 			' 完成交易
 			simpleCall hwnd, addr("comfirm1", 0), array()			' 確定1
 			simpleCall bHwnd, addr("comfirm1", bTthbn - tthbn), array()
@@ -279,39 +255,6 @@ Class Tthbn
 			simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
 			simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()			
 		Wend
-	End Function
-		
-	Public Function trade2()
-		'dim sID,bID,sn,iID,bTthbn,bag,tableCnt,bName,items,temp,cnt,itemCnt
-		'temp = hwnd
-		'Init(bHwnd)
-		'bag = getBag(array(".*"))
-		'Init(temp)
-		items = getBag(array("百萬"))
-		'cnt = min(UBound(items)+1,39 - UBound(bag))
-		'trade = cnt > 0
-		'while cnt > 0
-		'	' 開啟交易
-		'	bName = dm.ReadString(bHwnd, addrStr("name",0), 0, 20)
-		'	bID = getIdByName(hwnd, bName)
-		'	sID = getIdByName(bHwnd, id)
-		'	bTthbn = dm.GetModuleBaseAddr(bHwnd, "tthbn.bin")
-		'	simpleCall hwnd, addr("invite", 0), array(bID, &HEA64)	' 邀請	
-		'	simpleCall bHwnd, addr("accept", bTthbn - tthbn), array(sID, &HEA64)' 接受
-			For i = 0 To 9
-				Set item = items(i)
-				sn = item.item("sn")
-				iID = item.item("id")
-				itemCnt = item.item("cnt")
-				simpleCall hwnd, addr("give", 0), array(itemCnt, sn, iID)	' 交付
-			next
-		'	' 完成交易
-			simpleCall hwnd, addr("comfirm1", 0), array()			' 確定1
-		'	simpleCall bHwnd, addr("comfirm1", bTthbn - tthbn), array()
-		'	simpleCall hwnd, addr("comfirm2", 0), array()			' 確定2
-		'	simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()
-		'	simpleCall bHwnd, addr("comfirm2", bTthbn - tthbn), array()			
-		'Wend
 	End Function
 	
 	Public Function min(a, b)
