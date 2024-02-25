@@ -51,7 +51,7 @@ For Each task In tasks
 				t.monopoly hwnd, params
 			Case "g"
 				t.init hwnd
-				t.trade seller, array(params(0)), params(1)
+				t.tradeByKey seller, array(params(0)), params(1)
 			Case "a"
         		t.apply params(0)
 			Case "l"
