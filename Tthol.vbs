@@ -182,16 +182,16 @@ Class Tthol
 		set getNpc = npc
 	End Function
 	
-	Public Function printNpc(conds)
+	Public Function printNpc()
 		dim pass, addr : addr = getMainAddr
 		do While addr <> 0
 			pass = true
-			for each cond in conds
-				pass = pass and (read(addr + cond(0)) = cond(1))
-			next
-			if pass Then
+			'for each cond in conds
+			'	pass = pass and (read(addr + cond(0)) = cond(1))
+			'next
+			'if pass Then
 				TracePrint join(array(HEX(addr),HEX(dm.ReadInt(hwnd, HEX(addr + 300), 1)),HEX(read(addr + 302)),HEX(read(addr + 306)),HEX(read(addr + 28)),readString(addr + 484,10),read(addr + 38)/40,read(addr + 42)/40,read(addr + 220)))
-			End If
+			'End If
 			addr =  read(addr + &H124)
 		Loop
 	End Function
@@ -340,10 +340,10 @@ Class Tthol
 		Call dm.WriteData(hwnd, addr("robot1"), "9090") '點木偶開視窗
 		Call dm.WriteData(hwnd, addr("robot2"), "EB") '執行時驗證
 		' 打人
-		Call dm.WriteData(hwnd, addr("mish"), "E9A0040000") '不打迷香
-		Call dm.WriteData(hwnd, addr("aktPlayer1"), "85")
-		Call dm.WriteData(hwnd, addr("aktPlayer2"), "00")
-		Call dm.WriteData(hwnd, addr("aktPlayer3"), "85")
+		Call dm.WriteData(hwnd, addr("mish"), "E9 8F 00 00 00 90") '讓迷香改走人與怪的通道
+		Call dm.WriteData(hwnd, addr("aktPlayer1"), "85")	'53B2EA
+		Call dm.WriteData(hwnd, addr("aktPlayer2"), "00")	'53B31F
+		Call dm.WriteData(hwnd, addr("aktPlayer3"), "85")	'53B33B
 		Call dm.WriteData(hwnd, addr("skillPlayer2"), "00")'技能
 		Call dm.WriteData(hwnd, addr("skillPlayer1"), "00")'技能
 		' 取消移動
@@ -353,7 +353,7 @@ Class Tthol
 	' 恢復戰鬥木偶打人
 	Public Function reAktPlayer()
 		' 打人
-		Call dm.WriteData(hwnd, addr("mish"), "EB038D4900") '不打迷香
+		Call dm.WriteData(hwnd, addr("mish"), "0F 84 8E 00 00 00")
 		Call dm.WriteData(hwnd, addr("aktPlayer1"), "84")
 		Call dm.WriteData(hwnd, addr("aktPlayer2"), "02")
 		Call dm.WriteData(hwnd, addr("aktPlayer3"), "84")
@@ -573,7 +573,7 @@ Class Tthol
 		addrs.Add "shopping", "83 EC 0C 53 8D 88,0"
 		addrs.Add "robot1", "74 6B E8,0"
 		addrs.Add "robot2", "75 18 83 C5,0" 
-		addrs.Add "mish", "EB 03 8D 49 00 8B 54 24 68,0"
+		addrs.Add "mish", "0F 84 8E 00 00 00 8B 4D 04,0"
 		addrs.Add "aktPlayer1", "84 12 01 00 00 8A 8D,0"
 		addrs.Add "aktPlayer2", "84 12 01 00 00 8A 8D,53"
 		addrs.Add "aktPlayer3", "84 12 01 00 00 8A 8D,81"

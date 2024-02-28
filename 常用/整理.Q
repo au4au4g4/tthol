@@ -30,7 +30,6 @@ hwnd = t.getHwnd()
 tasks = split(dm.getclipboard(), chr(13) & chr(10))
 For Each task In tasks
 	order = split(task, "-")
-	TracePrint order(1)
 	params = split(order(1), " ")
 	
 	If instr("",order(0)) > 0 Then 
@@ -53,7 +52,6 @@ For Each task In tasks
 			Case "g"
 				t.init hwnd
 				t.tradeByKey seller, array(params(0)), params(1)
-				TracePrint 99
 			Case "a"
         		t.apply params(0)
 			Case "l"
@@ -71,7 +69,6 @@ For Each task In tasks
 				t.buy params(0), params(1), params(2)
 				t.reset 
 			Case "c"
-				t.withdrawal (99999999 - t.cash)
 				While t.cash > 2000000
 					t.buy "歡喜商人", "百萬官幣", int(t.cash / 10 ^ 6)-1
 					t.withdrawal (99999999 - t.cash)
