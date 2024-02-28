@@ -203,18 +203,19 @@ Class Tthbn
 		Wend
 	End Function
 	
-	Public Function tradeByKey(bHwnd, keywords, cnt)
+	Public Function tradeByKey(bHwnd, keywords, c)
+		dim cnt : cnt = c
 		dim items : items = getBag(keywords)
 		dim i : i = 0
-		While cnt > 0 or i > UBound(items)
-			Set item = items(i)
-			cnt = cnt - item.item("cnt")
-			if cnt <= 0 
-				item.item("cnt") = item.item("cnt") + cnt
+		While cnt > 0 and i => UBound(items)
+			cnt = cnt - items(i).item("cnt")
+			if cnt <= 0 then
+				items(i).item("cnt") = items(i).item("cnt") + cnt
 				ReDim Preserve items(i)
 			end if
 			i = i + 1
 		Wend		
+
 		tradeByKey = trade(bHwnd, items)
 	End Function
 	
@@ -244,6 +245,7 @@ Class Tthbn
 				sn = item.item("sn")
 				iID = item.item("id")
 				itemCnt = item.item("cnt")
+TracePrint itemCnt 
 				simpleCall hwnd, addr("give", 0), array(itemCnt, sn, iID)	' ¥æ¥I
 				space = space-1
 			next
