@@ -43,9 +43,9 @@ While True
 //	If (min mod 60) = 0 Then 
 //		Call train()
 //	End If
-//	If (min mod 12 * 60) = 0 Then 
-//		Call record()
-//	End If
+	If (min mod 24 * 60) = 0 Then 
+		Call record()
+	End If
 	Delay 60 * 1000
 Wend
 
@@ -92,8 +92,8 @@ Function record()
 	For Each hwnd In hwnds
 		t.init(hwnd)
 		Redim Preserve datas(ubound(datas) + 1)
-		datas(ubound(datas)) = array(t.id, t.level, t.place, t.period, t.monster, t.expp, t.money, t.cash + t.getItemCnt("百萬官幣") * 10 ^ 6, t.getItemCnt("特貢令"))
-	Next
+		datas(ubound(datas)) = array(t.id, t.place, t.deposit + t.cash + t.getItemCnt("百萬官幣") * 10 ^ 6)
+//		datas(ubound(datas)) = array(t.id, t.level, t.place, t.period, t.monster, t.expp, t.money, t.cash + t.getItemCnt("百萬官幣") * 10 ^ 6, t.getItemCnt("特貢令"))	Next
 	u.post "掛機", datas
 End Function
 

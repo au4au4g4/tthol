@@ -134,6 +134,10 @@ Class Tthbn
 		for each item in items
 			getItemCnt = getItemCnt + item.item("cnt")
 		Next
+		items = getBank(array(name))
+		for each item in items
+			getItemCnt = getItemCnt + item.item("cnt")
+		Next
 	End Function
 	
 	Public Function getBag(names)
