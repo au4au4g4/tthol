@@ -211,7 +211,7 @@ Class Tthbn
 		dim cnt : cnt = c
 		dim items : items = getBag(keywords)
 		dim i : i = 0
-		While cnt > 0 and i => UBound(items)
+		While cnt > 0 and i =< UBound(items)
 			cnt = cnt - items(i).item("cnt")
 			if cnt <= 0 then
 				items(i).item("cnt") = items(i).item("cnt") + cnt
