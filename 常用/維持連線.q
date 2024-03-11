@@ -29,6 +29,7 @@ Set dm = createobject("dm.dmsoft")
 Set expp = CreateObject("Scripting.Dictionary")
 
 hwnds = t.getAllHwnds()
+Call record()
 While True
 	min = hour(now) * 60 + Minute(Now)
 	If (min mod 1) = 0 Then 
@@ -93,7 +94,8 @@ Function record()
 		t.init(hwnd)
 		Redim Preserve datas(ubound(datas) + 1)
 		datas(ubound(datas)) = array(t.id, t.place, t.deposit + t.cash + t.getItemCnt("百萬官幣") * 10 ^ 6)
-//		datas(ubound(datas)) = array(t.id, t.level, t.place, t.period, t.monster, t.expp, t.money, t.cash + t.getItemCnt("百萬官幣") * 10 ^ 6, t.getItemCnt("特貢令"))	Next
+//		datas(ubound(datas)) = array(t.id, t.level, t.place, t.period, t.monster, t.expp, t.money, t.cash + t.getItemCnt("百萬官幣") * 10 ^ 6, t.getItemCnt("特貢令"))
+	Next
 	u.post "掛機", datas
 End Function
 

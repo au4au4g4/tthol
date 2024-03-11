@@ -35,7 +35,7 @@ hwnds = t.getAllHwnds()
 dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
 //
 //Set dm = createobject("dm.dmsoft")
-//hwnd = dm.FindWindow("", "µ´¥N¤èµ{¦¡")
+//hwnd = dm.FindWindow("", "çµ•ä»£æ–¹ç¨‹å¼")
 //Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
 //t.init hwnd
 
@@ -43,6 +43,7 @@ datas = array()
 For Each hwnd In hwnds
 	t.init(hwnd)
 	Redim Preserve datas(ubound(datas) + 1)
-	datas(ubound(datas)) = array(t.id, t.place, t.deposit + t.cash + t.getItemCnt("¦Ê¸U©x¹ô") * 10 ^ 6)
-//		datas(ubound(datas)) = array(t.id, t.level, t.place, t.period, t.monster, t.expp, t.money, t.cash + t.getItemCnt("¦Ê¸U©x¹ô") * 10 ^ 6, t.getItemCnt("¯S°^¥O"))	Next
-u.post "±¾¾÷", datas
+	datas(ubound(datas)) = array(t.id, t.place, t.deposit + t.cash + t.getItemCnt("ç™¾è¬å®˜å¹£") * 10 ^ 6)
+//		datas(ubound(datas)) = array(t.id, t.level, t.place, t.period, t.monster, t.expp, t.money, t.cash + t.getItemCnt("ç™¾è¬å®˜å¹£") * 10 ^ 6, t.getItemCnt("ç‰¹è²¢ä»¤"))	
+Next
+u.post "æ›æ©Ÿ", datas
