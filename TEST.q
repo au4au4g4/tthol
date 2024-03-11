@@ -23,22 +23,22 @@ SetupOCXFile=
 [Comment]
 
 [UIPackage]
-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
+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
 
 
 [Script]
-Set dm = createobject("dm.dmsoft")
-Import "QMScript/Tthol.vbs" : Set t = New Tthol : t.init
-Import "QMScript/Util.vbs" : Set u = New Util
-hwnd = dm.FindWindow("_UJONLINE_", "Tthol")
-hwnds = t.getAllHwnds()
-dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
-//
 //Set dm = createobject("dm.dmsoft")
-//hwnd = dm.FindWindow("", "絕代方程式")
-//Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
-//t.init hwnd
+//Import "QMScript/Tthol.vbs" : Set t = New Tthol : t.init
+//hwnd = dm.FindWindow("_UJONLINE_", "Tthol")
+//dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
+//
+Set dm = createobject("dm.dmsoft")
+hwnd = dm.FindWindow("", "絕代方程式")
+Import "QMScript/Util.vbs" : Set u = New Util
+Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
+t.init hwnd
 
+hwnds = t.getAllHwnds()
 datas = array()
 For Each hwnd In hwnds
 	t.init(hwnd)
