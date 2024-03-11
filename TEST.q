@@ -23,77 +23,26 @@ SetupOCXFile=
 [Comment]
 
 [UIPackage]
-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
+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
 
 
 [Script]
-//Set dm = createobject("dm.dmsoft")
-//Import "QMScript/Tthol.vbs" : Set t = New Tthol : t.init
-//hwnd = dm.FindWindow("_UJONLINE_", "Tthol")
-//dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
-//
 Set dm = createobject("dm.dmsoft")
-hwnd = dm.FindWindow("", "絕代方程式")
-Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
-t.init hwnd
-
-TracePrint t.account
-
-//TracePrint dm.FindData(hwnd, "00400000-00600000", "74 13 8B 06 8B CE FF 50 70")
-//Set addrs = CreateObject("Scripting.Dictionary")
-//addrs.Add "login", "8B C3 6B C0 3C"
-//addrs.Add "send", "80 3D 34 C8 7E 00 01 75 6A 8B 44 24 08 56 50 51 E8 3B"
-//addrs.Add "send1", "80 3D 34 C8 7E 00 01 75 6A 8B 44 24 08 56 50 51 E8 4B"
-//addrs.Add "go", "56 8B F0 8B 86 04 03 00  00 85 C0 74"
-//addrs.Add "atk", "83 EC 08 53 8B 5C 24 10 8B"
-//addrs.Add "learnSkill", "51 53 6A 04 51 8D 5C 24  0C B9 3C"
-//addrs.Add "speed", "7D 05 B9 64"
-//addrs.Add "logout", "6A FF 68 7F 2A"
-//addrs.Add "wear2", "53 55 56 8B D8 57 8D"
-//addrs.Add "shopping", "83 EC 0C 53 8D 88"
-//addrs.Add "freeWindow", "74 13 8B 06 8B CE FF 50 70"
-//addrs.Add "freeWindowLimit", "0F 84 81 04 00 00 E8"
-//For Each key In addrs.Keys
-//	result = dm.FindData(hwnd, "00400000-00600000", addrs.item(key))
-//	dm.WriteIni "addr", key, CLNG("&H" & result), ".\QMScript\tthol.ini"
-//Next
+Import "QMScript/Tthol.vbs" : Set t = New Tthol : t.init
+Import "QMScript/Util.vbs" : Set u = New Util
+hwnd = dm.FindWindow("_UJONLINE_", "Tthol")
+hwnds = t.getAllHwnds()
+dm_ret = dm.BindWindow(hwnd, "normal", "windows3", "windows", 0)
 //
-//Set addrs = CreateObject("Scripting.Dictionary")
-//addrs.Add "location", "4B 20 8B 0D"
-//addrs.Add "shop", "53 75 15 A1"
-//For Each key In addrs.Keys
-//	result = dm.FindData(hwnd, "00400000-00500000", addrs.item(key))
-//	l = Len(Replace(addrs.item(key), " ", "", 1, - 1 )) / 2
-//	result = dm.ReadInt(hwnd, HEX(CLNG("&H" & result) + l), 0)
-//	dm.WriteIni "addr", key, result, ".\QMScript\tthol.ini"
-//Next
+//Set dm = createobject("dm.dmsoft")
+//hwnd = dm.FindWindow("", "絕代方程式")
+//Import "QMScript/Tthbn.vbs" : Set t = New Tthbn
+//t.init hwnd
 
-//arr = split(dm.EnumWindow(0, "挂機路線", "Static", 1 + 2), ",")
-//For Each a In arr
-//	a = clng(dm.GetWindow(clng(a),0))
-//	hwnd = clng(dm.GetWindow(a, 7))
-//	TracePrint HEX(dm.ReadInt(hwnd, "[[[<ttha.bin>+006FDE48]+C]+8]+14", 0)+4)
-//	dm.AsmClear 
-//	dm.AsmAdd "push 0" & HEX(a)
-//	dm.AsmAdd "mov ecx,0" & HEX(dm.ReadInt(hwnd, "[[[<ttha.bin>+006FDE48]+C]+8]+14", 0)+4)
-//	dm.AsmAdd "call 0" & HEX(dm.GetModuleBaseAddr(hwnd, "ttha.bin") + &H888C5)
-//	TracePrint HEX(dm.AsmCall(hwnd, 1))
-//Next
-
-// 取得小方家族名單
-//hwnds = split(dm.EnumWindow(0, "絕代方程式", "", 1 + 4 + 8 + 16), ",")
-//For Each hwnd In hwnds
-//	hwnd = 1901288
-//	base = dm.GetModuleBaseAddr(hwnd, "tthbn.bin") + &HA9E80
-//	family = readString(base, 16)
-//	count = dm.ReadInt(hwnd, HEX(base + 40), 1)
-//	For i = 0 To count-1
-//		name = readString(base + 60 + i * 44, 16)
-//		level = dm.ReadInt(hwnd, HEX(base + 76 + i * 44), 1)
-//		job = dm.ReadInt(hwnd, HEX(base + 78 + i * 44), 1)
-//		loginTime = dm.ReadInt(hwnd, HEX(base + 84 + i * 44), 0)
-//		off =  DateDiff("d", secToDate( loginTime + 8 * 60 * 60), now)
-//		str = name & "|" & level & "|" & job & "|" & off & "|" & family
-//		dm.WriteFile "C:\Users\god\Desktop\123.txt", str + chr(10)
-//	Next
-//Next
+datas = array()
+For Each hwnd In hwnds
+	t.init(hwnd)
+	Redim Preserve datas(ubound(datas) + 1)
+	datas(ubound(datas)) = array(t.id, t.place, t.deposit + t.cash + t.getItemCnt("百萬官幣") * 10 ^ 6)
+//		datas(ubound(datas)) = array(t.id, t.level, t.place, t.period, t.monster, t.expp, t.money, t.cash + t.getItemCnt("百萬官幣") * 10 ^ 6, t.getItemCnt("特貢令"))	Next
+u.post "掛機", datas
