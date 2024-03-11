@@ -219,6 +219,7 @@ Class Tthbn
 			end if
 			i = i + 1
 		Wend		
+
 		tradeByKey = trade(bHwnd, items)
 	End Function
 	
@@ -248,6 +249,7 @@ Class Tthbn
 				sn = item.item("sn")
 				iID = item.item("id")
 				itemCnt = item.item("cnt")
+TracePrint itemCnt 
 				simpleCall hwnd, addr("give", 0), array(itemCnt, sn, iID)	' ецеI
 				space = space-1
 			next
