@@ -88,7 +88,7 @@ Class Tthol
 	Public Function getMainAddr()
 		Dim edx, eax
 		edx = read("[" + getMain() + "+C]+8")
-		eax = read(getMain() + "+CC4") and "&HFFFF"
+		eax = read(addr("mainAddr")) and "&HFFFF"
 		getMainAddr = read(edx + eax * 4)
 	End Function
 	
@@ -115,7 +115,7 @@ Class Tthol
 		Dim bagAddr, lenAddr, headAddr, itemAddr, item, id,bag
 		Set bag = CreateObject("System.Collections.SortedList")
 		bagAddr = getBagInfo(place)
-		
+		TracePrint bagAddr 
 		lenAddr = bagAddr - 4
 		headAddr = read(bagAddr)
 		itemAddrs = getAddrs(headAddr, lenAddr)
@@ -600,11 +600,13 @@ Class Tthol
 		addrs.Add "main", "01 74 32 A1"
 		addrs.Add "bank", "C0 74 4A 8B 86"
 		addrs.Add "logout1", "75 47 8A 45 20 84 C0 74 13 A1"
+		addrs.Add "mainAddr", "F2 74 57 8B 15"
 		For Each key In addrs.Keys
 			result = dm.FindData(hwnd, "00400000-00500000", addrs.item(key))
 			l = Len(Replace(addrs.item(key), " ", "", 1, - 1 )) / 2
 			result = dm.ReadInt(hwnd, HEX(CLNG("&H" & result) + l), 0)
 			dm.WriteIni "addr", key, result, ".\QMScript\tthol.ini"
+			TracePrint key
 		Next
 	End Function
 	
@@ -740,7 +742,7 @@ Class Tthol
 	    ramNum = Int((max - min + 1) * Rnd) + min  
 	End Function
 	
-	Private Function addr(key)
+	Public Function addr(key)
 		addr = HEX(dm.ReadIni("addr", key, ".\QMScript\tthol.ini"))
 	end Function
 	Public Function IDs(key)
