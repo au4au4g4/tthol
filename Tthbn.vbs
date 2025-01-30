@@ -556,7 +556,7 @@ TracePrint itemCnt
 	End Function
 	
 	Public Function crack()
-		Call dm.WriteData(hwnd, "<tthbn.bin>+ACD08", "E1E7F1B784ACEDB4E1E7A09CA9FBEDE1B68BB1")
+		Call dm.WriteData(hwnd, "<tthbn.bin>+ACD08", "E1E7FCB784ACEDB4E1EAA09CA9FBEDECB68BB1")
 		                                              
 		Call dm.WriteInt(hwnd, "<tthbn.bin>+ACD20", 0, timegettime)
 		Call dm.WriteData(hwnd,addr("crack",0),"EB")
