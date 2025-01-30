@@ -344,10 +344,11 @@ TracePrint itemCnt
 
 	Public Function login()
 		dm.AsmClear 
-		dm.AsmAdd "mov ecx,0" + HEX(ttha + &H4F27CC)
+		dm.AsmAdd "mov ecx,0" + HEX(ttha + &H4CA0048)
 		dm.AsmAdd "mov ecx,[ecx]"
 		dm.AsmAdd "call 0" + addr("login",-29)
 		dm.AsmCall hwnd, 1	
+		TracePrint addr("login",-29)
 	End Function	
 	
 	Public Function groupAtk(flag)
