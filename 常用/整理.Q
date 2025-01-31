@@ -72,7 +72,7 @@ For Each task In tasks
 				t.withdrawal (99999999 - t.cash)
 				t.withdrawal t.deposit
 				While t.cash > 1000000
-					t.buy "歡喜商人", "百萬官幣", int(t.cash / 10 ^ 6)-1
+					t.buy "歡喜商人", "百萬官幣", int(t.cash / 10 ^ 6)
 					t.withdrawal (99999999 - t.cash)
 					t.withdrawal t.deposit
 					t.reset 

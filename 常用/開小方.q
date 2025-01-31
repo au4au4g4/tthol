@@ -11,7 +11,7 @@ EnableWindow=
 MacroID=3781a671-1216-431f-be63-fdde4c1be28d
 Description=ถ}คpค่
 Enable=1
-AutoRun=0
+AutoRun=1
 [Repeat]
 Type=0
 Number=1
