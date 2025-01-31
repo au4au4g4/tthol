@@ -249,7 +249,6 @@ Class Tthbn
 				sn = item.item("sn")
 				iID = item.item("id")
 				itemCnt = item.item("cnt")
-TracePrint itemCnt 
 				simpleCall hwnd, addr("give", 0), array(itemCnt, sn, iID)	' ецеI
 				space = space-1
 			next
@@ -343,13 +342,19 @@ TracePrint itemCnt
 	End Function
 
 	Public Function login()
-	TracePrint "call 0" + addr("login",-29)
 		dm.AsmClear 
 		dm.AsmAdd "mov ecx,0" + HEX(ttha + &H4F280C)
 		dm.AsmAdd "mov ecx,[ecx]"
 		dm.AsmAdd "call 0" + addr("login",-29)
 		dm.AsmCall hwnd, 1
-	End Function	
+	End Function
+	Public Function screenLock()
+		dm.AsmClear 
+		dm.AsmAdd "push 00"
+		dm.AsmAdd "mov esi,00"
+		dm.AsmAdd "call 0" + addr("screenLock",-5)
+		dm.AsmCall hwnd, 1
+	End Function
 	
 	Public Function groupAtk(flag)
 		call dm.WriteInt(hwnd, "<ttha.bin>+53ADB", 2, flag)
@@ -863,6 +868,7 @@ TracePrint itemCnt
 		Set addrs = CreateObject("Scripting.Dictionary")
 		addrs.Add "withdrawal", "tthbn,66 C7 45 F8 09 00"
 		addrs.Add "login", "ttha,53 56 57 8B F1 89 44 24 10"
+		addrs.Add "screenLock", "ttha,85 C0 74 16 8B 10 8B C8 FF 52 74 8B C8 E8 E4"
 		addrs.Add "crack", "ttha,74 7C 83 E8 02 74 1F 48"
 		addrs.Add "moveSpeedAtk", "ttha,18 01 00 00 6A 02 50"
 		addrs.Add "moveSpeed", "ttha,18 01 00 00 6A 02 51"
@@ -883,8 +889,8 @@ TracePrint itemCnt
 		addrs.Add "sell", "tthbn,55 8B EC 83 EC 78 53 56 57 8D 7D 88 B9 1E 00 00 00 B8 CC CC CC CC F3 AB C7 45 F4"
 		addrs.Add "reset", "tthbn,00 00 00 00 8B F4 FF 15"	
 		For Each key In addrs.Keys
+			TracePrint key
 			code = split(addrs.item(key),",")
-			TracePrint code(0)
 			result = dm.FindData(hwnd, "00000000-F0000000", code(1))
 			result = split(result,"|")(0)
 			dm.WriteIni "addr", key, code(0) & "," & CLNG("&H" & result) - eval(code(0)), ".\QMScript\tthbn.ini"
