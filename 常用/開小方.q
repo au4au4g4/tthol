@@ -11,7 +11,7 @@ EnableWindow=
 MacroID=3781a671-1216-431f-be63-fdde4c1be28d
 Description=開小方
 Enable=1
-AutoRun=1
+AutoRun=0
 [Repeat]
 Type=0
 Number=1
@@ -78,7 +78,7 @@ For each teamID in teamIDs
 		dm_ret = dm.BindWindow(login, "normal", "windows", "windows", 0)
 		dm.SendString comboBoxs(0), "飛雁山莊(花)"
 		dm.SendString comboBoxs(1), "1"
-		Call dm.WriteInt(hwnd, "[[<ttha.bin>+4F27CC]+98]+E4CC", 0, 0)
+		t.screenLock
 		
 		// 破解
 		t.init hwnd
