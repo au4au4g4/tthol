@@ -69,7 +69,9 @@ For Each task In tasks
 				t.buy params(0), params(1), params(2)
 				t.reset 
 			Case "c"
-				While t.cash > 2000000
+				t.withdrawal (99999999 - t.cash)
+				t.withdrawal t.deposit
+				While t.cash > 1000000
 					t.buy "歡喜商人", "百萬官幣", int(t.cash / 10 ^ 6)-1
 					t.withdrawal (99999999 - t.cash)
 					t.withdrawal t.deposit
